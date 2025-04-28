@@ -1,5 +1,6 @@
 package com.example.prog7313_poe
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +8,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.prog7313_poe.activity.LoginActivity
 import com.example.prog7313_poe.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -16,6 +18,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        /* Start Login Activity, not implemented yet
+        val sharePref = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        val isLoggedIn = sharePref.getBoolean("is_logged_in", false)
+        if(!isLoggedIn){
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+            return
+        }
+        */
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
