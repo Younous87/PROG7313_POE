@@ -5,5 +5,8 @@
     <string name="title_transactions">Transactions</string>
     <string name="title_reports">Reports</string>
     <string name="title_categories">Categories</string>
+    <string name="addnewgoal">Add New Goal</string>
+    <string name="saveTransaction">Save</string>
+    <string name="newCategory">New Category</string>
 
 </resources>
