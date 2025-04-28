@@ -7,17 +7,336 @@
     tools:context=".ui.reports.ReportsFragment"
     android:background="@drawable/roundstyle_black">
 
-    <TextView
-        android:id="@+id/text_dashboard"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/roundstyle_black"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/roundstyle_black"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/backButton"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/roundstyle_black"
+                    android:scaleType="fitStart"
+                    android:src="@drawable/arrow_left" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Reports"
+                    android:textAlignment="center"
+                    android:textColor="@color/ez_yellow"
+                    android:textSize="24sp" />
+
+                <Space
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="25dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/border">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginBottom="15dp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/CategoryView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Categories"
+                                    android:textColor="@color/ez_yellow"
+                                    android:textSize="20dp" />
+
+                                <Space
+                                    android:layout_width="100dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1" />
+
+                                <ImageButton
+                                    android:id="@+id/reportsPreviousCategoryMonth"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:layout_weight="1"
+                                    android:background="@color/ez_black"
+                                    android:src="@drawable/chevron_left" />
+
+                                <TextView
+                                    android:id="@+id/textView11"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="TextView"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/white" />
+
+                                <ImageButton
+                                    android:id="@+id/imageButton4"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:layout_weight="1"
+                                    android:background="@color/ez_black"
+                                    android:src="@drawable/chevron_right" />
+
+                            </LinearLayout>
+
+                            <Space
+                                android:layout_width="match_parent"
+                                android:layout_height="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/HighBudgetTitle"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="center|top"
+                                        android:text="Over Budget"
+                                        android:textColor="@color/ez_grey" />
+
+                                    <TextView
+                                        android:id="@+id/HighBudget"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="TextView"
+                                        android:textColor="@color/white" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/LowBudgetTitle"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="center|top"
+                                        android:text="Under Budget"
+                                        android:textColor="@color/ez_grey" />
+
+                                    <TextView
+                                        android:id="@+id/LowBudget"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="TextView"
+                                        android:textColor="@color/white" />
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <Button
+                                android:id="@+id/AllCategoryBttn"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:layout_marginTop="5dp"
+                                android:background="@color/ez_black"
+                                android:text="View all categories"
+                                android:textAllCaps="false"
+                                android:textColor="@color/ez_yellow" />
+
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="15dp" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/border">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginBottom="15dp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/TransactionsView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Transactions"
+                                    android:textColor="@color/ez_yellow"
+                                    android:textSize="20dp" />
+
+                                <Space
+                                    android:layout_width="80dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1" />
+
+                                <ImageButton
+                                    android:id="@+id/reportsTransactionsPreviousMonthBttn"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:layout_weight="1"
+                                    android:background="@color/ez_black"
+                                    android:src="@drawable/chevron_left" />
+
+                                <TextView
+                                    android:id="@+id/TransactionsMonth"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="TextView"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/white" />
+
+                                <ImageButton
+                                    android:id="@+id/reportsTransactionsNextMonthBttn"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:layout_weight="1"
+                                    android:background="@color/ez_black"
+                                    android:src="@drawable/chevron_right" />
+
+                            </LinearLayout>
+
+                            <Space
+                                android:layout_width="match_parent"
+                                android:layout_height="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/IncomeTitle"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="center|top"
+                                        android:text="Income"
+                                        android:textColor="@color/ez_grey" />
+
+                                    <TextView
+                                        android:id="@+id/IcomeView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="TextView"
+                                        android:textColor="@color/white" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/ExpenseTitle"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="center|top"
+                                        android:text="Expense"
+                                        android:textColor="@color/ez_grey" />
+
+                                    <TextView
+                                        android:id="@+id/ExpenseView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="TextView"
+                                        android:textColor="@color/white" />
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <Button
+                                android:id="@+id/AllTransactionsBttn"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:layout_marginTop="5dp"
+                                android:background="@color/ez_black"
+                                android:text="View all transactions"
+                                android:textAllCaps="false"
+                                android:textColor="@color/ez_yellow" />
+
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+                </LinearLayout>
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
