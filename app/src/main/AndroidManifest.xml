@@ -24,12 +24,11 @@
         </activity>
 
         <!--Normal Screen-->
-        <activity
-            android:name=".MainActivity"
-            android:exported="true"/>
+        <activity android:name=".MainActivity" />
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".activity.CategoryActivity"/>
+        <activity android:name=".activity.ExpenseActivity"/>
+        <activity android:name=".activity.GoalActivity"/>
 
-        <activity
-            android:name=".RegisterActivity"
-            android:exported="true"/>
     </application>
 </manifest>

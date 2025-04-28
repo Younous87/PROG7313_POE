@@ -2,18 +2,17 @@ package com.example.prog7313_poe.classes
 
 import androidx.appcompat.app.AppCompatActivity
 
-class Goal(): AppCompatActivity(){
-    lateinit var goal_ID : String
-    lateinit var userID : String
-    lateinit var month : String
-    lateinit var minimum : String
-    lateinit var maximum : String
+data class Goal(
 
-    constructor(id: String,mon: String, id2: String, max: String, min: String) : this() {
-        goal_ID = id
-        userID = id2
-        month = mon
-        maximum = max
-        minimum = min
+    val goal_ID : String? = null,
+    val userID : String? = null,
+    val month : String? = null,
+    val minimum : String? = null,
+    val maximum : String? = null,
+){
+
+    fun createGoal(id: String,mon: String, id2: String, max: String, min: String) : Boolean {
+        return true
     }
+
 }

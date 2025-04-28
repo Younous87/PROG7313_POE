@@ -13,13 +13,14 @@ import androidx.lifecycle.ReportFragment.Companion.reportFragment
 import com.example.prog7313_poe.MainActivity
 import com.example.prog7313_poe.classes.User
 import com.example.prog7313_poe.R
+import com.example.prog7313_poe.RegisterActivity
 
 class LoginActivity : AppCompatActivity(){
-
     private lateinit var inputEmail : EditText
     private lateinit var inputPassword : EditText
     private lateinit var loginButton : Button
     private lateinit var user : User
+    private lateinit var registerButton : Button
 
     override fun onCreate (savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
@@ -37,43 +38,52 @@ class LoginActivity : AppCompatActivity(){
 
          */
 
+        //---------------------------------------------------------------------------------------------------------------------------------------//
+        // Initialize Views
+        //---------------------------------------------------------------------------------------------------------------------------------------//
         inputEmail = findViewById<EditText>(R.id.edit_email)
         inputPassword = findViewById<EditText>(R.id.edit_password)
         loginButton =  findViewById<Button>(R.id.btn_login)
+        registerButton = findViewById<Button>(R.id.btn_register)
 
+        //---------------------------------------------------------------------------------------------------------------------------------------//
         // Create a user
+        //---------------------------------------------------------------------------------------------------------------------------------------//
         user =  User("1","admin","0000")
 
-        //
-        loginButton.setOnClickListener{
-
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
-            }
-            /*
-            val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
-            if(result.resultCode == RESULT_OK){
-                    Toast.makeText(this, "Login was successful!!!", Toast.LENGTH_SHORT).show()
-                }
+        //---------------------------------------------------------------------------------------------------------------------------------------//
+        // Login button click Listener
+        //---------------------------------------------------------------------------------------------------------------------------------------//
+        loginButton.setOnClickListener {
             val email = inputEmail.text.toString()
             val password = inputPassword.text.toString()
 
-            if(user.validateLogin(email, password)){
+            // Check user validation
+            if (user.validateLogin(email, password)) {
                 Toast.makeText(this, "Login was successful!!!", Toast.LENGTH_SHORT).show()
 
                 // Start MainActivity after login is successful
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
+                // Close login activity
                 finish()
 
-            }else{
+            } else {
 
                 Toast.makeText(this, "Invalid username or password", Toast.LENGTH_SHORT).show()
 
-
             }
-          */
         }
+        //---------------------------------------------------------------------------------------------------------------------------------------//
+        // Register button click Listener
+        //---------------------------------------------------------------------------------------------------------------------------------------//
+        registerButton.setOnClickListener{
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+        }
+
+
+
+    }
 
 }
