@@ -148,6 +148,7 @@
                                                 android:layout_height="wrap_content"
                                                 android:ems="10"
                                                 android:inputType="date"
+                                                android:text="Enter Date"
                                                 android:textColor="@color/white" />
                                         </LinearLayout>
                                     </FrameLayout>
@@ -189,7 +190,7 @@
                                                 android:id="@+id/timeView"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
-                                                android:text="Text"
+                                                android:text="Time"
                                                 android:textColor="@color/ez_grey" />
 
                                             <EditText
@@ -197,7 +198,9 @@
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:ems="10"
-                                                android:inputType="time" />
+                                                android:inputType="time"
+                                                android:text="Enter Time"
+                                                android:textColor="@color/white" />
                                         </LinearLayout>
                                     </FrameLayout>
 
@@ -234,10 +237,10 @@
                                     android:orientation="vertical">
 
                                     <TextView
-                                        android:id="@+id/transactionNameView"
+                                        android:id="@+id/transactionDescriptionView"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="Name"
+                                        android:text="Description"
                                         android:textColor="@color/ez_grey" />
 
                                     <EditText
@@ -246,7 +249,7 @@
                                         android:layout_height="wrap_content"
                                         android:ems="10"
                                         android:inputType="text"
-                                        android:text="Name"
+                                        android:text="Enter Description"
                                         android:textColor="@color/white" />
                                 </LinearLayout>
                             </FrameLayout>
