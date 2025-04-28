@@ -15,13 +15,13 @@
         android:id="@+id/navigation_goals"
         android:name="com.example.prog7313_poe.ui.goals.GoalsFragment"
         android:label="@string/title_goals"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_goals" />
 
     <fragment
         android:id="@+id/navigation_transactions"
         android:name="com.example.prog7313_poe.ui.transactions.TransactionsFragment"
         android:label="@string/title_transactions"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_transactions" />
     <fragment
         android:id="@+id/navigation_categories"
         android:name="com.example.prog7313_poe.ui.categories.CategoriesFragment"
