@@ -7,18 +7,169 @@
     tools:context=".ui.categories.CategoriesFragment"
     android:background="@drawable/roundstyle_black">
 
-    <TextView
-        android:id="@+id/text_dashboard"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@drawable/roundstyle_black">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/roundstyle_black"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/backButton"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/roundstyle_black"
+                    android:scaleType="fitStart"
+                    android:src="@drawable/arrow_left" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Categories"
+                    android:textAlignment="center"
+                    android:textColor="@color/ez_yellow"
+                    android:textSize="24sp" />
+
+                <Space
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="10dp">
+
+                <Button
+                    android:id="@+id/categoriesAddButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/roundstyle_gradient"
+                    android:text="@string/newCategory" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="25dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/border">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginRight="15dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:id="@+id/imageView"
+                                    android:layout_width="100dp"
+                                    android:layout_height="100dp"
+                                    android:layout_weight="1"
+                                    tools:src="@tools:sample/avatars" />
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginRight="15dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_weight="15">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/categoriesNameView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="TextView"
+                                        android:textColor="@color/white" />
+
+                                    <TextView
+                                        android:id="@+id/categoriesBudgetView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Budget"
+                                        android:textColor="@color/ez_grey" />
+
+                                    <FrameLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1">
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:orientation="horizontal">
+
+                                            <TextView
+                                                android:id="@+id/categoriesTotalBudgetView"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_weight="1"
+                                                android:text="TextView"
+                                                android:textColor="@color/white" />
+
+                                            <TextView
+                                                android:id="@+id/categoriesBudgetLimitView"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_weight="1"
+                                                android:text="TextView"
+                                                android:textColor="@color/white" />
+                                        </LinearLayout>
+
+                                    </FrameLayout>
+
+                                </LinearLayout>
+                            </FrameLayout>
+
+                        </LinearLayout>
+                    </FrameLayout>
+                </LinearLayout>
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
