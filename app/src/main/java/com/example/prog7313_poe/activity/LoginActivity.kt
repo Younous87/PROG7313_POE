@@ -6,6 +6,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ReportFragment.Companion.reportFragment
 import com.example.prog7313_poe.MainActivity
@@ -14,13 +16,14 @@ import com.example.prog7313_poe.R
 
 class LoginActivity : AppCompatActivity(){
 
-    lateinit var inputEmail : EditText
-    lateinit var  inputPassword : EditText
-    lateinit var  loginButton : Button
-    lateinit var user : User
+    private lateinit var inputEmail : EditText
+    private lateinit var inputPassword : EditText
+    private lateinit var loginButton : Button
+    private lateinit var user : User
 
-    override fun onCreate (saveInstanceState: Bundle?){
-        super.onCreate(saveInstanceState)
+    override fun onCreate (savedInstanceState: Bundle?){
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.login_activity)
 
         // Checks if user is already logged in
         /*
@@ -33,7 +36,6 @@ class LoginActivity : AppCompatActivity(){
         }
 
          */
-        setContentView(R.layout.login_activity)
 
         inputEmail = findViewById<EditText>(R.id.edit_email)
         inputPassword = findViewById<EditText>(R.id.edit_password)
@@ -44,20 +46,34 @@ class LoginActivity : AppCompatActivity(){
 
         //
         loginButton.setOnClickListener{
+
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+            }
+            /*
+            val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
+            if(result.resultCode == RESULT_OK){
+                    Toast.makeText(this, "Login was successful!!!", Toast.LENGTH_SHORT).show()
+                }
             val email = inputEmail.text.toString()
             val password = inputPassword.text.toString()
 
             if(user.validateLogin(email, password)){
                 Toast.makeText(this, "Login was successful!!!", Toast.LENGTH_SHORT).show()
+
                 // Start MainActivity after login is successful
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
 
             }else{
+
                 Toast.makeText(this, "Invalid username or password", Toast.LENGTH_SHORT).show()
+
+
             }
+          */
         }
 
-    }
 }
