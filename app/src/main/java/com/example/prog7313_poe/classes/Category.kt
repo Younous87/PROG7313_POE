@@ -1,16 +1,18 @@
 package com.example.prog7313_poe.classes
 
-import androidx.appcompat.app.AppCompatActivity
+data class Category(
+    val categoryID : String? = null,
+    val description: String? = null,
+    val userID : String? = null
 
-class Category() : AppCompatActivity(){
-    lateinit var categoryID : String
-    lateinit var name : String
+){
+    //---------------------------------------------------------------------------------------------------------------------------------------//
+    // Create Category and insert data into db
+    //---------------------------------------------------------------------------------------------------------------------------------------//
+    fun createCategory(catdescription: String, userid :String): Boolean{
 
-
-
-    constructor(id: String, description: String) : this() {
-        categoryID = id
-        name = description
+        val category = Category("",catdescription,userid)
+        return true
     }
 
 }

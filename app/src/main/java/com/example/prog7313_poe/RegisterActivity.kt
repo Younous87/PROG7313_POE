@@ -5,6 +5,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.prog7313_poe.classes.User
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var nameEditText: EditText
@@ -12,6 +13,8 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var passwordEditText: EditText
     private lateinit var surnameEditText: EditText
     private lateinit var registerButton: Button
+    private lateinit var user : User
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,8 +37,14 @@ class RegisterActivity : AppCompatActivity() {
             if (validateInput(name, email, password, surname)) {
                 // Handle registration logic here
                 // After successful registration, go back to login
-                Toast.makeText(this, "Account created successfully!", Toast.LENGTH_SHORT).show()
-                finish() // Return to LoginActivity
+                if(user.createUser(name,surname, email,password)){
+                    Toast.makeText(this, "Invalid username or password", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Account created successfully!", Toast.LENGTH_SHORT).show()
+                   // finish() // Return to LoginActivity
+                }else{
+                    Toast.makeText(this, "Could not create account, Please try again!", Toast.LENGTH_SHORT).show()
+                }
+                //finish() // Return to LoginActivity
             }
         }
 
