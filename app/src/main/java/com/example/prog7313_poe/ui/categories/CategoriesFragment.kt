@@ -15,7 +15,7 @@ import com.example.prog7313_poe.R
 import com.example.prog7313_poe.classes.Category
 
 class CategoriesFragment : Fragment() {
-    lateinit var newCategoryButton : Button
+    private lateinit var newCategoryButton : Button
 
     companion object {
         fun newInstance() = CategoriesFragment()
