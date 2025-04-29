@@ -44,7 +44,7 @@ class NewCategoriesFragment : Fragment() {
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Initialize Views
         //---------------------------------------------------------------------------------------------------------------------------------------//
-        categorySaveButton = view.findViewById(R.id.transactionSaveButton)
+        categorySaveButton = view.findViewById(R.id.newCategorySaveButton)
         categoryNameInput  = view.findViewById(R.id.categoriesNameInput)
         categoryBudgetInput = view.findViewById(R.id.categoriesBudgetInput)
 
