@@ -44,9 +44,12 @@
                     android:textColor="@color/ez_yellow"
                     android:textSize="24sp" />
 
-                <Space
+                <FrameLayout
                     android:layout_width="50dp"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent">
+
+                </FrameLayout>
+
             </LinearLayout>
 
             <FrameLayout
@@ -70,7 +73,7 @@
                         <RadioButton
                             android:id="@+id/transactionExpenseButton"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="50dp"
                             android:buttonTint="@color/ez_yellow"
                             android:text="Expense"
                             android:textColor="@color/ez_yellow" />
@@ -78,7 +81,7 @@
                         <RadioButton
                             android:id="@+id/transactionIncomeButton"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="50dp"
                             android:buttonTint="@color/ez_yellow"
                             android:text="Income"
                             android:textColor="@color/ez_yellow" />
@@ -143,9 +146,9 @@
                                                 android:textColor="@color/ez_grey" />
 
                                             <EditText
-                                                android:id="@+id/dateInput"
+                                                android:id="@+id/transactionDateInput"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="wrap_content"
+                                                android:layout_height="50dp"
                                                 android:ems="10"
                                                 android:inputType="date"
                                                 android:text="Enter Date"
@@ -194,9 +197,9 @@
                                                 android:textColor="@color/ez_grey" />
 
                                             <EditText
-                                                android:id="@+id/timeInput"
+                                                android:id="@+id/transactionTimeInput"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="wrap_content"
+                                                android:layout_height="50dp"
                                                 android:ems="10"
                                                 android:inputType="time"
                                                 android:text="Enter Time"
@@ -246,7 +249,7 @@
                                     <EditText
                                         android:id="@+id/transactionNameInput"
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
+                                        android:layout_height="50dp"
                                         android:ems="10"
                                         android:inputType="text"
                                         android:text="Enter Description"
@@ -294,7 +297,7 @@
                                     <AutoCompleteTextView
                                         android:id="@+id/autoCompleteCategoryInput"
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
+                                        android:layout_height="50dp"
                                         android:text="Enter Category"
                                         android:textColor="@color/white" />
                                 </LinearLayout>
@@ -338,9 +341,9 @@
                                         android:textColor="@color/ez_grey" />
 
                                     <EditText
-                                        android:id="@+id/editTextNumberDecimal"
+                                        android:id="@+id/transactionAmountInput"
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
+                                        android:layout_height="50dp"
                                         android:ems="10"
                                         android:inputType="numberDecimal"
                                         android:text="R 0.00"
@@ -399,12 +402,13 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="15dp"
-                                android:layout_marginRight="15dp">
+                                android:layout_marginRight="15dp"
+                                android:layout_marginBottom="15dp">
 
                                 <ImageButton
                                     android:id="@+id/transactionAddPhotoButton"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"
                                     android:layout_weight="15"
                                     android:background="@color/ez_black"
                                     android:src="@android:drawable/ic_menu_add" />
