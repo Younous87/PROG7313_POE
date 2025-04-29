@@ -8,5 +8,6 @@
     <string name="addnewgoal">Add New Goal</string>
     <string name="saveTransaction">Save</string>
     <string name="newCategory">New Category</string>
+    <string name="back_button_description">Back</string>
 
 </resources>

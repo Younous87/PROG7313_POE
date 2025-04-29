@@ -25,11 +25,12 @@
                 android:orientation="horizontal">
 
                 <ImageButton
+                    android:id="@+id/backButton"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:id="@+id/backButton"
                     android:background="@drawable/roundstyle_black"
                     android:scaleType="fitStart"
+                    android:contentDescription="@string/back_button_description"
                     android:src="@drawable/arrow_left" />
 
                 <TextView
@@ -222,6 +223,7 @@
                             android:background="@drawable/roundstyle_gradient"
                             android:text="@string/saveTransaction"
                             android:textAllCaps="false"
+                            android:contentDescription="@string/back_button_description"
                             android:textSize="20sp" />
                     </FrameLayout>
 
