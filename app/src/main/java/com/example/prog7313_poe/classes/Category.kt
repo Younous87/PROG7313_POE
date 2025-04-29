@@ -9,10 +9,15 @@ data class Category(
     //---------------------------------------------------------------------------------------------------------------------------------------//
     // Create Category and insert data into db
     //---------------------------------------------------------------------------------------------------------------------------------------//
-    fun createCategory(catdescription: String, userid :String): Boolean{
+    fun createCategory(name: String, budget: String): Boolean{
 
-        val category = Category("",catdescription,userid)
-        return true
+        val category = Category("",name,budget)
+        if(category.toString().isNotEmpty()){
+            return true
+        }
+        return false
+
+
     }
 
 }
