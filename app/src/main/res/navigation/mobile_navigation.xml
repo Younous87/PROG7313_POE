@@ -15,7 +15,11 @@
         android:id="@+id/navigation_goals"
         android:name="com.example.prog7313_poe.ui.goals.GoalsFragment"
         android:label="@string/title_goals"
-        tools:layout="@layout/fragment_goals" />
+        tools:layout="@layout/fragment_goals" >
+        <action
+            android:id="@+id/action_navigation_goals_to_newGoalsFragment"
+            app:destination="@id/newGoalsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_transactions"
@@ -37,7 +41,14 @@
         android:id="@+id/navigation_reports"
         android:name="com.example.prog7313_poe.ui.reports.ReportsFragment"
         android:label="@string/title_reports"
-        tools:layout="@layout/fragment_reports" />
+        tools:layout="@layout/fragment_reports" >
+        <action
+            android:id="@+id/action_navigation_reports_to_transactionsReportsFragment2"
+            app:destination="@id/transactionsReportsFragment" />
+        <action
+            android:id="@+id/action_navigation_reports_to_categoriesReportsFragment2"
+            app:destination="@id/categoriesReportsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_new_category"
         android:name="com.example.prog7313_poe.ui.categories.NewCategoriesFragment"
@@ -52,4 +63,9 @@
         android:name="com.example.prog7313_poe.ui.reports.TransactionsReportsFragment"
         android:label="fragment_transactions_reports"
         tools:layout="@layout/fragment_transactions_reports" />
+    <fragment
+        android:id="@+id/newGoalsFragment"
+        android:name="com.example.prog7313_poe.ui.goals.NewGoalsFragment"
+        android:label="fragment_new_goals"
+        tools:layout="@layout/fragment_new_goals" />
 </navigation>
