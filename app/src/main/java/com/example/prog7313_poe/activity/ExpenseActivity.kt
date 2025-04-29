@@ -16,7 +16,6 @@ import com.example.prog7313_poe.R
 import com.example.prog7313_poe.RegisterActivity
 
 class ExpenseActivity: AppCompatActivity() {
-
     private lateinit var input_expenseID : EditText
     private lateinit var input_date : EditText
     private lateinit var input_start_time : EditText

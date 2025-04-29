@@ -66,11 +66,11 @@
                         <RadioGroup
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:checkedButton="@id/transactionExpenseButton"
+                            android:checkedButton="@id/transactionGroup"
                             android:orientation="horizontal">
 
                             <RadioButton
-                                android:id="@+id/transactionExpenseButton"
+                                android:id="@+id/transactionGroup"
                                 android:layout_width="match_parent"
                                 android:layout_height="50dp"
                                 android:buttonTint="@color/ez_yellow"

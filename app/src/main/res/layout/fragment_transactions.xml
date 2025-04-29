@@ -32,6 +32,7 @@
                     android:layout_height="50dp"
                     android:background="@drawable/roundstyle_black"
                     android:scaleType="fitStart"
+                    android:contentDescription="@string/back_button_description"
                     android:src="@drawable/arrow_left" />
 
                 <TextView
@@ -65,9 +66,9 @@
                     android:layout_gravity="center">
 
                     <RadioGroup
+                        android:id="@+id/transactionGroup"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checkedButton="@id/transactionExpenseButton"
                         android:orientation="horizontal">
 
                         <RadioButton
@@ -76,6 +77,7 @@
                             android:layout_height="50dp"
                             android:buttonTint="@color/ez_yellow"
                             android:text="Expense"
+                            android:checked="true"
                             android:textColor="@color/ez_yellow" />
 
                         <RadioButton
@@ -411,6 +413,7 @@
                                     android:layout_height="48dp"
                                     android:layout_weight="15"
                                     android:background="@color/ez_black"
+                                    android:contentDescription="@string/add_photo"
                                     android:src="@android:drawable/ic_menu_add" />
                             </FrameLayout>
 
