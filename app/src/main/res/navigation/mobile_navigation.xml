@@ -42,4 +42,14 @@
         android:id="@+id/navigation_new_category"
         android:name="com.example.prog7313_poe.ui.categories.NewCategoriesFragment"
         />
+    <fragment
+        android:id="@+id/categoriesReportsFragment"
+        android:name="com.example.prog7313_poe.ui.reports.CategoriesReportsFragment"
+        android:label="fragment_categories_reports"
+        tools:layout="@layout/fragment_categories_reports" />
+    <fragment
+        android:id="@+id/transactionsReportsFragment"
+        android:name="com.example.prog7313_poe.ui.reports.TransactionsReportsFragment"
+        android:label="fragment_transactions_reports"
+        tools:layout="@layout/fragment_transactions_reports" />
 </navigation>

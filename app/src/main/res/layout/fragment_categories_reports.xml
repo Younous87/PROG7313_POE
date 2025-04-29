@@ -37,7 +37,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Transaction Reports"
+                    android:text="Categories Reports"
                     android:textAlignment="center"
                     android:textColor="@color/ez_yellow"
                     android:textSize="24sp" />
@@ -253,7 +253,7 @@
                     android:layout_marginBottom="10dp">
 
                     <Button
-                        android:id="@+id/transactionSaveButton"
+                        android:id="@+id/newGoalSaveButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/roundstyle_gradient"

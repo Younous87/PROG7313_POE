@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.categories.NewCategoriesFragment">
+    tools:context=".ui.goals.NewGoalsFragment">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -25,9 +25,9 @@
                 android:orientation="horizontal">
 
                 <ImageButton
-                    android:id="@+id/imageButton5"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
+                    android:id="@+id/backButton"
                     android:background="@drawable/roundstyle_black"
                     android:scaleType="fitStart"
                     android:src="@drawable/arrow_left" />
@@ -37,7 +37,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Categories"
+                    android:text="New Goal"
                     android:textAlignment="center"
                     android:textColor="@color/ez_yellow"
                     android:textSize="24sp" />
@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="25dp"
-                android:layout_marginRight="10dp"/>
+                android:layout_marginRight="10dp" />
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -92,14 +92,14 @@
                                     android:orientation="vertical">
 
                                     <TextView
-                                        android:id="@+id/categoriesNameView"
+                                        android:id="@+id/nameNewGoalView"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="Category"
+                                        android:text="Name"
                                         android:textColor="@color/ez_grey" />
 
                                     <EditText
-                                        android:id="@+id/categoriesNameInput"
+                                        android:id="@+id/nameNewGoalInput"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:ems="10"
@@ -140,16 +140,64 @@
                                     android:orientation="vertical">
 
                                     <TextView
-                                        android:id="@+id/categoriesBudgetView"
+                                        android:id="@+id/minimumNewGoalView"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="Budget"
+                                        android:text="Minimun Goal"
                                         android:textColor="@color/ez_grey" />
 
                                     <EditText
-                                        android:id="@+id/categoriesBudgetInput"
+                                        android:id="@+id/minimumNewGoalInput"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="50dp"
+                                        android:ems="10"
+                                        android:inputType="numberDecimal"
+                                        android:text="R 0.00"
+                                        android:textColor="@color/white" />
+                                </LinearLayout>
+                            </FrameLayout>
+
+                        </LinearLayout>
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/border">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginRight="15dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_weight="15">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/maximumNewGoalView"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
+                                        android:text="Maximum Goal"
+                                        android:textColor="@color/ez_grey" />
+
+                                    <EditText
+                                        android:id="@+id/maximumNewGoalInput"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="50dp"
                                         android:ems="10"
                                         android:inputType="numberDecimal"
                                         android:text="R 0.00"
@@ -168,7 +216,7 @@
                         android:layout_marginRight="10dp">
 
                         <Button
-                            android:id="@+id/newCategorySaveButton"
+                            android:id="@+id/newGoalSaveButton"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/roundstyle_gradient"
@@ -183,5 +231,4 @@
         </LinearLayout>
 
     </FrameLayout>
-
 </FrameLayout>

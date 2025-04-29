@@ -421,7 +421,7 @@
                         android:layout_marginRight="10dp">
 
                         <Button
-                            android:id="@+id/transactionSaveButton"
+                            android:id="@+id/newGoalSaveButton"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/roundstyle_gradient"
