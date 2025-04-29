@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.prog7313_poe.R
 import com.example.prog7313_poe.classes.Category
 import com.example.prog7313_poe.classes.Expense
+import com.example.prog7313_poe.classes.Photo
 import com.example.prog7313_poe.databinding.FragmentTransactionsBinding
 
 class TransactionsFragment : Fragment() {
@@ -32,6 +33,7 @@ class TransactionsFragment : Fragment() {
     private lateinit var addPhotoButton : ImageButton
     private lateinit var label_photo : TextView
     private var selectedImageUri: Uri? = null
+    private var savedPhoto : Photo? = null
     private var type : RadioGroup? = null
     private lateinit var selectedRadioButton: RadioButton
 
@@ -87,7 +89,7 @@ class TransactionsFragment : Fragment() {
             pickFileLauncher.launch("image/*")
         }
         //---------------------------------------------------------------------------------------------------------------------------------------//
-        // Save Transaction button click Listener
+        // Save Transaction button click Listener, No logic for ID
         //---------------------------------------------------------------------------------------------------------------------------------------//
         transactionButton.setOnClickListener{
             val date = input_date.text.toString()
@@ -111,17 +113,23 @@ class TransactionsFragment : Fragment() {
             }
             // Sends data to the validation method
             if(validateInput(date,time,description,amount,category)){
+
+                if(savedPhoto!= null){
+                    savedPhoto?.createPhoto(savedPhoto!!.fileUri!!, savedPhoto!!.filename)
+                }
+                val photoID = savedPhoto?.photoID?: ""
+
+                // Check if a photo was selected to add it to database
                 // Create expense
                 val expense = Expense()
-                if(expense.createExpense("",date, time,"",description,amount,"","",selectedValue)){
+                if(expense.createExpense("",date, time,"",description,amount,photoID,"",selectedValue)){
                     Toast.makeText(requireContext(), "Expense created", Toast.LENGTH_SHORT).show()
                 }else{
                     Toast.makeText(requireContext(), "Could not create expense, try again", Toast.LENGTH_SHORT).show()
                 }
 
+
             }
-
-
 
         }
         //---------------------------------------------------------------------------------------------------------------------------------------//
@@ -131,7 +139,7 @@ class TransactionsFragment : Fragment() {
 
     }
     //---------------------------------------------------------------------------------------------------------------------------------------//
-    // Select image
+    // Select image and set values into photoLabel and SavedPhoto
     //---------------------------------------------------------------------------------------------------------------------------------------//
     private val pickFileLauncher = registerForActivityResult(
         ActivityResultContracts.GetContent()
@@ -142,9 +150,16 @@ class TransactionsFragment : Fragment() {
             // Extract file name
             val fileName = uri.lastPathSegment?.split("/")?.last()
             label_photo.text = fileName
+            savedPhoto = Photo("",fileName,uri)
         }
 
     }
+
+    //---------------------------------------------------------------------------------------------------------------------------------------//
+    // Save Image
+    //---------------------------------------------------------------------------------------------------------------------------------------//
+
+
     //---------------------------------------------------------------------------------------------------------------------------------------//
     // Validate Expense Input
     //---------------------------------------------------------------------------------------------------------------------------------------//
