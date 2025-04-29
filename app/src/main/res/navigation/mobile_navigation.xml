@@ -26,10 +26,20 @@
         android:id="@+id/navigation_categories"
         android:name="com.example.prog7313_poe.ui.categories.CategoriesFragment"
         android:label="@string/title_categories"
-        tools:layout="@layout/fragment_categories" />
+        tools:layout="@layout/fragment_categories">
+        <action
+            android:id="@+id/action_categories_to_newCategory"
+            app:destination="@+id/navigation_new_category"
+            />
+    </fragment>
+
     <fragment
         android:id="@+id/navigation_reports"
         android:name="com.example.prog7313_poe.ui.reports.ReportsFragment"
         android:label="@string/title_reports"
         tools:layout="@layout/fragment_reports" />
+    <fragment
+        android:id="@+id/navigation_new_category"
+        android:name="com.example.prog7313_poe.ui.categories.NewCategoriesFragment"
+        />
 </navigation>
