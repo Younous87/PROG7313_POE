@@ -92,19 +92,19 @@
                                     android:orientation="vertical">
 
                                     <TextView
-                                        android:id="@+id/nameNewGoalView"
+                                        android:id="@+id/monthNewGoalView"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="Name"
+                                        android:text="Month"
                                         android:textColor="@color/ez_grey" />
 
                                     <EditText
-                                        android:id="@+id/nameNewGoalInput"
+                                        android:id="@+id/monthNewGoalInput"
                                         android:layout_width="match_parent"
                                         android:layout_height="50dp"
                                         android:ems="10"
                                         android:inputType="text"
-                                        android:text="New Category"
+                                        android:text="Enter Month"
                                         android:textColor="@color/white" />
                                 </LinearLayout>
                             </FrameLayout>
