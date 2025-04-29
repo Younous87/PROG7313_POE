@@ -72,7 +72,7 @@
                             <RadioButton
                                 android:id="@+id/transactionExpenseButton"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="50dp"
                                 android:buttonTint="@color/ez_yellow"
                                 android:text="Expense"
                                 android:textColor="@color/ez_yellow" />
@@ -80,7 +80,7 @@
                             <RadioButton
                                 android:id="@+id/transactionIncomeButton"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="50dp"
                                 android:buttonTint="@color/ez_yellow"
                                 android:text="Income"
                                 android:textColor="@color/ez_yellow" />
@@ -134,7 +134,7 @@
                                             <EditText
                                                 android:id="@+id/dateInput"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="wrap_content"
+                                                android:layout_height="50dp"
                                                 android:ems="10"
                                                 android:inputType="date"
                                                 android:text="Enter Date"
@@ -185,7 +185,7 @@
                                             <EditText
                                                 android:id="@+id/editTextDate"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="wrap_content"
+                                                android:layout_height="50dp"
                                                 android:ems="10"
                                                 android:inputType="date"
                                                 android:text="Enter Date"
