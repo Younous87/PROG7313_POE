@@ -1,10 +1,12 @@
 package com.example.prog7313_poe.classes
-
 import androidx.appcompat.app.AppCompatActivity
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import kotlin.math.exp
-
+@Entity()
 data class Expense(
-    val expenseID : String? = null,
+    @PrimaryKey(autoGenerate = true)
+    val expenseID : String,
     val time : String? = null,
     val date : String? = null,
     val categoryID : String? = null,

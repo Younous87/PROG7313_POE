@@ -2,7 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.google.services)
+    // Needed for FireBase
+    //alias(libs.plugins.google.services)
 }
 
 android {

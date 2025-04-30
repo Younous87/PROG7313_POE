@@ -1,9 +1,14 @@
 package com.example.prog7313_poe.classes
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
+@Entity()
 data class Category(
-    val categoryID : String? = null,
+    @PrimaryKey(autoGenerate = true)
+    val categoryID : String,
+    val categoryName: String? = null,
     val description: String? = null,
-    val userID : String? = null
+    val userID : String? = null,
 
 ){
     //---------------------------------------------------------------------------------------------------------------------------------------//

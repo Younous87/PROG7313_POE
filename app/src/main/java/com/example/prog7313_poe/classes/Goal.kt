@@ -1,10 +1,13 @@
 package com.example.prog7313_poe.classes
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
+@Entity()
 data class Goal(
-
-    val goal_ID : String? = null,
+    @PrimaryKey(autoGenerate = true)
+    val goal_ID : String,
     val userID : String? = null,
     val month : String? = null,
     val minimum : String? = null,

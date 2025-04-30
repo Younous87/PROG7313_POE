@@ -2,9 +2,13 @@ package com.example.prog7313_poe.classes
 
 import android.widget.Button
 import android.widget.EditText
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
+@Entity()
 data class User(
-    val userID : String? = null,
+    @PrimaryKey(autoGenerate = true)
+    val userID : String,
     val email : String? = null,
     val password : String? = null,
     val name: String? = null,
