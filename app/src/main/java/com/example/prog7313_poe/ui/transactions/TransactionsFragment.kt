@@ -2,23 +2,25 @@ package com.example.prog7313_poe.ui.transactions
 
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.prog7313_poe.MainActivity
 import com.example.prog7313_poe.R
-import com.example.prog7313_poe.classes.Category
 import com.example.prog7313_poe.classes.Expense
 import com.example.prog7313_poe.classes.Photo
 import com.example.prog7313_poe.databinding.FragmentTransactionsBinding
@@ -36,6 +38,8 @@ class TransactionsFragment : Fragment() {
     private var savedPhoto : Photo? = null
     private var type : RadioGroup? = null
     private lateinit var selectedRadioButton: RadioButton
+
+    private lateinit var input_spinner: Spinner
 
     private var _binding: FragmentTransactionsBinding? = null
 
@@ -58,6 +62,9 @@ class TransactionsFragment : Fragment() {
 //        transactionsViewModel.text.observe(viewLifecycleOwner) {
 //            textView.text = it
 //        }
+
+
+
         return root
     }
 
@@ -81,6 +88,36 @@ class TransactionsFragment : Fragment() {
         transactionButton = view.findViewById(R.id.transactionSaveButton)
 
 
+        //---------------------------------------------------------------------------------------------------------------------------------------//
+        // Initialize Spinner (Category Dropdown)
+        //---------------------------------------------------------------------------------------------------------------------------------------//
+        input_spinner = view.findViewById(R.id.CategorySpinnerInput)
+
+        // List of categories to display in the spinner (hardcoded for now as example)
+        val itemList = listOf("Home", "Transport")
+
+        // Adapter used to display the list in the Spinner
+        val arrayAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, itemList)
+
+        // Set dropdown style for when the user clicks the Spinner
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        // Bind the adapter to the Spinner view
+        input_spinner.adapter = arrayAdapter
+
+        // Listener for when an item in the Spinner is selected
+        input_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                // Get the selected item from the Spinner
+                val selectedCategory = parent?.getItemAtPosition(position).toString()
+                // Show a toast with the selected category
+                Toast.makeText(requireContext(), "Selected: $selectedCategory", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Do nothing if no item is selected
+            }
+        }
 
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Add Photo button click Listener
