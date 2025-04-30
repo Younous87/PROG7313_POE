@@ -221,9 +221,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/roundstyle_gradient"
+                            android:contentDescription="@string/back_button_description"
                             android:text="@string/saveTransaction"
                             android:textAllCaps="false"
-                            android:contentDescription="@string/back_button_description"
                             android:textSize="20sp" />
                     </FrameLayout>
 

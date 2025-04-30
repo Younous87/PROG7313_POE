@@ -31,6 +31,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:background="@drawable/roundstyle_black"
+                    android:contentDescription="@string/back_button_description"
                     android:scaleType="fitStart"
                     android:src="@drawable/arrow_left" />
 
@@ -155,6 +156,7 @@
                                     android:layout_marginRight="15dp"
                                     android:layout_marginBottom="10dp"
                                     android:background="@color/ez_black"
+                                    android:contentDescription="@string/add_photo"
                                     android:src="@drawable/more_vertical" />
                             </FrameLayout>
 

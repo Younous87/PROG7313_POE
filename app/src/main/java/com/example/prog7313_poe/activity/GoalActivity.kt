@@ -5,7 +5,6 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 
 class GoalActivity: AppCompatActivity() {
-
     private lateinit var goal_ID : EditText
     private lateinit var userID : EditText
     private lateinit var input_month : EditText
