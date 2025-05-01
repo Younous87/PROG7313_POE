@@ -2,6 +2,8 @@ package com.example.prog7313_poe.ui.goals
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.room.Room
@@ -27,4 +29,13 @@ class NewGoalsViewModel (application: Application): AndroidViewModel(application
     fun insertBudgetGoal(goal: Goal) = viewModelScope.launch {
         goalDao.insertBudgetGoal(goal)
     }
+
+    fun validateGoal(userId: String, month: String, maximum: String): LiveData<Goal?> {
+        val result = MutableLiveData<Goal?>()
+        viewModelScope.launch {
+            result.postValue(goalDao.validateGoal(userId,month,maximum))
+        }
+        return result
+    }
+
 }

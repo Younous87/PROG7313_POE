@@ -15,6 +15,7 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.prog7313_poe.R
@@ -79,6 +80,8 @@ class TransactionsFragment : Fragment() {
         addPhotoButton = view.findViewById(R.id.transactionAddPhotoButton)
         label_photo = view.findViewById(R.id.transactionPhotoInput)
         transactionButton = view.findViewById(R.id.transactionSaveButton)
+        val sharedPreferences = requireContext().getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val userID = sharedPreferences.getInt("user_id",-1)
 
 
 

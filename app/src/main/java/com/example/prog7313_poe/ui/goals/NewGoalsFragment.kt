@@ -1,5 +1,6 @@
 package com.example.prog7313_poe.ui.goals
 
+import android.content.Intent
 import androidx.fragment.app.viewModels
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,8 +12,11 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import com.example.prog7313_poe.MainActivity
 import com.example.prog7313_poe.R
 import com.example.prog7313_poe.classes.Goal
+import com.example.prog7313_poe.classes.User
 import com.example.prog7313_poe.ui.loginRegister.LoginViewModel
 
 class NewGoalsFragment : Fragment() {
@@ -58,22 +62,29 @@ class NewGoalsFragment : Fragment() {
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Save Transaction button click Listener, No logic for ID
         //---------------------------------------------------------------------------------------------------------------------------------------//
-//        goalButton.setOnClickListener{
-//            val month = input_month.text.toString()
-//            val min = input_minimum.text.toString()
-//            val max = input_maximum.text.toString()
-//
-//            if(validateInput(month,max,min)){
-//                val goal = Goal()
-//                if(goal.createGoal("",month,"",max, min)){
-//                    Toast.makeText(requireContext(), "New goal created", Toast.LENGTH_SHORT).show()
-//                }else{
-//                    Toast.makeText(requireContext(), "Could not create new goal, try again", Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//
-//        }
+        goalButton.setOnClickListener{
+            val month = input_month.text.toString()
+            val min = input_minimum.text.toString()
+            val max = input_maximum.text.toString()
 
+            // validate input
+            if(validateInput(month,max,min)){
+
+                val goal = Goal(0,userID.toString(),month,min,max)
+                viewModel.insertBudgetGoal(goal)
+                // Validate goal
+                viewModel.validateGoal(userID.toString(),month, max).observe(viewLifecycleOwner){ goal ->
+                    if(goal != null){
+                        Toast.makeText(context, "Goal created", Toast.LENGTH_SHORT).show()
+
+                    }else{
+                        Toast.makeText( context, "Please try again", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+            }
+
+        }
     }
     //---------------------------------------------------------------------------------------------------------------------------------------//
     // Validate Goal Input

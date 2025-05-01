@@ -58,7 +58,7 @@ class LoginActivity : AppCompatActivity(){
             val email = inputEmail.text.toString()
             val password = inputPassword.text.toString()
 
-            // Check user validation
+            // Check input validation
             if (validateInput(email, password)) {
 
                 // Validate Login
