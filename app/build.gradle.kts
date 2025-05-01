@@ -40,6 +40,9 @@ android {
         viewBinding = true
     }
 }
+ksp{
+    arg("room.schemaLocation", "$projectDir/schemas")
+}
 
 dependencies {
 
@@ -55,6 +58,7 @@ dependencies {
     implementation(libs.androidx.legacy.support.v4)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.support.annotations)
+    implementation(libs.androidx.room.common.jvm)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

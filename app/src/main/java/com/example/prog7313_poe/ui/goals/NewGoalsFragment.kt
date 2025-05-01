@@ -50,21 +50,21 @@ class NewGoalsFragment : Fragment() {
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Save Transaction button click Listener, No logic for ID
         //---------------------------------------------------------------------------------------------------------------------------------------//
-        goalButton.setOnClickListener{
-            val month = input_month.text.toString()
-            val min = input_minimum.text.toString()
-            val max = input_maximum.text.toString()
-
-            if(validateInput(month,max,min)){
-                val goal = Goal()
-                if(goal.createGoal("",month,"",max, min)){
-                    Toast.makeText(requireContext(), "New goal created", Toast.LENGTH_SHORT).show()
-                }else{
-                    Toast.makeText(requireContext(), "Could not create new goal, try again", Toast.LENGTH_SHORT).show()
-                }
-            }
-
-        }
+//        goalButton.setOnClickListener{
+//            val month = input_month.text.toString()
+//            val min = input_minimum.text.toString()
+//            val max = input_maximum.text.toString()
+//
+//            if(validateInput(month,max,min)){
+//                val goal = Goal()
+//                if(goal.createGoal("",month,"",max, min)){
+//                    Toast.makeText(requireContext(), "New goal created", Toast.LENGTH_SHORT).show()
+//                }else{
+//                    Toast.makeText(requireContext(), "Could not create new goal, try again", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//
+//        }
 
     }
     //---------------------------------------------------------------------------------------------------------------------------------------//
