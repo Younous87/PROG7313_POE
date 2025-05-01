@@ -27,11 +27,16 @@ interface TransactionDAO {
             Select
                 c.categoryName,
                 Sum(a.amount) AS totalAmount
-            From Expense a
-            Inner Join Category c on a.categoryID = c.categoryID
-            Where a.userID = :userID
-            And a.date Between :startDate And :endDate
-            Group By c.categoryName
+            From 
+                Expense a
+            Inner Join 
+                Category c on a.categoryID = c.categoryID
+            Where 
+                a.userID = :userID
+            And 
+                a.date Between :startDate And :endDate
+            Group By 
+                c.categoryName
         """
     )
     suspend fun getTotalSpentByCategoryPerPeriod(
@@ -39,4 +44,31 @@ interface TransactionDAO {
         startDate: String,
         endDate: String
     ): List<CategorySpending>
+
+    //---------------------------------------------------------------------------------------------------------------------------------------//
+    //Query to display a list of all expenses created during a user selectable period
+    //---------------------------------------------------------------------------------------------------------------------------------------//
+    @Query(
+        """
+            Select 
+                e.*, 
+                p.fileUri
+            From 
+                Expense e
+            Left Join 
+                Photo p on e.photoID = p.photoID
+            Where 
+                e.userID = :userID
+            And 
+                e.date Between :startDate And :endDate
+            Order By 
+                e.date Desc
+    """
+    )
+    suspend fun getExpensesPerPeriodWithPhoto(
+        userID: String,
+        startDate: String,
+        endDate: String
+
+    )
 }
