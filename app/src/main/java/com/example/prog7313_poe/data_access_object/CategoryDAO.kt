@@ -10,7 +10,7 @@ import com.example.prog7313_poe.classes.Category
 @Dao
 interface CategoryDAO {
     @Insert
-    suspend fun insertCatergory(category: Category)
+    suspend fun insertCategory(category: Category)
 
     @Delete
     suspend fun deleteCategory(category: Category)
