@@ -29,17 +29,17 @@ class LoginActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_activity)
 
+        val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val isLoggedIn = sharedPreferences.getBoolean("is_logged_in", false)
+
         // Checks if user is already logged in
-        /*
-        val sharePref = getSharedPreferences("app_prefs", MODE_PRIVATE)
-        val isLoggedIn = sharePref.getBoolean("is_logged_in", false)
-        if(!isLoggedIn){
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
+        if(isLoggedIn){
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
             return
         }
 
-         */
+
 
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Initialize Views
@@ -64,7 +64,15 @@ class LoginActivity : AppCompatActivity(){
                 // Validate Login
                 loginViewModel.validateLogin(email, password).observe(this){ user ->
                     if(user != null){
-                        Toast.makeText(this, "Login successful! Welcome ${user.name}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Login successful! Welcome  ${user.name}", Toast.LENGTH_SHORT).show()
+
+                        // Ensure user ID is saved
+                        val sharedPref = getSharedPreferences("user_prefs", MODE_PRIVATE)
+                        with(sharedPref.edit()){
+                            putBoolean("is_logged_in",true)
+                            putInt("user_id",user.userID)
+                            apply()
+                        }
 
                         // Start MainActivity after login is successful
                         val intent = Intent(this, MainActivity::class.java)
