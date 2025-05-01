@@ -1,0 +1,25 @@
+package com.example.prog7313_poe.data_access_object
+
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.Update
+import com.example.prog7313_poe.classes.Category
+
+@Dao
+interface CategoryDAO {
+    @Insert
+    suspend fun insertCatergory(category: Category)
+
+    @Delete
+    suspend fun deleteCategory(category: Category)
+
+    @Update
+    suspend fun editCategory(category: Category)
+
+    //---------------------------------------------------------------------------------------------------------------------------------------//
+    //
+    //---------------------------------------------------------------------------------------------------------------------------------------//
+
+}
