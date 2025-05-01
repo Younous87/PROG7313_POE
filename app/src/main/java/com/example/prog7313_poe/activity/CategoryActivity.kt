@@ -31,7 +31,7 @@ class CategoryActivity : AppCompatActivity() {
 
         // Check category validation
         if (validateInput(description)) {
-            Toast.makeText(this, "Your expense was created sucesfuly, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Your expense was created successfully, Toast.LENGTH_SHORT).show()
             val category = Category()
             // Start MainActivity after login is successful
             val intent = Intent(this, MainActivity::class.java)
@@ -39,7 +39,7 @@ class CategoryActivity : AppCompatActivity() {
 
         } else {
 
-            Toast.makeText(this, "An error occured", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "An error occurred", Toast.LENGTH_SHORT).show()
 
         }
     }

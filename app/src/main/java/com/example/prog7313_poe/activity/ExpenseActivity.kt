@@ -60,7 +60,7 @@ class ExpenseActivity: AppCompatActivity() {
 
         // Check expense validation
         if (validateInput(start_date, start_time, end_date, description, amount:)) {
-            Toast.makeText(this, "Your expense was created succesfuly, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Your expense was created successfully, Toast.LENGTH_SHORT).show()
             val expense = Expense()
             // Start MainActivity after login is successful
             val intent = Intent(this, MainActivity::class.java)
@@ -68,7 +68,7 @@ class ExpenseActivity: AppCompatActivity() {
 
         } else {
 
-            Toast.makeText(this, "An error occured", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "An error occurred", Toast.LENGTH_SHORT).show()
 
         }
     }

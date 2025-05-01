@@ -19,8 +19,8 @@ interface UserDAO {
     suspend fun editUser(user: User)
 
     //---------------------------------------------------------------------------------------------------------------------------------------//
-    //
+    //Query to fetch email and password for user authentication
     //---------------------------------------------------------------------------------------------------------------------------------------//
-    @Query(Select * From User Where email = :email And password = :password)
-    fun validateLogin(email: String, password: String): User?
+    @Query("Select * From User Where email = :email And password = :password")
+    suspend fun validateLogin(email: String, password: String): User?
 }

@@ -20,14 +20,14 @@ interface TransactionDAO {
     suspend fun editTransaction(transaction: Expense)
 
     //---------------------------------------------------------------------------------------------------------------------------------------//
-    //
+    //Query to fetch total amount spent on each category during a user-selectable period
     //---------------------------------------------------------------------------------------------------------------------------------------//
     @Query(
         """
             Select
                 c.categoryName,
                 Sum(a.amount) AS totalAmount
-            From
+            From Expense a
             Inner Join Category c on a.categoryID = c.categoryID
             Where a.userID = :userID
             And a.date Between :startDate And :endDate

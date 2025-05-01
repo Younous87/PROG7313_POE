@@ -22,9 +22,9 @@ class LoginActivity : AppCompatActivity(){
     private lateinit var user : User
     private lateinit var registerButton : Button
 
-    override fun onCreate (savedInstanceState: Bundle?){
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.login_activity)
+//    override fun onCreate (savedInstanceState: Bundle?){
+//        super.onCreate(savedInstanceState)
+//        setContentView(R.layout.login_activity)
 
         // Checks if user is already logged in
         /*
@@ -41,49 +41,49 @@ class LoginActivity : AppCompatActivity(){
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Initialize Views
         //---------------------------------------------------------------------------------------------------------------------------------------//
-        inputEmail = findViewById<EditText>(R.id.edit_email)
-        inputPassword = findViewById<EditText>(R.id.edit_password)
-        loginButton =  findViewById<Button>(R.id.btn_login)
-        registerButton = findViewById<Button>(R.id.btn_register)
+//        inputEmail = findViewById<EditText>(R.id.edit_email)
+//        inputPassword = findViewById<EditText>(R.id.edit_password)
+//        loginButton =  findViewById<Button>(R.id.btn_login)
+//        registerButton = findViewById<Button>(R.id.btn_register)
 
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Create a user
         //---------------------------------------------------------------------------------------------------------------------------------------//
-        user =  User("1","admin","0000")
+//        user =  User("1","admin","0000")
 
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Login button click Listener
         //---------------------------------------------------------------------------------------------------------------------------------------//
-        loginButton.setOnClickListener {
-            val email = inputEmail.text.toString()
-            val password = inputPassword.text.toString()
-
-            // Check user validation
-            if (user.validateLogin(email, password)) {
-                Toast.makeText(this, "Login was successful!!!", Toast.LENGTH_SHORT).show()
-
-                // Start MainActivity after login is successful
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-                // Close login activity
-                finish()
-
-            } else {
-
-                Toast.makeText(this, "Invalid username or password", Toast.LENGTH_SHORT).show()
-
-            }
-        }
+//        loginButton.setOnClickListener {
+//            val email = inputEmail.text.toString()
+//            val password = inputPassword.text.toString()
+//
+//            // Check user validation
+//            if (user.validateLogin(email, password)) {
+//                Toast.makeText(this, "Login was successful!!!", Toast.LENGTH_SHORT).show()
+//
+//                // Start MainActivity after login is successful
+//                val intent = Intent(this, MainActivity::class.java)
+//                startActivity(intent)
+//                // Close login activity
+//                finish()
+//
+//            } else {
+//
+//                Toast.makeText(this, "Invalid username or password", Toast.LENGTH_SHORT).show()
+//
+//            }
+//        }
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Register button click Listener
         //---------------------------------------------------------------------------------------------------------------------------------------//
-        registerButton.setOnClickListener{
-            val intent = Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
-        }
-
-
-
-    }
+//        registerButton.setOnClickListener{
+//            val intent = Intent(this, RegisterActivity::class.java)
+//            startActivity(intent)
+//        }
+//
+//
+//
+//    }
 
 }
