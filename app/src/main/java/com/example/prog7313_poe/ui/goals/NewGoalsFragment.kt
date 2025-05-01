@@ -9,8 +9,11 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
+import androidx.lifecycle.ViewModelProvider
 import com.example.prog7313_poe.R
 import com.example.prog7313_poe.classes.Goal
+import com.example.prog7313_poe.ui.loginRegister.LoginViewModel
 
 class NewGoalsFragment : Fragment() {
     private lateinit var input_month : EditText
@@ -46,6 +49,11 @@ class NewGoalsFragment : Fragment() {
         input_minimum = view.findViewById(R.id.minimumNewGoalInput)
         input_maximum = view.findViewById(R.id.maximumNewGoalInput)
         goalButton = view.findViewById(R.id.newGoalSaveButton)
+
+        // Initialize shared preferences to get user ID
+        val sharedPreferences = requireContext().getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val userID = sharedPreferences.getInt("user_id",-1)
+
 
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Save Transaction button click Listener, No logic for ID

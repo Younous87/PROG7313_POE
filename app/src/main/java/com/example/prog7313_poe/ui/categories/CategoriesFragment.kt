@@ -1,5 +1,6 @@
 package com.example.prog7313_poe.ui.categories
 
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import androidx.fragment.app.viewModels
 import android.os.Bundle
@@ -9,10 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.prog7313_poe.MainActivity
 import com.example.prog7313_poe.R
 import com.example.prog7313_poe.classes.Category
+import com.example.prog7313_poe.ui.goals.GoalsViewModel
 
 class CategoriesFragment : Fragment() {
     lateinit var newCategoryButton : Button
@@ -29,12 +32,10 @@ class CategoriesFragment : Fragment() {
         // TODO: Use the ViewModel
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate layout
         return inflater.inflate(R.layout.fragment_categories, container, false)
     }
 
@@ -45,6 +46,8 @@ class CategoriesFragment : Fragment() {
         // Initialize Views
         //---------------------------------------------------------------------------------------------------------------------------------------//
         newCategoryButton = view.findViewById(R.id.categoriesAddButton)
+        val sharedPreferences = requireContext().getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val userID = sharedPreferences.getInt("user_id",-1)
 
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Category button click Listener

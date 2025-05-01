@@ -1,5 +1,6 @@
 package com.example.prog7313_poe.ui.categories
 
+import android.content.Context.MODE_PRIVATE
 import androidx.fragment.app.viewModels
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.prog7313_poe.R
 import com.example.prog7313_poe.classes.Category
@@ -17,7 +19,6 @@ class NewCategoriesFragment : Fragment() {
     private lateinit var categorySaveButton : Button
     private lateinit var categoryNameInput : EditText
     private lateinit var categoryBudgetInput : EditText
-
 
     companion object {
         fun newInstance() = NewCategoriesFragment()
@@ -47,6 +48,8 @@ class NewCategoriesFragment : Fragment() {
         categorySaveButton = view.findViewById(R.id.newCategorySaveButton)
         categoryNameInput  = view.findViewById(R.id.categoriesNameInput)
         categoryBudgetInput = view.findViewById(R.id.categoriesBudgetInput)
+        val sharedPreferences = requireContext().getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val userID = sharedPreferences.getInt("user_id",-1)
 
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Category button click Listener

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -26,12 +27,8 @@ class GoalsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val goalsViewModel =
-            ViewModelProvider(this).get(GoalsViewModel::class.java)
-
         _binding = FragmentGoalsBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
 
         return root
     }
@@ -43,6 +40,8 @@ class GoalsFragment : Fragment() {
         // Initialize Views
         //---------------------------------------------------------------------------------------------------------------------------------------//
         newGoalButton = view.findViewById(R.id.button)
+        val sharedPreferences = requireContext().getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val userID = sharedPreferences.getInt("user_id",-1)
 
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Goals button click Listener
