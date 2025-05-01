@@ -7,6 +7,7 @@ import androidx.room.Query
 import androidx.room.Update
 import com.example.prog7313_poe.classes.CategorySpending
 import com.example.prog7313_poe.classes.Expense
+import com.example.prog7313_poe.classes.ExpenseWithPhoto
 
 @Dao
 interface TransactionDAO {
@@ -70,6 +71,6 @@ interface TransactionDAO {
         startDate: String,
         endDate: String
 
-    )
+    ): List<ExpenseWithPhoto>
     //Merge
 }
