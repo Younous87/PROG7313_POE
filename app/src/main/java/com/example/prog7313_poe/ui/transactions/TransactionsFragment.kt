@@ -85,9 +85,9 @@ class TransactionsFragment : Fragment() {
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Add Photo button click Listener
         //---------------------------------------------------------------------------------------------------------------------------------------//
-        addPhotoButton.setOnClickListener {
-            pickFileLauncher.launch("image/*")
-        }
+//        addPhotoButton.setOnClickListener {
+//            pickFileLauncher.launch("image/*")
+//        }
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Save Transaction button click Listener, No logic for ID
         //---------------------------------------------------------------------------------------------------------------------------------------//
@@ -112,24 +112,24 @@ class TransactionsFragment : Fragment() {
                 Toast.makeText(requireContext(), "RadioGroup not found", Toast.LENGTH_SHORT).show()
             }
             // Sends data to the validation method
-            if(validateInput(date,time,description,amount,category)){
-
-                if(savedPhoto!= null){
-                    savedPhoto?.createPhoto(savedPhoto!!.fileUri!!, savedPhoto!!.filename)
-                }
-                val photoID = savedPhoto?.photoID?: ""
-
-                // Check if a photo was selected to add it to database
-                // Create expense
-                val expense = Expense()
-                if(expense.createExpense("",date, time,"",description,amount,photoID,"",selectedValue)){
-                    Toast.makeText(requireContext(), "Expense created", Toast.LENGTH_SHORT).show()
-                }else{
-                    Toast.makeText(requireContext(), "Could not create expense, try again", Toast.LENGTH_SHORT).show()
-                }
-
-
-            }
+//            if(validateInput(date,time,description,amount,category)){
+//
+//                if(savedPhoto!= null){
+//                    savedPhoto?.createPhoto(savedPhoto!!.fileUri!!, savedPhoto!!.filename)
+//                }
+//                val photoID = savedPhoto?.photoID?: ""
+//
+//                // Check if a photo was selected to add it to database
+//                // Create expense
+//                val expense = Expense()
+//                if(expense.createExpense("",date, time,"",description,amount,photoID,"",selectedValue)){
+//                    Toast.makeText(requireContext(), "Expense created", Toast.LENGTH_SHORT).show()
+//                }else{
+//                    Toast.makeText(requireContext(), "Could not create expense, try again", Toast.LENGTH_SHORT).show()
+//                }
+//
+//
+//            }
 
         }
         //---------------------------------------------------------------------------------------------------------------------------------------//
@@ -141,19 +141,19 @@ class TransactionsFragment : Fragment() {
     //---------------------------------------------------------------------------------------------------------------------------------------//
     // Select image and set values into photoLabel and SavedPhoto
     //---------------------------------------------------------------------------------------------------------------------------------------//
-    private val pickFileLauncher = registerForActivityResult(
-        ActivityResultContracts.GetContent()
-    ){ uri ->
-        if(uri != null){
-            //Save file into var
-            selectedImageUri = uri
-            // Extract file name
-            val fileName = uri.lastPathSegment?.split("/")?.last()
-            label_photo.text = fileName
-            savedPhoto = Photo("",fileName,uri)
-        }
-
-    }
+//    private val pickFileLauncher = registerForActivityResult(
+//        ActivityResultContracts.GetContent()
+//    ){ uri ->
+//        if(uri != null){
+//            //Save file into var
+//            selectedImageUri = uri
+//            // Extract file name
+//            val fileName = uri.lastPathSegment?.split("/")?.last()
+//            label_photo.text = fileName
+//            savedPhoto = Photo("",fileName,uri)
+//        }
+//
+//    }
 
     //---------------------------------------------------------------------------------------------------------------------------------------//
     // Save Image

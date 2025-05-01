@@ -29,8 +29,8 @@ import kotlin.math.exp
 data class Expense(
     @PrimaryKey(autoGenerate = true)
     val expenseID : Int,
-    val time : Time? = null,
-    val date : Date? = null,
+    val time : String? = null,
+    val date : String? = null,
     val categoryID : String? = null,
     val description : String? = null,
     val amount : Double? = null,

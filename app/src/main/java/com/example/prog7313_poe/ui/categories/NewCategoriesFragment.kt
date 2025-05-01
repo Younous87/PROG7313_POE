@@ -51,36 +51,36 @@ class NewCategoriesFragment : Fragment() {
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Category button click Listener
         //---------------------------------------------------------------------------------------------------------------------------------------//
-        categorySaveButton.setOnClickListener {
-            val name = categoryNameInput.text.toString()
-            val budget = categoryBudgetInput.text.toString()
-
-            if(validateInput(name,budget)){
-                val category = Category()
-                if(category.createCategory(name, budget)){
-                    Toast.makeText(context,"Category was created", Toast.LENGTH_SHORT).show()
-                }else{
-                    Toast.makeText(context,"Error!!! Category was not created", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-
-    }
+//        categorySaveButton.setOnClickListener {
+//            val name = categoryNameInput.text.toString()
+//            val budget = categoryBudgetInput.text.toString()
+//
+//            if(validateInput(name,budget)){
+//                val category = Category()
+//                if(category.createCategory(name, budget)){
+//                    Toast.makeText(context,"Category was created", Toast.LENGTH_SHORT).show()
+//                }else{
+//                    Toast.makeText(context,"Error!!! Category was not created", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//        }
+//
+//    }
 
     //---------------------------------------------------------------------------------------------------------------------------------------//
     // Validate Category Inputs
     //---------------------------------------------------------------------------------------------------------------------------------------//
 
-    private fun validateInput(category: String, budget: String): Boolean {
-        if (category.isEmpty()) {
-            categoryNameInput.error = "Category name cannot be empty"
-            return false
-        }
-        if (budget.isEmpty()) {
-            categoryBudgetInput.error = "Budget cannot be empty"
-            return false
-        }
-        return true
+//    private fun validateInput(category: String, budget: String): Boolean {
+//        if (category.isEmpty()) {
+//            categoryNameInput.error = "Category name cannot be empty"
+//            return false
+//        }
+//        if (budget.isEmpty()) {
+//            categoryBudgetInput.error = "Budget cannot be empty"
+//            return false
+//        }
+//        return true
     }
 
 }
