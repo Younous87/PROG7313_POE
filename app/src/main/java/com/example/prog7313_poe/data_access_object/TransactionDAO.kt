@@ -73,4 +73,34 @@ interface TransactionDAO {
 
     ): List<ExpenseWithPhoto>
     //Merge
+
+    //---------------------------------------------------------------------------------------------------------------------------------------//
+    //Get the latest income
+    //---------------------------------------------------------------------------------------------------------------------------------------//
+    @Query(
+        """
+        SELECT * FROM Expense
+        WHERE userID =:userID
+        AND transactionType = 'Income'
+        AND amount IS NOT NULL
+        AND amount != 0
+        ORDER BY expenseID DESC
+        LIMIT 1
+        """
+    )
+    suspend fun getLatestIncome(userID: String): Expense?
+
+    @Query(
+        """
+            SELECT * FROM Expense
+            WHERE userID = :userID
+            AND transactionType = 'Expense'
+            AND amount IS NOT NULL
+            AND amount != 0
+            ORDER BY expenseID DESC
+            LIMIT 1
+        """
+    )
+    suspend fun getLatestExpense(userID: String): Expense?
+
 }

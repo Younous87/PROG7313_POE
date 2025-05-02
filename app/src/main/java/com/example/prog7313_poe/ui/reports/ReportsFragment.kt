@@ -7,8 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 import androidx.navigation.fragment.findNavController
 import com.example.prog7313_poe.R
+import com.example.prog7313_poe.ui.categories.CategoriesViewModel
+import com.example.prog7313_poe.ui.transactions.TransactionsViewModel
 
 class ReportsFragment : Fragment() {
 
@@ -19,7 +23,9 @@ class ReportsFragment : Fragment() {
         fun newInstance() = ReportsFragment()
     }
 
-    private val viewModel: ReportsViewModel by viewModels()
+    private val transactionViewModel: TransactionsViewModel by viewModels()
+    private val categoriesViewModel : CategoriesViewModel by viewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +48,11 @@ class ReportsFragment : Fragment() {
         //---------------------------------------------------------------------------------------------------------------------------------------//
         viewAllCategoriesButton = view.findViewById(R.id.AllCategoryBttn)
         viewAllTransactionsButton = view.findViewById(R.id.AllTransactionsBttn)
+        val incomeView = view.findViewById<TextView>(R.id.IcomeView)
+        val expenseView =  view.findViewById<TextView>(R.id.ExpenseView)
+        // Initialize shared preferences to get user ID
+        val sharedPreferences = requireContext().getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val userID = sharedPreferences.getInt("user_id",-1)
 
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Category button click Listener
@@ -54,5 +65,18 @@ class ReportsFragment : Fragment() {
             findNavController().navigate(R.id.action_navigation_reports_to_transactionsReportsFragment2)
 
         }
+        //---------------------------------------------------------------------------------------------------------------------------------------//
+        // Check if user is not null to display latest income and expense
+        //-----------------
+            transactionViewModel.latestIncome.observe(viewLifecycleOwner) { income ->
+                incomeView.text = "${income?.amount?:0.0}"
+
+            }
+            transactionViewModel.latestExpense.observe(viewLifecycleOwner) { expense ->
+                 expenseView.text = "${expense?.amount?:0.0}"
+
+            }
+            transactionViewModel.fetchLatestAmounts(userID = userID.toString())
+
     }
 }
