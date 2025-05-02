@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.prog7313_poe.R
 import com.example.prog7313_poe.classes.Category
@@ -18,6 +17,7 @@ import com.example.prog7313_poe.classes.Category
 class NewCategoriesFragment : Fragment() {
     private lateinit var categorySaveButton : Button
     private lateinit var categoryNameInput : EditText
+    private lateinit var categoryBudgetInput : EditText
 
     companion object {
         fun newInstance() = NewCategoriesFragment()
@@ -46,36 +46,28 @@ class NewCategoriesFragment : Fragment() {
         //---------------------------------------------------------------------------------------------------------------------------------------//
         categorySaveButton = view.findViewById(R.id.newCategorySaveButton)
         categoryNameInput  = view.findViewById(R.id.categoriesNameInput)
+        categoryBudgetInput = view.findViewById(R.id.categoriesDescriptionInput)
+
         val sharedPreferences = requireContext().getSharedPreferences("user_prefs", MODE_PRIVATE)
         val userID = sharedPreferences.getInt("user_id",-1)
 
         //---------------------------------------------------------------------------------------------------------------------------------------//
-        // Validate if category exist and insert data
+        // Category button click Listener
         //---------------------------------------------------------------------------------------------------------------------------------------//
-        viewModel.categoryNotFound.observe(viewLifecycleOwner){notFound ->
-            if(notFound){
-                // Category does not exist, insert it
-                val name = categoryNameInput.text.toString()
+        categorySaveButton.setOnClickListener {
+            val name = categoryNameInput.text.toString().trim()
+            val budget = categoryBudgetInput.text.toString().trim()
 
+            if(validateInput(name,budget)){
                 val category = Category(
-                    categoryID = 0,
                     categoryName = name,
-                    description = "",
-                    userID = userID.toString()
+                    description = budget,
+                    userID = userID
                 )
                 viewModel.insertCategory(category)
-                Toast.makeText(context, "Category created successfull!", Toast.LENGTH_SHORT).show()
-            }else{
-                // Category already exists
-                Toast.makeText(context, "Category alread exists!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Category was created", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_newCategoriesFragment_to_categoriesFragment)
             }
-        }
-        categorySaveButton.setOnClickListener {
-            val name = categoryNameInput.text.toString()
-
-           if(validateInput(name)){
-               viewModel.validateCategoryInput(name, userID.toString())
-           }
         }
 
     }
@@ -84,9 +76,13 @@ class NewCategoriesFragment : Fragment() {
     // Validate Category Inputs
     //---------------------------------------------------------------------------------------------------------------------------------------//
 
-    private fun validateInput(category: String): Boolean {
+    private fun validateInput(category: String, budget: String): Boolean {
         if (category.isEmpty()) {
             categoryNameInput.error = "Category name cannot be empty"
+            return false
+        }
+        if (budget.isEmpty()) {
+            categoryBudgetInput.error = "Budget cannot be empty"
             return false
         }
         return true

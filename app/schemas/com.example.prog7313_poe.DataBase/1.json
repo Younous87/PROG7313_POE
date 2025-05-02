@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ae284c157ea9a20f80b5cf26e16bbac3",
+    "identityHash": "757b2fed66bab1c0f9e84cf94cf269eb",
     "entities": [
       {
         "tableName": "Category",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`categoryID` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `categoryName` TEXT, `description` TEXT, `userID` TEXT, FOREIGN KEY(`userID`) REFERENCES `User`(`userID`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`categoryID` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `categoryName` TEXT NOT NULL, `description` TEXT NOT NULL, `userID` INTEGER NOT NULL, FOREIGN KEY(`userID`) REFERENCES `User`(`userID`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "categoryID",
@@ -17,17 +17,20 @@
           {
             "fieldPath": "categoryName",
             "columnName": "categoryName",
-            "affinity": "TEXT"
+            "affinity": "TEXT",
+            "notNull": true
           },
           {
             "fieldPath": "description",
             "columnName": "description",
-            "affinity": "TEXT"
+            "affinity": "TEXT",
+            "notNull": true
           },
           {
             "fieldPath": "userID",
             "columnName": "userID",
-            "affinity": "TEXT"
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -263,7 +266,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ae284c157ea9a20f80b5cf26e16bbac3')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '757b2fed66bab1c0f9e84cf94cf269eb')"
     ]
   }
 }

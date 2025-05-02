@@ -13,24 +13,11 @@ import androidx.room.PrimaryKey
 )
 data class Category(
     @PrimaryKey(autoGenerate = true)
-    val categoryID : Int,
-    val categoryName: String? = null,
-    val description: String? = null,
-    val userID : String? = null,
+    val categoryID : Int = 0,
+    val categoryName: String,
+    val description: String,
+    val userID : Int,
 
-){
-    //---------------------------------------------------------------------------------------------------------------------------------------//
-    // Create Category and insert data into db
-    //---------------------------------------------------------------------------------------------------------------------------------------//
-//    fun createCategory(name: String, budget: String): Boolean{
-//
-//        val category = Category("",name,budget)
-//        if(category.toString().isNotEmpty()){
-//            return true
-//        }
-//        return false
-//
-//
-//    }
+)
 
-}
+
