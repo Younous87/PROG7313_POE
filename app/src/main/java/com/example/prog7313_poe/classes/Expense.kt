@@ -31,7 +31,7 @@ data class Expense(
     val expenseID : Int,
     val time : String? = null,
     val date : String? = null,
-    val categoryID : String? = null,
+    val categoryID : Int,
     val description : String? = null,
     val amount : Double? = null,
     val photoID : String? = null,

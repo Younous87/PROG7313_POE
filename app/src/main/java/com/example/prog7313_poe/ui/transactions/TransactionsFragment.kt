@@ -136,7 +136,7 @@ class TransactionsFragment : Fragment() {
                     expenseID =  0,
                     time =  time,
                     date =  date,
-                    categoryID = null,
+                    categoryID = 0,
                     description =  description,
                     amount = amount.toDouble(),
                     photoID =  photoID?.toString(),

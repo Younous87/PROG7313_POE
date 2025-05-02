@@ -1,24 +1,34 @@
 package com.example.prog7313_poe.ui.categories
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.prog7313_poe.classes.CategorySpending
-import com.example.prog7313_poe.data_access_object.TransactionDAO
 import androidx.lifecycle.switchMap
+import androidx.room.Room
+import com.example.prog7313_poe.DataBase
 
-class CategoriesViewModel(
-    private val tDao: TransactionDAO
-) : ViewModel() {
+class CategoriesViewModel(app: Application)
+    : AndroidViewModel(app) {
 
-    private val _queryTrigger = MutableLiveData<Triple<Int, String, String>>()
+    private val tDao = Room.databaseBuilder(
+        app,
+        DataBase::class.java,
+        "DataBase"
+    )
+        .build()
+        .tDao
+
+    private val _query = MutableLiveData<Triple<Int, String, String>>()
 
     val categoryTotals: LiveData<List<CategorySpending>> =
-        _queryTrigger.switchMap { (userID, startDate, endDate) ->
-            tDao.getTotalSpentByCategoryPerPeriod(userID, startDate, endDate)
+        _query.switchMap { (userId, start, end) ->
+            tDao.getTotalSpentByCategoryPerPeriod(userId, start, end)
         }
 
-    fun loadTotals(userID: Int, startDate: String, endDate: String) {
-        _queryTrigger.value = Triple(userID, startDate, endDate)
+    fun loadTotals(userId: Int, start: String, end: String) {
+        _query.value = Triple(userId, start, end)
     }
 }
+
