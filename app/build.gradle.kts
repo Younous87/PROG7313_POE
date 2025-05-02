@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.support.annotations)
     implementation(libs.androidx.room.common.jvm)
+    implementation(libs.core.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

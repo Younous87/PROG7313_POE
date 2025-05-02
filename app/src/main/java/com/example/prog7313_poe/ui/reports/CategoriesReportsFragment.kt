@@ -15,8 +15,10 @@ import com.example.prog7313_poe.R
 import com.example.prog7313_poe.ui.goals.GoalsViewModel
 import android.widget.Button
 import android.widget.EditText
+import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.fragment.findNavController
 import com.example.prog7313_poe.ui.reports.CategoriesReportsFragmentDirections
+
 
 
 class CategoriesReportsFragment : Fragment() {
@@ -33,53 +35,47 @@ class CategoriesReportsFragment : Fragment() {
 
     private val viewModel: CategoriesReportsViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstancesState: Bundle?
 
         //goalViewModel = ViewModelProvider(this)[GoalsViewModel::class.java]
 
         // TODO: Use the ViewModel
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
     ): View {
 
         val view = inflater.inflate(R.layout.fragment_categories_reports, container, false)
 
-        // Set up the RecyclerView with its adapter
-        val adapter = CategoriesReportAdapter()
-        val recyclerView = view.findViewById<RecyclerView>(R.id.categoryRecycler)
-
-        // Attach the adapter to the RecyclerView
-        recyclerView.adapter = adapter
-
-        // Set a layout manager to determine how items are arranged (in this case, vertical list)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-        // Initialize the ViewModel to manage UI-related data
-        mCategoriesReportsViewModel = ViewModelProvider(this).get(CategoriesReportsViewModel::class.java)
-
-        // Observe the LiveData from the ViewModel; update the adapter's data when changes occur
-        mCategoriesReportsViewModel.getAllData.observe(viewLifecycleOwner, Observer { category ->
-            adapter.setData(category) // Update adapter with new data
-        })
-
-        val startInput = view.findViewById<EditText>(R.id.dateStartInput)
-        val endInput = view.findViewById<EditText>(R.id.dateEndInput)
-        val searchButton = view.findViewById<Button>(R.id.newGoalSaveButton)
-
-        searchButton.setOnClickListener {
-            val start = startInput.text.toString()
-            val end = endInput.text.toString()
-
-            val action = CategoriesReportsFragmentDirections.actionCategoriesReportsFragmentToNavigationCategories(start, end)
-            findNavController().navigate(action)
-        }
-
-
-
+//        // Set up the RecyclerView with its adapter
+//        val adapter = CategoriesReportAdapter()
+//        val recyclerView = view.findViewById<RecyclerView>(R.id.categoryRecycler)
+//
+//        // Attach the adapter to the RecyclerView
+//        recyclerView.adapter = adapter
+//
+//        // Set a layout manager to determine how items are arranged (in this case, vertical list)
+//        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+//
+//        // Initialize the ViewModel to manage UI-related data
+//        mCategoriesReportsViewModel = ViewModelProvider(this).get(CategoriesReportsViewModel::class.java)
+//
+//        // Observe the LiveData from the ViewModel; update the adapter's data when changes occur
+//        mCategoriesReportsViewModel.getAllData.observe(viewLifecycleOwner, Observer { category ->
+//            adapter.setData(category) // Update adapter with new data
+//        })
+//
+//        val startInput = view.findViewById<EditText>(R.id.dateStartInput)
+//        val endInput = view.findViewById<EditText>(R.id.dateEndInput)
+//        val searchButton = view.findViewById<Button>(R.id.newGoalSaveButton)
+//
+//        searchButton.setOnClickListener {
+//            val start = startInput.text.toString()
+//            val end = endInput.text.toString()
+//
+//            val action = CategoriesReportsFragmentDirections.actionCategoriesReportsFragmentToNavigationCategories(start, end)
+//            findNavController().navigate(action)
+//        }
         return view
     }
 

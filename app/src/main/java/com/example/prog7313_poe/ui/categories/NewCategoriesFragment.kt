@@ -53,17 +53,29 @@ class NewCategoriesFragment : Fragment() {
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Category button click Listener
         //---------------------------------------------------------------------------------------------------------------------------------------//
-        categorySaveButton.setOnClickListener {
-            val name = categoryNameInput.text.toString().trim()
+        viewModel.categoryNotFound.observe(viewLifecycleOwner){notFound ->
+            if(notFound){
+                // Category does not exist, insert it
+                val name = categoryNameInput.text.toString()
 
-            if(validateInput(name)){
                 val category = Category(
+                    categoryID = 0,
                     categoryName = name,
                     description = "",
                     userID = userID
                 )
                 viewModel.insertCategory(category)
-                Toast.makeText(context, "Category was created", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Category created successfull!", Toast.LENGTH_SHORT).show()
+            }else{
+                // Category already exists
+                Toast.makeText(context, "Category alread exists!", Toast.LENGTH_SHORT).show()
+            }
+        }
+        categorySaveButton.setOnClickListener {
+            val name = categoryNameInput.text.toString()
+
+            if(validateInput(name)){
+                viewModel.validateCategoryInput(name, userID.toString())
             }
         }
 
