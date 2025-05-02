@@ -29,6 +29,7 @@ budgeting goals. EZ Budget includes features such as:
 
 * 16GB+ RAM
 * Android Studios
+* Java Development Kit (JDK), at least version 19
 
 ## Installation
 1. Clone the repository
