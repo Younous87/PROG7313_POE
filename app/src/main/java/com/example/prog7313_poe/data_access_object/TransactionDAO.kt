@@ -1,5 +1,6 @@
 package com.example.prog7313_poe.data_access_object
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -40,11 +41,11 @@ interface TransactionDAO {
                 c.categoryName
         """
     )
-    suspend fun getTotalSpentByCategoryPerPeriod(
+     fun getTotalSpentByCategoryPerPeriod(
         userID: String,
         startDate: String,
         endDate: String
-    ): List<CategorySpending>
+    ): LiveData<List<CategorySpending>>
 
     //---------------------------------------------------------------------------------------------------------------------------------------//
     //Query to display a list of all expenses created during a user selectable period
@@ -66,12 +67,12 @@ interface TransactionDAO {
                 e.date Desc
     """
     )
-    suspend fun getExpensesPerPeriodWithPhoto(
+     fun getExpensesPerPeriodWithPhoto(
         userID: String,
         startDate: String,
         endDate: String
 
-    ): List<ExpenseWithPhoto>
+    ): LiveData<List<ExpenseWithPhoto>>
     //Merge
 
     //---------------------------------------------------------------------------------------------------------------------------------------//

@@ -152,9 +152,10 @@
                                                 android:layout_width="match_parent"
                                                 android:layout_height="50dp"
                                                 android:ems="10"
+                                                android:hint="YYYY/MM/DD"
                                                 android:inputType="date"
-                                                android:text="Enter Date"
-                                                android:textColor="@color/white" />
+                                                android:textColor="@color/white"
+                                                android:textColorHint="@color/white" />
                                         </LinearLayout>
                                     </FrameLayout>
 
@@ -203,9 +204,10 @@
                                                 android:layout_width="match_parent"
                                                 android:layout_height="50dp"
                                                 android:ems="10"
+                                                android:hint="Enter Time"
                                                 android:inputType="time"
-                                                android:text="Enter Time"
-                                                android:textColor="@color/white" />
+                                                android:textColor="@color/white"
+                                                android:textColorHint="@color/white" />
                                         </LinearLayout>
                                     </FrameLayout>
 
@@ -253,9 +255,10 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="50dp"
                                         android:ems="10"
+                                        android:hint="Enter Description"
                                         android:inputType="text"
-                                        android:text="Enter Description"
-                                        android:textColor="@color/white" />
+                                        android:textColor="@color/white"
+                                        android:textColorHint="@color/white" />
                                 </LinearLayout>
                             </FrameLayout>
 
@@ -300,8 +303,9 @@
                                         android:id="@+id/autoCompleteCategoryInput"
                                         android:layout_width="match_parent"
                                         android:layout_height="50dp"
-                                        android:text="Enter Category"
-                                        android:textColor="@color/white" />
+                                        android:completionHint="Enter Category"
+                                        android:textColor="@color/white"
+                                        android:textColorHint="@color/white" />
                                 </LinearLayout>
                             </FrameLayout>
 
@@ -347,9 +351,10 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="50dp"
                                         android:ems="10"
+                                        android:hint="R 0.00"
                                         android:inputType="numberDecimal"
-                                        android:text="R 0.00"
-                                        android:textColor="@color/white" />
+                                        android:textColor="@color/white"
+                                        android:textColorHint="@color/white" />
                                 </LinearLayout>
                             </FrameLayout>
 
