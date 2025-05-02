@@ -11,14 +11,14 @@ class CategoriesViewModel(
     private val tDao: TransactionDAO
 ) : ViewModel() {
 
-    private val _queryTrigger = MutableLiveData<Triple<Int, String, String>>()
+//    private val _queryTrigger = MutableLiveData<Triple<Int, String, String>>()
 
-    val categoryTotals: LiveData<List<CategorySpending>> =
-        Transformations.switchMap(_queryTrigger) { (userID, startDate, endDate) ->
-            tDao.getCategoryTotalsBetweenDates(userID, startDate, endDate)
-        }
-
-    fun loadTotals(userID: Int, startDate: String, endDate: String) {
-        _queryTrigger.value = Triple(userID, startDate, endDate)
-    }
+//    val categoryTotals: LiveData<List<CategorySpending>> =
+//        Transformations.switchMap(_queryTrigger) { (userID, startDate, endDate) ->
+//            tDao.getCategoryTotalsBetweenDates(userID, startDate, endDate)
+//        }
+//
+//    fun loadTotals(userID: Int, startDate: String, endDate: String) {
+//        _queryTrigger.value = Triple(userID, startDate, endDate)
+//    }
 }

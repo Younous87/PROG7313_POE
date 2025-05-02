@@ -66,12 +66,7 @@
         android:id="@+id/categoriesReportsFragment"
         android:name="com.example.prog7313_poe.ui.reports.CategoriesReportsFragment"
         android:label="fragment_categories_reports"
-        tools:layout="@layout/fragment_categories_reports">
-        <action
-            android:id="@+id/action_categoriesReportsFragment_to_navigation_categories"
-            app:destination="@id/navigation_categories"
-            />
-        </fragment>
+        tools:layout="@layout/fragment_categories_reports"/>
     <fragment
         android:id="@+id/transactionsReportsFragment"
         android:name="com.example.prog7313_poe.ui.reports.TransactionsReportsFragment"

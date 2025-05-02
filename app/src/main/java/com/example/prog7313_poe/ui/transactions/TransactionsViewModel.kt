@@ -38,7 +38,9 @@ class TransactionsViewModel (application: Application): AndroidViewModel(applica
             application,
             DataBase::class.java,
             "DataBase"
-        ).build()
+        )
+            .fallbackToDestructiveMigration(false)
+            .build()
         transactionDAO = db.tDao
 
     }

@@ -19,7 +19,7 @@ import com.example.prog7313_poe.data_access_object.UserDAO
 
 @Database(
     entities = [Category::class, Expense::class, Goal::class, Photo::class, User::class],
-    version = 1,
+    version = 2,
 )
 @TypeConverters(UriTypeConverter::class)
 abstract class DataBase: RoomDatabase() {

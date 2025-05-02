@@ -22,7 +22,9 @@ class NewGoalsViewModel (application: Application): AndroidViewModel(application
             application,
             DataBase::class.java,
             "DataBase"
-        ).build()
+        )
+            .fallbackToDestructiveMigration(false)
+            .build()
         goalDao = db.gDao
 
     }

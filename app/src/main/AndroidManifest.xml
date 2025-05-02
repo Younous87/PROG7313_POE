@@ -26,9 +26,9 @@
         <!--Normal Screen-->
         <activity android:name=".MainActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".activity.CategoryActivity"/>
-        <activity android:name=".activity.ExpenseActivity"/>
-        <activity android:name=".activity.GoalActivity"/>
+<!--        <activity android:name=".activity.CategoryActivity"/>-->
+<!--        <activity android:name=".activity.ExpenseActivity"/>-->
+<!--        <activity android:name=".activity.GoalActivity"/>-->
 
     </application>
 </manifest>

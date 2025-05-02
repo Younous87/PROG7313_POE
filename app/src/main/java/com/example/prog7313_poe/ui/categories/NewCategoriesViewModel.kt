@@ -31,7 +31,9 @@ class NewCategoriesViewModel (application: Application): AndroidViewModel(applic
             application,
             DataBase::class.java,
             "DataBase"
-        ).build()
+        )
+            .fallbackToDestructiveMigration(false)
+            .build()
         categoryDAO = db.cDao
 
     }

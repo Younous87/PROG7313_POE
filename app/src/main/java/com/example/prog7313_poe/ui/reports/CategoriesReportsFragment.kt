@@ -16,12 +16,16 @@ import com.example.prog7313_poe.ui.goals.GoalsViewModel
 import android.widget.Button
 import android.widget.EditText
 import androidx.navigation.fragment.findNavController
-import com.example.prog7313_poe.ui.reports.CategoriesReportsFragmentDirections
+import com.example.prog7313_poe.classes.CategorySpending
 
 
 class CategoriesReportsFragment : Fragment() {
 
     private lateinit var mCategoriesReportsViewModel: CategoriesReportsViewModel
+    private lateinit var mTransactionsReportsViewModel: TransactionsReportsViewModel
+    private lateinit var startDate : EditText
+    private lateinit var endDate : EditText
+    private  lateinit var searchButton : Button
 
     //goalViewModel = ViewModelProvider(this)[GoalsViewModel::class.java]
     //val sharedPreferences = requireContext().getSharedPreferences("user_prefs", MODE_PRIVATE)
@@ -48,9 +52,30 @@ class CategoriesReportsFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_categories_reports, container, false)
 
+
+
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         // Set up the RecyclerView with its adapter
         val adapter = CategoriesReportAdapter()
         val recyclerView = view.findViewById<RecyclerView>(R.id.categoryRecycler)
+
+//        // Attach the adapter to the RecyclerView
+//        recyclerView.adapter = adapter
+//
+//        // Set a layout manager to determine how items are arranged (in this case, vertical list)
+//        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+//
+//        // Initialize the ViewModel to manage UI-related data
+//        mCategoriesReportsViewModel = ViewModelProvider(this).get(CategoriesReportsViewModel::class.java)
+//
+//        // Observe the LiveData from the ViewModel; update the adapter's data when changes occur
+//        mCategoriesReportsViewModel.t.observe(viewLifecycleOwner, Observer { category ->
+//            adapter.setData(category) // Update adapter with new data
+//        })
 
         // Attach the adapter to the RecyclerView
         recyclerView.adapter = adapter
@@ -61,26 +86,34 @@ class CategoriesReportsFragment : Fragment() {
         // Initialize the ViewModel to manage UI-related data
         mCategoriesReportsViewModel = ViewModelProvider(this).get(CategoriesReportsViewModel::class.java)
 
-        // Observe the LiveData from the ViewModel; update the adapter's data when changes occur
-        mCategoriesReportsViewModel.getAllData.observe(viewLifecycleOwner, Observer { category ->
-            adapter.setData(category) // Update adapter with new data
-        })
+        startDate = view.findViewById<EditText>(R.id.dateStartInput)
+        endDate = view.findViewById<EditText>(R.id.dateEndInput)
+        searchButton = view.findViewById<Button>(R.id.categoriesSearchButton)
 
-        val startInput = view.findViewById<EditText>(R.id.dateStartInput)
-        val endInput = view.findViewById<EditText>(R.id.dateEndInput)
-        val searchButton = view.findViewById<Button>(R.id.newGoalSaveButton)
+        // Initialize shared preferences to get user ID
+        val sharedPreferences = requireContext().getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val userID = sharedPreferences.getInt("user_id",-1)
 
-        searchButton.setOnClickListener {
-            val start = startInput.text.toString()
-            val end = endInput.text.toString()
-
-            val action = CategoriesReportsFragmentDirections.actionCategoriesReportsFragmentToNavigationCategories(start, end)
-            findNavController().navigate(action)
+        // Observe the transaction report data
+        mCategoriesReportsViewModel.categorySpendingData.observe(viewLifecycleOwner) { transactions ->
+            // Update the adapter with the new data
+            adapter.setData(transactions)
         }
 
+        searchButton.setOnClickListener {
+            val start = startDate.text.toString()
+            val end = endDate.text.toString()
+            val stringUserID = userID.toString()
 
+            mCategoriesReportsViewModel.getTotalSpentByCategoryPerPeriod(stringUserID,start,end)
 
-        return view
+            mTransactionsReportsViewModel.categorySpendingData.observe(viewLifecycleOwner) { transactions ->
+                // Update the adapter with the new data
+                adapter.setData(transactions)}
+
+//            val action = CategoriesReportsFragmentDirections.actionCategoriesReportsFragmentToNavigationCategories(start, end)
+//            findNavController().navigate(action)
+        }
     }
 
 

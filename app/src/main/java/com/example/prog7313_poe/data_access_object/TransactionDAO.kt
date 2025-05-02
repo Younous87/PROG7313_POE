@@ -42,7 +42,7 @@ interface TransactionDAO {
         """
     )
      fun getTotalSpentByCategoryPerPeriod(
-        userID: Int,
+        userID: String,
         startDate: String,
         endDate: String
     ): LiveData<List<CategorySpending>>

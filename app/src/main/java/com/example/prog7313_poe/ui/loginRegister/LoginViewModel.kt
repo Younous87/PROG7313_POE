@@ -20,7 +20,9 @@ class LoginViewModel(application: Application): AndroidViewModel(application)  {
             application,
             DataBase::class.java,
             "DataBase"
-        ).build()
+        )
+            .fallbackToDestructiveMigration(false)
+            .build()
         userDao = db.uDao
 
     }

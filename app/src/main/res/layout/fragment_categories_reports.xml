@@ -192,7 +192,7 @@
                     android:layout_marginBottom="10dp">
 
                     <Button
-                        android:id="@+id/newGoalSaveButton"
+                        android:id="@+id/categoriesSearchButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/roundstyle_gradient"
