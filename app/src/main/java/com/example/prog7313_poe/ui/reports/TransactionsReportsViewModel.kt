@@ -34,7 +34,7 @@ class TransactionsReportsViewModel(application: Application): AndroidViewModel(a
             DataBase::class.java,
             "DataBase"
         )
-            .fallbackToDestructiveMigration(false)
+            .fallbackToDestructiveMigration(true)
             .build()
         transactionDAO = db.tDao
 

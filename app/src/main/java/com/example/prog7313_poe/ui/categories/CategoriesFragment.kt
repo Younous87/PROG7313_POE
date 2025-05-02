@@ -48,9 +48,9 @@ class CategoriesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View = inflater.inflate(R.layout.fragment_categories, container, false)
 
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//        // fetches the user id from the shared preferences
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        // fetches the user id from the shared preferences
 //        val userID = requireContext()
 //            .getSharedPreferences("user_prefs", MODE_PRIVATE)
 //            .getInt("user_id", -1)
@@ -92,11 +92,11 @@ class CategoriesFragment : Fragment() {
 
 
 
-//        view.findViewById<Button>(R.id.categoriesAddButton).setOnClickListener {
-//            val action = CategoriesFragmentDirections.actionCategoriesToNewCategory()
-//            findNavController().navigate(action)
-//        }
-//    }
+        view.findViewById<Button>(R.id.categoriesAddButton).setOnClickListener {
+            val action = CategoriesFragmentDirections.actionCategoriesToNewCategory()
+            findNavController().navigate(action)
+        }
+    }
 
 
 
