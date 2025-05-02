@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.goals.NewGoalsFragment">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/roundstyle_black"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/roundstyle_black"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/backButton"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/roundstyle_black"
+                    android:scaleType="fitStart"
+                    android:contentDescription="@string/back_button_description"
+                    android:src="@drawable/arrow_left" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="New Goal"
+                    android:textAlignment="center"
+                    android:textColor="@color/ez_yellow"
+                    android:textSize="24sp" />
+
+                <Space
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="10dp" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="25dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/border">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginRight="15dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_weight="15">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/monthNewGoalView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Month"
+                                        android:textColor="@color/ez_grey" />
+
+                                    <EditText
+                                        android:id="@+id/monthNewGoalInput"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="50dp"
+                                        android:ems="10"
+                                        android:inputType="text"
+                                        android:text="Enter Month"
+                                        android:textColor="@color/white" />
+                                </LinearLayout>
+                            </FrameLayout>
+
+                        </LinearLayout>
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/border">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginRight="15dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_weight="15">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/minimumNewGoalView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Minimun Goal"
+                                        android:textColor="@color/ez_grey" />
+
+                                    <EditText
+                                        android:id="@+id/minimumNewGoalInput"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="50dp"
+                                        android:ems="10"
+                                        android:inputType="numberDecimal"
+                                        android:text="R 0.00"
+                                        android:textColor="@color/white" />
+                                </LinearLayout>
+                            </FrameLayout>
+
+                        </LinearLayout>
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/border">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginRight="15dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_weight="15">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/maximumNewGoalView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Maximum Goal"
+                                        android:textColor="@color/ez_grey" />
+
+                                    <EditText
+                                        android:id="@+id/maximumNewGoalInput"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="50dp"
+                                        android:ems="10"
+                                        android:inputType="numberDecimal"
+                                        android:text="R 0.00"
+                                        android:textColor="@color/white" />
+                                </LinearLayout>
+                            </FrameLayout>
+
+                        </LinearLayout>
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginRight="10dp">
+
+                        <Button
+                            android:id="@+id/newGoalSaveButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/roundstyle_gradient"
+                            android:contentDescription="@string/back_button_description"
+                            android:text="@string/saveTransaction"
+                            android:textAllCaps="false"
+                            android:textSize="20sp" />
+                    </FrameLayout>
+
+                </LinearLayout>
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+</FrameLayout>

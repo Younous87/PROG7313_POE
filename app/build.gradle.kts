@@ -1,6 +1,10 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.navigation.safe.args)
+    // Needed for FireBase
+    //alias(libs.plugins.google.services)
 }
 
 android {
@@ -37,6 +41,9 @@ android {
         viewBinding = true
     }
 }
+ksp{
+    arg("room.schemaLocation", "$projectDir/schemas")
+}
 
 dependencies {
 
@@ -48,7 +55,19 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.annotation)
+    implementation(libs.androidx.legacy.support.v4)
+    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.support.annotations)
+    implementation(libs.androidx.room.common.jvm)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    // Room DataBase Dependencies and Imports
+    implementation("androidx.room:room-runtime:2.7.1")
+    annotationProcessor("androidx.room:room-compiler:2.7.1")
+    implementation("androidx.room:room-ktx:2.7.1")
+    ksp("androidx.room:room-compiler:2.7.1")
+
 }
+

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.goals.GoalsFragment"
+    android:background="@drawable/roundstyle_black">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@drawable/roundstyle_black">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/roundstyle_black"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/imageButton5"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/roundstyle_black"
+                    android:contentDescription="@string/back_button_description"
+                    android:scaleType="fitStart"
+                    android:src="@drawable/arrow_left" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Goals"
+                    android:textAlignment="center"
+                    android:textColor="@color/ez_yellow"
+                    android:textSize="24sp" />
+
+                <Space
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginRight="10dp">
+
+                <Button
+                    android:id="@+id/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/roundstyle_gradient"
+                    android:text="@string/addnewgoal" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="25dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/border">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginRight="15dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_weight="15">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/monthlyGoalView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginBottom="10dp"
+                                        android:layout_weight="1"
+                                        android:text="TextView"
+                                        android:textColor="@color/white" />
+
+                                    <TextView
+                                        android:id="@+id/minimumGoalTitle"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Minimum Goal"
+                                        android:textColor="@color/ez_grey" />
+
+                                    <TextView
+                                        android:id="@+id/minimumGoalView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="TextView"
+                                        android:textColor="@color/white" />
+
+                                    <TextView
+                                        android:id="@+id/maximumGoalTitle"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_weight="1"
+                                        android:text="Maximum Goal"
+                                        android:textColor="@color/ez_grey" />
+
+                                    <TextView
+                                        android:id="@+id/maximumGoalView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="TextView"
+                                        android:textColor="@color/white" />
+                                </LinearLayout>
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent">
+
+                                <ImageButton
+                                    android:id="@+id/imageButton7"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginRight="15dp"
+                                    android:layout_marginBottom="10dp"
+                                    android:background="@color/ez_black"
+                                    android:contentDescription="@string/add_photo"
+                                    android:src="@drawable/more_vertical" />
+                            </FrameLayout>
+
+                        </LinearLayout>
+                    </FrameLayout>
+                </LinearLayout>
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

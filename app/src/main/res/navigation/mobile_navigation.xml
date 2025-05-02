@@ -12,14 +12,74 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.prog7313_poe.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_goals"
+        android:name="com.example.prog7313_poe.ui.goals.GoalsFragment"
+        android:label="@string/title_goals"
+        tools:layout="@layout/fragment_goals" >
+        <action
+            android:id="@+id/action_navigation_goals_to_newGoalsFragment"
+            app:destination="@id/newGoalsFragment" />
+    </fragment>
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.prog7313_poe.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_transactions"
+        android:name="com.example.prog7313_poe.ui.transactions.TransactionsFragment"
+        android:label="@string/title_transactions"
+        tools:layout="@layout/fragment_transactions" />
+    <fragment
+        android:id="@+id/navigation_categories"
+        android:name="com.example.prog7313_poe.ui.categories.CategoriesFragment"
+        android:label="@string/title_categories"
+        tools:layout="@layout/fragment_categories">
+
+        <argument
+            android:name="startDate"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="endDate"
+            app:argType="string"
+            android:defaultValue=""/>
+        <action
+            android:id="@+id/action_categories_to_newCategory"
+            app:destination="@+id/navigation_new_category"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_reports"
+        android:name="com.example.prog7313_poe.ui.reports.ReportsFragment"
+        android:label="@string/title_reports"
+        tools:layout="@layout/fragment_reports" >
+        <action
+            android:id="@+id/action_navigation_reports_to_transactionsReportsFragment2"
+            app:destination="@id/transactionsReportsFragment" />
+        <action
+            android:id="@+id/action_navigation_reports_to_categoriesReportsFragment2"
+            app:destination="@id/categoriesReportsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_new_category"
+        android:name="com.example.prog7313_poe.ui.categories.NewCategoriesFragment"
+        />
+    <fragment
+        android:id="@+id/categoriesReportsFragment"
+        android:name="com.example.prog7313_poe.ui.reports.CategoriesReportsFragment"
+        android:label="fragment_categories_reports"
+        tools:layout="@layout/fragment_categories_reports">
+        <action
+            android:id="@+id/action_categoriesReportsFragment_to_navigation_categories"
+            app:destination="@id/navigation_categories"
+            />
+        </fragment>
+    <fragment
+        android:id="@+id/transactionsReportsFragment"
+        android:name="com.example.prog7313_poe.ui.reports.TransactionsReportsFragment"
+        android:label="fragment_transactions_reports"
+        tools:layout="@layout/fragment_transactions_reports" />
+    <fragment
+        android:id="@+id/newGoalsFragment"
+        android:name="com.example.prog7313_poe.ui.goals.NewGoalsFragment"
+        android:label="fragment_new_goals"
+        tools:layout="@layout/fragment_new_goals" />
 </navigation>
