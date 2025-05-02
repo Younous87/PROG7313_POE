@@ -17,10 +17,10 @@ import kotlinx.coroutines.launch
 class CategoriesReportsViewModel (application: Application): AndroidViewModel(application) {
     private var categoryDAO: CategoryDAO
 
-    // Repository to abstract data operations and provide a clean API to the ViewModel
+
     private val repository: CategoriesReportRepository
 
-    // LiveData holding the list of all categories; observers (like UI) react to changes
+
     val getAllData: LiveData<List<Category>>
 
     init {
@@ -32,10 +32,10 @@ class CategoriesReportsViewModel (application: Application): AndroidViewModel(ap
 
         categoryDAO = db.cDao
 
-        // Pass the DAO to the repository to handle data operations
+
         repository = CategoriesReportRepository(categoryDAO)
 
-        // Retrieve all categories from the repository as LiveData
+
         getAllData = repository.getAllData
     }
 

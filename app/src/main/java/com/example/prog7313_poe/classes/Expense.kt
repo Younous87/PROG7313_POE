@@ -36,7 +36,7 @@ data class Expense(
     val amount : Double? = null,
     val photoID : String? = null,
     val transactionType: String? = null,
-    val userID : String? = null,
+    val userID : Int,
 ){
 
     //---------------------------------------------------------------------------------------------------------------------------------------//

@@ -141,7 +141,7 @@ class TransactionsFragment : Fragment() {
                     amount = amount.toDouble(),
                     photoID =  photoID?.toString(),
                     transactionType = selectedValue,
-                    userID = userID.toString()
+                    userID = userID
                 )
                 transactionsViewModel.insertTransaction(
                     expense,

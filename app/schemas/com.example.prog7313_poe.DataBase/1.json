@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "757b2fed66bab1c0f9e84cf94cf269eb",
+    "identityHash": "d86858685db394b4dc097c19a76ee329",
     "entities": [
       {
         "tableName": "Category",
@@ -55,7 +55,7 @@
       },
       {
         "tableName": "Expense",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`expenseID` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `time` TEXT, `date` TEXT, `categoryID` TEXT, `description` TEXT, `amount` REAL, `photoID` TEXT, `transactionType` TEXT, `userID` TEXT, FOREIGN KEY(`categoryID`) REFERENCES `Category`(`categoryID`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`photoID`) REFERENCES `Photo`(`photoID`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`userID`) REFERENCES `User`(`userID`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`expenseID` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `time` TEXT, `date` TEXT, `categoryID` TEXT, `description` TEXT, `amount` REAL, `photoID` TEXT, `transactionType` TEXT, `userID` INTEGER NOT NULL, FOREIGN KEY(`categoryID`) REFERENCES `Category`(`categoryID`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`photoID`) REFERENCES `Photo`(`photoID`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`userID`) REFERENCES `User`(`userID`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "expenseID",
@@ -101,7 +101,8 @@
           {
             "fieldPath": "userID",
             "columnName": "userID",
-            "affinity": "TEXT"
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -266,7 +267,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '757b2fed66bab1c0f9e84cf94cf269eb')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd86858685db394b4dc097c19a76ee329')"
     ]
   }
 }

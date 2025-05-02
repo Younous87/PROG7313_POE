@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.prog7313_poe.classes.CategorySpending
-import com.example.prog7313_poe.data_access_object.CategoryDAO
 import com.example.prog7313_poe.data_access_object.TransactionDAO
+import androidx.lifecycle.switchMap
 
 class CategoriesViewModel(
     private val tDao: TransactionDAO
@@ -14,8 +14,8 @@ class CategoriesViewModel(
     private val _queryTrigger = MutableLiveData<Triple<Int, String, String>>()
 
     val categoryTotals: LiveData<List<CategorySpending>> =
-        Transformations.switchMap(_queryTrigger) { (userID, startDate, endDate) ->
-            tDao.getCategoryTotalsBetweenDates(userID, startDate, endDate)
+        _queryTrigger.switchMap { (userID, startDate, endDate) ->
+            tDao.getTotalSpentByCategoryPerPeriod(userID, startDate, endDate)
         }
 
     fun loadTotals(userID: Int, startDate: String, endDate: String) {

@@ -39,7 +39,7 @@ class TransactionsReportsViewModel(application: Application): AndroidViewModel(a
     }
 
 
-    fun getTotalSpentByCategoryPerPeriod(userID: String, startDate: String, endDate: String) {
+    fun getTotalSpentByCategoryPerPeriod(userID: Int, startDate: String, endDate: String) {
         _categorySpendingData = transactionDAO.getTotalSpentByCategoryPerPeriod(userID, startDate, endDate)
     }
 
