@@ -1,13 +1,15 @@
 package com.example.prog7313_poe.ui.reports
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prog7313_poe.R
-import com.example.prog7313_poe.classes.Category
 import com.example.prog7313_poe.classes.ExpenseWithPhoto
+
 
 class TransactionReportAdapter: RecyclerView.Adapter<TransactionReportAdapter.MyViewHolder>() {
     // A list that holds all Category items to be displayed in the RecyclerView
@@ -34,6 +36,14 @@ class TransactionReportAdapter: RecyclerView.Adapter<TransactionReportAdapter.My
         holder.itemView.findViewById<TextView>(R.id.cr_transaction_category).text = currentTransaction.categoryID.toString()
         holder.itemView.findViewById<TextView>(R.id.cr_transaction_date).text = currentTransaction.date.toString()
         holder.itemView.findViewById<TextView>(R.id.cr_transaction_amount).text = currentTransaction.amount.toString()
+
+        val imageView = holder.itemView.findViewById<ImageView>(R.id.cr_transaction_photo)
+
+        val photoUriString = currentTransaction.fileUri
+        if (!photoUriString.isNullOrEmpty()) {
+            val uri = Uri.parse(photoUriString)
+            imageView.setImageURI(uri)
+        }
     }
 
     // Updates the data list and notifies the RecyclerView to refresh the UI
