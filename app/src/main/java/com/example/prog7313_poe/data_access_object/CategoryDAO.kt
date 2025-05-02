@@ -23,8 +23,6 @@ interface CategoryDAO {
     @Query("SELECT* FROM Category")
      fun getAllCategories() : LiveData<List<Category>>
 
-    //---------------------------------------------------------------------------------------------------------------------------------------//
-    //
-    //---------------------------------------------------------------------------------------------------------------------------------------//
-
+     @Query("SELECT COUNT(*) FROM Category WHERE LOWER (categoryName) = LOWER(:name) AND userID = :userId")
+     suspend fun countCategoryIdByName(name: String, userId: String): Int?
 }
