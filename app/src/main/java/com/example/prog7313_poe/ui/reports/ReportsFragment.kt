@@ -66,17 +66,17 @@ class ReportsFragment : Fragment() {
 
         }
         //---------------------------------------------------------------------------------------------------------------------------------------//
-        // Check if user is not null to display latest income and expense
+        // Display latest transactions in home fragment
         //-----------------
-            transactionViewModel.latestIncome.observe(viewLifecycleOwner) { income ->
-                incomeView.text = "${income?.amount?:0.0}"
+        transactionViewModel.latestIncome.observe(viewLifecycleOwner) { income ->
+            incomeView.text = "${income?.amount?:0.0}"
 
-            }
-            transactionViewModel.latestExpense.observe(viewLifecycleOwner) { expense ->
-                 expenseView.text = "${expense?.amount?:0.0}"
+        }
+        transactionViewModel.latestExpense.observe(viewLifecycleOwner) { expense ->
+             expenseView.text = "${expense?.amount?:0.0}"
 
-            }
-            transactionViewModel.fetchLatestAmounts(userID = userID.toString())
+        }
+        transactionViewModel.fetchLatestAmounts(userID = userID.toString())
 
     }
 }

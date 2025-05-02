@@ -61,11 +61,11 @@ class TransactionsViewModel (application: Application): AndroidViewModel(applica
     // Function to fetch latest income and expense amounts
     fun fetchLatestAmounts(userID: String){
         viewModelScope.launch {
-                // Fetch total income and total expenses
-                val income = transactionDAO.getLatestIncome(userID)
-                val expense = transactionDAO.getLatestExpense(userID)
-                _latestIncome.postValue(income)
-                _latestExpense.postValue(expense)
+            // Fetch total income and total expenses
+            val income = transactionDAO.getLatestIncome(userID)
+            val expense = transactionDAO.getLatestExpense(userID)
+            _latestIncome.postValue(income)
+            _latestExpense.postValue(expense)
         }
     }
 

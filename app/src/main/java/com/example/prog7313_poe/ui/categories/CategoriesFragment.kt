@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.example.prog7313_poe.MainActivity
 import com.example.prog7313_poe.R
 import com.example.prog7313_poe.classes.Category
@@ -46,6 +47,7 @@ class CategoriesFragment : Fragment() {
         // Initialize Views
         //---------------------------------------------------------------------------------------------------------------------------------------//
         newCategoryButton = view.findViewById(R.id.categoriesAddButton)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.categoryRecycler)
         val sharedPreferences = requireContext().getSharedPreferences("user_prefs", MODE_PRIVATE)
         val userID = sharedPreferences.getInt("user_id",-1)
 
