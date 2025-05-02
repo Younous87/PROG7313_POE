@@ -13,6 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prog7313_poe.R
 import com.example.prog7313_poe.ui.goals.GoalsViewModel
+import android.widget.Button
+import android.widget.EditText
+import androidx.navigation.fragment.findNavController
+import com.example.prog7313_poe.ui.reports.CategoriesReportsFragmentDirections
+
 
 class CategoriesReportsFragment : Fragment() {
 
@@ -61,6 +66,22 @@ class CategoriesReportsFragment : Fragment() {
             adapter.setData(category) // Update adapter with new data
         })
 
+        val startInput = view.findViewById<EditText>(R.id.dateStartInput)
+        val endInput = view.findViewById<EditText>(R.id.dateEndInput)
+        val searchButton = view.findViewById<Button>(R.id.newGoalSaveButton)
+
+        searchButton.setOnClickListener {
+            val start = startInput.text.toString()
+            val end = endInput.text.toString()
+
+            val action = CategoriesReportsFragmentDirections.actionCategoriesReportsFragmentToNavigationCategories(start, end)
+            findNavController().navigate(action)
+        }
+
+
+
         return view
     }
+
+
 }

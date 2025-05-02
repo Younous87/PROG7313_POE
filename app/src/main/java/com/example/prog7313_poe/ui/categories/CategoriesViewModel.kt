@@ -1,10 +1,24 @@
 package com.example.prog7313_poe.ui.categories
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.prog7313_poe.classes.CategorySpending
 import com.example.prog7313_poe.data_access_object.CategoryDAO
+import com.example.prog7313_poe.data_access_object.TransactionDAO
 
 class CategoriesViewModel(
-    private val cDao: CategoryDAO
+    private val tDao: TransactionDAO
 ) : ViewModel() {
-    // TODO: Implement the ViewModel
+
+    private val _queryTrigger = MutableLiveData<Triple<Int, String, String>>()
+
+    val categoryTotals: LiveData<List<CategorySpending>> =
+        Transformations.switchMap(_queryTrigger) { (userID, startDate, endDate) ->
+            tDao.getCategoryTotalsBetweenDates(userID, startDate, endDate)
+        }
+
+    fun loadTotals(userID: Int, startDate: String, endDate: String) {
+        _queryTrigger.value = Triple(userID, startDate, endDate)
+    }
 }

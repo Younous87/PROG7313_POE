@@ -140,19 +140,19 @@
                                     android:orientation="vertical">
 
                                     <TextView
-                                        android:id="@+id/categoriesBudgetView"
+                                        android:id="@+id/categoriesDescriptionView"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="Budget"
+                                        android:text="Description"
                                         android:textColor="@color/ez_grey" />
 
                                     <EditText
-                                        android:id="@+id/categoriesBudgetInput"
+                                        android:id="@+id/categoriesDescriptionInput"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:ems="10"
                                         android:inputType="numberDecimal"
-                                        android:text="R 0.00"
+                                        android:text="Description"
                                         android:textColor="@color/white" />
                                 </LinearLayout>
                             </FrameLayout>

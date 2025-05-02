@@ -1,31 +1,43 @@
 package com.example.prog7313_poe.activity
 
+import android.content.Intent
+import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.prog7313_poe.MainActivity
+import com.example.prog7313_poe.R
+import com.example.prog7313_poe.ui.categories.CategoriesViewModel
 
 class CategoryActivity : AppCompatActivity() {
     lateinit var categoryID : EditText
+    lateinit var input_category : EditText
     lateinit var  input_description : EditText
-    lateinit var categoryButton : Button
-    /*
+    lateinit var newcategorySaveButton : Button
+    lateinit var input_budegt_amount : EditText
+    lateinit var categoriesViewModel: CategoriesViewModel
+
+
   override fun onCreate (savedInstanceState: Bundle?){
       super.onCreate(savedInstanceState)
-      setContentView(R.layout.)
-  */
+      setContentView(R.layout.fragment_new_categories)
+
     //---------------------------------------------------------------------------------------------------------------------------------------//
     // Initialize Views
     //---------------------------------------------------------------------------------------------------------------------------------------//
-    /*
-    input_category =  findViewById<EditText>(R.id)
-    categoryButton = findViewById<Button>(R.id)
 
-     */
+    input_category =  findViewById<EditText>(R.id.categoriesNameInput)
+    input_budegt_amount = findViewById<EditText>(R.id.categoriesDescriptionInput)
+    newcategorySaveButton = findViewById<Button>(R.id.newCategorySaveButton)
+
+
     //---------------------------------------------------------------------------------------------------------------------------------------//
     // Category button click Listener
     //---------------------------------------------------------------------------------------------------------------------------------------//
-    /*
-    categoryButton.setOnClickListener {
+
+
+    newcategorySaveButton.setOnClickListener {
 
         val description = input_description.text.toString()
 
@@ -43,20 +55,10 @@ class CategoryActivity : AppCompatActivity() {
 
         }
     }
-     */
 
-    //---------------------------------------------------------------------------------------------------------------------------------------//
-    // Validate Goal Input
-    //---------------------------------------------------------------------------------------------------------------------------------------//
-    /*
-    private fun validateInput(description: String: Boolean {
-        if(description.isEmpty()){
-            nameEditText.error = "Date cannot be empty"
-            return false
-        }
-        return true
-    }
+      //---------------------------------------------------------------------------------------------------------------------------------------//
+      // Category button click Listener
+      //---------------------------------------------------------------------------------------------------------------------------------------//
 
-     */
-
+  }
 }

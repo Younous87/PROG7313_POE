@@ -31,6 +31,15 @@
         android:name="com.example.prog7313_poe.ui.categories.CategoriesFragment"
         android:label="@string/title_categories"
         tools:layout="@layout/fragment_categories">
+
+        <argument
+            android:name="startDate"
+            app:argType="string"
+            android:defaultValue=""/>
+        <argument
+            android:name="endDate"
+            app:argType="string"
+            android:defaultValue=""/>
         <action
             android:id="@+id/action_categories_to_newCategory"
             app:destination="@+id/navigation_new_category"
@@ -57,7 +66,12 @@
         android:id="@+id/categoriesReportsFragment"
         android:name="com.example.prog7313_poe.ui.reports.CategoriesReportsFragment"
         android:label="fragment_categories_reports"
-        tools:layout="@layout/fragment_categories_reports" />
+        tools:layout="@layout/fragment_categories_reports">
+        <action
+            android:id="@+id/action_categoriesReportsFragment_to_navigation_categories"
+            app:destination="@id/navigation_categories"
+            />
+        </fragment>
     <fragment
         android:id="@+id/transactionsReportsFragment"
         android:name="com.example.prog7313_poe.ui.reports.TransactionsReportsFragment"
