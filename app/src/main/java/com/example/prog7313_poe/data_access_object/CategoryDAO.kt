@@ -1,5 +1,6 @@
 package com.example.prog7313_poe.data_access_object
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -17,6 +18,10 @@ interface CategoryDAO {
 
     @Update
     suspend fun editCategory(category: Category)
+
+    //Test Query
+    @Query("SELECT* FROM Category")
+     fun getAllCategories() : LiveData<List<Category>>
 
     //---------------------------------------------------------------------------------------------------------------------------------------//
     //

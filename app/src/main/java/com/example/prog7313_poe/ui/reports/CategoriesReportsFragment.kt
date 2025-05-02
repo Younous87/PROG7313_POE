@@ -7,10 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.prog7313_poe.R
 import com.example.prog7313_poe.ui.goals.GoalsViewModel
 
 class CategoriesReportsFragment : Fragment() {
+
+    private lateinit var mCategoriesReportsViewModel: CategoriesReportsViewModel
 
     //goalViewModel = ViewModelProvider(this)[GoalsViewModel::class.java]
     //val sharedPreferences = requireContext().getSharedPreferences("user_prefs", MODE_PRIVATE)
@@ -34,6 +40,27 @@ class CategoriesReportsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_categories_reports, container, false)
+
+        val view = inflater.inflate(R.layout.fragment_categories_reports, container, false)
+
+        // Set up the RecyclerView with its adapter
+        val adapter = CategoriesReportAdapter()
+        val recyclerView = view.findViewById<RecyclerView>(R.id.categoryRecycler)
+
+        // Attach the adapter to the RecyclerView
+        recyclerView.adapter = adapter
+
+        // Set a layout manager to determine how items are arranged (in this case, vertical list)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        // Initialize the ViewModel to manage UI-related data
+        mCategoriesReportsViewModel = ViewModelProvider(this).get(CategoriesReportsViewModel::class.java)
+
+        // Observe the LiveData from the ViewModel; update the adapter's data when changes occur
+        mCategoriesReportsViewModel.getAllData.observe(viewLifecycleOwner, Observer { category ->
+            adapter.setData(category) // Update adapter with new data
+        })
+
+        return view
     }
 }
