@@ -33,8 +33,20 @@ class TransactionsViewModel (application: Application): AndroidViewModel(applica
         transactionDAO = db.tDao
 
     }
-    fun insertTransaction(transaction: Expense) = viewModelScope.launch {
-        transactionDAO.insertTransaction(transaction)
+    fun insertTransaction(
+        transaction: Expense,
+        onSuccess: (Long) -> Unit,
+        onError: (Exception) -> Unit
+    ) {
+        viewModelScope.launch {
+            try{
+                val rowId = transactionDAO.insertTransaction(transaction)
+                onSuccess(rowId)
+            }catch (e: Exception){
+                onError(e)
+            }
+
+        }
     }
 
 }

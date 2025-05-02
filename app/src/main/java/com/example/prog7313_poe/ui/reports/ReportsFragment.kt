@@ -50,7 +50,6 @@ class ReportsFragment : Fragment() {
             findNavController().navigate(R.id.action_navigation_reports_to_categoriesReportsFragment2)
 
         }
-
         viewAllTransactionsButton.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_reports_to_transactionsReportsFragment2)
 

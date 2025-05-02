@@ -18,11 +18,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.prog7313_poe.R
 import com.example.prog7313_poe.classes.Category
 import com.example.prog7313_poe.classes.Expense
 import com.example.prog7313_poe.classes.Photo
 import com.example.prog7313_poe.databinding.FragmentTransactionsBinding
+import kotlinx.coroutines.launch
 
 class TransactionsFragment : Fragment() {
     private lateinit var input_date : EditText
@@ -37,6 +39,8 @@ class TransactionsFragment : Fragment() {
     private var savedPhoto : Photo? = null
     private var type : RadioGroup? = null
     private lateinit var selectedRadioButton: RadioButton
+    private lateinit var transactionsViewModel : TransactionsViewModel
+    private lateinit var photoViewModel: PhotoViewModel
 
     private var _binding: FragmentTransactionsBinding? = null
 
@@ -49,8 +53,8 @@ class TransactionsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val transactionsViewModel =
-            ViewModelProvider(this).get(TransactionsViewModel::class.java)
+        transactionsViewModel = ViewModelProvider(this)[TransactionsViewModel::class.java]
+        photoViewModel = ViewModelProvider(this)[PhotoViewModel::class.java]
 
         _binding = FragmentTransactionsBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -88,9 +92,9 @@ class TransactionsFragment : Fragment() {
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Add Photo button click Listener
         //---------------------------------------------------------------------------------------------------------------------------------------//
-//        addPhotoButton.setOnClickListener {
-//            pickFileLauncher.launch("image/*")
-//        }
+        addPhotoButton.setOnClickListener {
+            pickFileLauncher.launch("image/*")
+        }
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Save Transaction button click Listener, No logic for ID
         //---------------------------------------------------------------------------------------------------------------------------------------//
@@ -115,24 +119,43 @@ class TransactionsFragment : Fragment() {
                 Toast.makeText(requireContext(), "RadioGroup not found", Toast.LENGTH_SHORT).show()
             }
             // Sends data to the validation method
-//            if(validateInput(date,time,description,amount,category)){
-//
-//                if(savedPhoto!= null){
-//                    savedPhoto?.createPhoto(savedPhoto!!.fileUri!!, savedPhoto!!.filename)
-//                }
-//                val photoID = savedPhoto?.photoID?: ""
-//
-//                // Check if a photo was selected to add it to database
-//                // Create expense
-//                val expense = Expense()
-//                if(expense.createExpense("",date, time,"",description,amount,photoID,"",selectedValue)){
-//                    Toast.makeText(requireContext(), "Expense created", Toast.LENGTH_SHORT).show()
-//                }else{
-//                    Toast.makeText(requireContext(), "Could not create expense, try again", Toast.LENGTH_SHORT).show()
-//                }
-//
-//
-//            }
+            if(validateInput(date,time,description,amount,category)){
+                var photoID : Int? = null
+                if(savedPhoto!= null){
+                    var photo = Photo(0, filename = savedPhoto!!.filename, fileUri = savedPhoto!!.fileUri)
+                    photoViewModel.insertPhoto(photo)
+                    lifecycleScope.launch {
+                        photoID = photoViewModel.getPhotoIdByFilenameAndUri(
+                            filename = savedPhoto!!.filename.toString(),
+                            fileUri = savedPhoto!!.fileUri.toString())
+                    }
+
+                }
+
+                val expense = Expense(
+                    expenseID =  0,
+                    time =  time,
+                    date =  date,
+                    categoryID = null,
+                    description =  description,
+                    amount = amount.toDouble(),
+                    photoID =  photoID?.toString(),
+                    transactionType = selectedValue,
+                    userID = userID.toString()
+                )
+                transactionsViewModel.insertTransaction(
+                    expense,
+                    onSuccess = {rowId ->
+                        if(rowId != -1L){
+                            Toast.makeText(requireContext(), "Transaction created", Toast.LENGTH_SHORT).show()
+                        }
+
+                    },
+                    onError = { error ->
+                        Toast.makeText(requireContext(), "Could not create transaction, try again", Toast.LENGTH_SHORT).show()
+                    }
+                )
+            }
 
         }
         //---------------------------------------------------------------------------------------------------------------------------------------//
@@ -144,19 +167,19 @@ class TransactionsFragment : Fragment() {
     //---------------------------------------------------------------------------------------------------------------------------------------//
     // Select image and set values into photoLabel and SavedPhoto
     //---------------------------------------------------------------------------------------------------------------------------------------//
-//    private val pickFileLauncher = registerForActivityResult(
-//        ActivityResultContracts.GetContent()
-//    ){ uri ->
-//        if(uri != null){
-//            //Save file into var
-//            selectedImageUri = uri
-//            // Extract file name
-//            val fileName = uri.lastPathSegment?.split("/")?.last()
-//            label_photo.text = fileName
-//            savedPhoto = Photo("",fileName,uri)
-//        }
-//
-//    }
+    private val pickFileLauncher = registerForActivityResult(
+        ActivityResultContracts.GetContent()
+    ){ uri ->
+        if(uri != null){
+            //Save file into var
+            selectedImageUri = uri
+            // Extract file name
+            val fileName = uri.lastPathSegment?.split("/")?.last()
+            label_photo.text = fileName
+            savedPhoto = Photo(0,fileName,uri)
+        }
+
+    }
 
     //---------------------------------------------------------------------------------------------------------------------------------------//
     // Save Image
@@ -185,7 +208,7 @@ class TransactionsFragment : Fragment() {
         }
 
         if (category.isEmpty()) {
-            input_category.error = "Description cannot be empty"
+            input_category.error = "Category cannot be empty"
             return false
         }
 

@@ -12,7 +12,7 @@ import com.example.prog7313_poe.classes.ExpenseWithPhoto
 @Dao
 interface TransactionDAO {
     @Insert
-    suspend fun insertTransaction(transaction: Expense)
+    suspend fun insertTransaction(transaction: Expense) : Long
 
     @Delete
     suspend fun deleteTransaction(transaction: Expense)
