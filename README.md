@@ -48,3 +48,4 @@ budgeting goals. EZ Budget includes features such as:
 * PROGRAMMING 3C/ Open Source Coding(Introduction) - PROG7313 MODULE MANUAL (First Edition: 2020) from: The Independent Institute of Education 
 * Kotlin Documentation : https://kotlinlang.org/docs/home.html
 * Youtube help : [youtube.com/watch?v=bOd3wO0uFr8&t=2249s&ab_channel=PhilippLackner](https://www.youtube.com/watch?v=bOd3wO0uFr8&t=2249s&ab_channel=PhilippLackner)
+* ChatGPT: [ at.openai.com](https://chat.openai.com/)
