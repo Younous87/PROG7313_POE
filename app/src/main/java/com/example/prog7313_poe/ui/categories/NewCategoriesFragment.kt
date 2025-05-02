@@ -46,7 +46,6 @@ class NewCategoriesFragment : Fragment() {
         //---------------------------------------------------------------------------------------------------------------------------------------//
         categorySaveButton = view.findViewById(R.id.newCategorySaveButton)
         categoryNameInput  = view.findViewById(R.id.categoriesNameInput)
-        categoryBudgetInput = view.findViewById(R.id.categoriesDescriptionInput)
 
         val sharedPreferences = requireContext().getSharedPreferences("user_prefs", MODE_PRIVATE)
         val userID = sharedPreferences.getInt("user_id",-1)
@@ -56,17 +55,15 @@ class NewCategoriesFragment : Fragment() {
         //---------------------------------------------------------------------------------------------------------------------------------------//
         categorySaveButton.setOnClickListener {
             val name = categoryNameInput.text.toString().trim()
-            val budget = categoryBudgetInput.text.toString().trim()
 
-            if(validateInput(name,budget)){
+            if(validateInput(name)){
                 val category = Category(
                     categoryName = name,
-                    description = budget,
+                    description = "",
                     userID = userID
                 )
                 viewModel.insertCategory(category)
                 Toast.makeText(context, "Category was created", Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_newCategoriesFragment_to_categoriesFragment)
             }
         }
 
@@ -76,13 +73,9 @@ class NewCategoriesFragment : Fragment() {
     // Validate Category Inputs
     //---------------------------------------------------------------------------------------------------------------------------------------//
 
-    private fun validateInput(category: String, budget: String): Boolean {
+    private fun validateInput(category: String): Boolean {
         if (category.isEmpty()) {
             categoryNameInput.error = "Category name cannot be empty"
-            return false
-        }
-        if (budget.isEmpty()) {
-            categoryBudgetInput.error = "Budget cannot be empty"
             return false
         }
         return true
