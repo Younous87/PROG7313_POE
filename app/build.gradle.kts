@@ -62,6 +62,7 @@ dependencies {
     implementation(libs.support.annotations)
     implementation(libs.androidx.room.common.jvm)
     implementation(libs.firebase.database)
+    implementation(libs.firebase.firestore.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.prog7313_poe.classes.User
 import com.example.prog7313_poe.data_access_object.UserDAO
 import com.example.prog7313_poe.ui.loginRegister.LoginViewModel
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var nameEditText: EditText
