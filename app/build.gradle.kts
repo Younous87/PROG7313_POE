@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.navigation.safe.args)
+    alias(libs.plugins.google.gms.google.services)
     // Needed for FireBase
     //alias(libs.plugins.google.services)
 }
@@ -60,6 +61,7 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.support.annotations)
     implementation(libs.androidx.room.common.jvm)
+    implementation(libs.firebase.database)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
