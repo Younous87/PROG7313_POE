@@ -1,5 +1,4 @@
 package com.example.prog7313_poe.ui.home
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.prog7313_poe.R
 import com.example.prog7313_poe.databinding.FragmentHomeBinding
+import com.example.prog7313_poe.ui.home.HomeViewModel
 import com.example.prog7313_poe.ui.transactions.TransactionsViewModel
 
 class HomeFragment : Fragment() {
@@ -61,17 +61,17 @@ class HomeFragment : Fragment() {
         val expenseView =  view.findViewById<TextView>(R.id.ExpenseView)
         // Initialize shared preferences to get user ID
         val sharedPreferences = requireContext().getSharedPreferences("user_prefs", MODE_PRIVATE)
-        val userID = sharedPreferences.getInt("user_id",-1)
+        val userID = sharedPreferences.getString("user_id","")
 
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Category, Transaction and Goals button click Listener
         //---------------------------------------------------------------------------------------------------------------------------------------//
         viewAllCategoriesButton.setOnClickListener {
-           // findNavController().navigate(R.id.action_navigation_reports_to_categoriesReportsFragment2)
+           findNavController().navigate(R.id.action_navigation_reports_to_categoriesReportsFragment2)
 
         }
         viewAllTransactionsButton.setOnClickListener {
-           // findNavController().navigate(R.id.action_navigation_reports_to_transactionsReportsFragment2)
+           findNavController().navigate(R.id.action_navigation_reports_to_transactionsReportsFragment2)
 
         }
         viewAllGoalsButton.setOnClickListener{

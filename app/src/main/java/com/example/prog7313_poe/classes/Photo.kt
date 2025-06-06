@@ -4,12 +4,10 @@ import android.net.Uri
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity()
 data class Photo(
-    @PrimaryKey(autoGenerate = true)
-    val photoID : Int,
-    val filename : String? = null,
-    val fileUri: Uri? = null
+    var photoID : Int,
+    var filename : String? = null,
+    var fileUri: String? = null
 ){
     //---------------------------------------------------------------------------------------------------------------------------------------//
     // Insert photo into db

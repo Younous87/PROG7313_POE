@@ -57,6 +57,7 @@
         <action
             android:id="@+id/action_navigation_reports_to_categoriesReportsFragment2"
             app:destination="@id/categoriesReportsFragment" />
+        <!-- app:destination="@id/navigation_categories"/> -->
     </fragment>
     <fragment
         android:id="@+id/navigation_new_category"

@@ -29,7 +29,7 @@ class NewGoalsFragment : Fragment() {
         fun newInstance() = NewGoalsFragment()
     }
 
-    private val viewModel: NewGoalsViewModel by viewModels()
+    //private val viewModel: NewGoalsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +56,7 @@ class NewGoalsFragment : Fragment() {
 
         // Initialize shared preferences to get user ID
         val sharedPreferences = requireContext().getSharedPreferences("user_prefs", MODE_PRIVATE)
-        val userID = sharedPreferences.getInt("user_id",-1)
+        val userID = sharedPreferences.getString("user_id","")
 
 
         //---------------------------------------------------------------------------------------------------------------------------------------//
@@ -68,21 +68,21 @@ class NewGoalsFragment : Fragment() {
             val max = input_maximum.text.toString()
 
             // validate input
-            if(validateInput(month,max,min)){
-
-                val goal = Goal(0,userID.toString(),month,min,max)
-                viewModel.insertBudgetGoal(goal)
-                // Validate goal
-                viewModel.validateGoal(userID.toString(),month, max).observe(viewLifecycleOwner){ goal ->
-                    if(goal != null){
-                        Toast.makeText(context, "Goal created", Toast.LENGTH_SHORT).show()
-
-                    }else{
-                        Toast.makeText( context, "Please try again", Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-            }
+//            if(validateInput(month,max,min)){
+//
+//                val goal = Goal(userID =  userID, month = month, minimum = min, maximum =  max)
+//                viewModel.insertBudgetGoal(goal)
+//                // Validate goal
+//                viewModel.validateGoal(userID.toString(),month, max).observe(viewLifecycleOwner){ goal ->
+//                    if(goal != null){
+//                        Toast.makeText(context, "Goal created", Toast.LENGTH_SHORT).show()
+//
+//                    }else{
+//                        Toast.makeText( context, "Please try again", Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//
+//            }
 
         }
     }

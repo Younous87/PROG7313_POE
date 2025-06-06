@@ -42,9 +42,9 @@ android {
         viewBinding = true
     }
 }
-ksp{
-    arg("room.schemaLocation", "$projectDir/schemas")
-}
+//ksp{
+//    arg("room.schemaLocation", "$projectDir/schemas")
+//}
 
 dependencies {
 
@@ -67,10 +67,10 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     // Room DataBase Dependencies and Imports
-    implementation("androidx.room:room-runtime:2.7.1")
-    annotationProcessor("androidx.room:room-compiler:2.7.1")
-    implementation("androidx.room:room-ktx:2.7.1")
-    ksp("androidx.room:room-compiler:2.7.1")
+    //implementation("androidx.room:room-runtime:2.7.1")
+    //annotationProcessor("androidx.room:room-compiler:2.7.1")
+    //implementation("androidx.room:room-ktx:2.7.1")
+    //ksp("androidx.room:room-compiler:2.7.1")
 
 }
 

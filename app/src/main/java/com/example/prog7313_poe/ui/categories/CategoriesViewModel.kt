@@ -4,31 +4,55 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.prog7313_poe.classes.CategorySpending
 import androidx.lifecycle.switchMap
-import androidx.room.Room
-import com.example.prog7313_poe.DataBase
+import com.example.prog7313_poe.classes.CategorySpending
+import com.google.firebase.firestore.FieldPath
+import com.google.firebase.firestore.FirebaseFirestore
+import java.util.Date
 
-class CategoriesViewModel(app: Application)
-    : AndroidViewModel(app) {
+class CategoriesViewModel(app: Application) : AndroidViewModel(app) {
 
-    private val tDao = Room.databaseBuilder(
-        app,
-        DataBase::class.java,
-        "DataBase"
-    )
-        .build()
-        .tDao
+    private val firestore = FirebaseFirestore.getInstance()
+    private val categoryCollection = firestore.collection("categories")
+    private val transactionCollection = firestore.collection("expenses")
 
-    private val _query = MutableLiveData<Triple<Int, String, String>>()
+    // Get category name with total amount spent
+    private val _categorySpendingList = MutableLiveData<List<CategorySpending>>()
+    val categorySpendingList: LiveData<List<CategorySpending>> get() = _categorySpendingList
 
-    val categoryTotals: LiveData<List<CategorySpending>> =
-        _query.switchMap { (userId, start, end) ->
-            tDao.getTotalSpentByCategoryPerPeriod(userId, start, end)
-        }
+    fun loadTotals(userId: String, start: Date, end: Date){
+        transactionCollection
+            .whereEqualTo("userId",userId)
+            .whereEqualTo("transactionType","expense")
+            .whereGreaterThan("date", start)
+            .whereLessThan("date",end)
+            .get()
+            .addOnSuccessListener { expensesDocs ->
+                val categoryTotals = mutableMapOf<String, Double>()
 
-    fun loadTotals(userId: Int, start: String, end: String) {
-        _query.value = Triple(userId, start, end)
+                for(doc in expensesDocs){
+                    val categoryID = doc.getString("categoryID") ?: continue
+                    val amount = doc.getDouble("amount") ?: 0.0
+                    categoryTotals[categoryID] = categoryTotals.getOrDefault(categoryID, 0.0) + amount
+                }
+                if(categoryTotals.isEmpty()){
+                    _categorySpendingList.postValue(emptyList())
+                    return@addOnSuccessListener
+                }
+
+                categoryCollection
+                    .whereIn(FieldPath.documentId(),categoryTotals.keys.toList())
+                    .get()
+                    .addOnSuccessListener { categoryDocs ->
+                        val result = mutableListOf<CategorySpending>()
+                        for(doc in categoryDocs){
+                            val categoryName = doc.getString("categoryName") ?: "Unknown"
+                            val totalSpent = categoryTotals[doc.id]?: 0.0
+                            result.add(CategorySpending(categoryName,totalSpent))
+                        }
+                        _categorySpendingList.postValue(result)
+                    }
+            }
     }
 }
 

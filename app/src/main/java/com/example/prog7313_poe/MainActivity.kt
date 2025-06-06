@@ -19,16 +19,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        /* Start Login Activity, not implemented yet
-        val sharePref = getSharedPreferences("app_prefs", MODE_PRIVATE)
-        val isLoggedIn = sharePref.getBoolean("is_logged_in", false)
-        if(!isLoggedIn){
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
-            return
-        }
-        */
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

@@ -48,7 +48,7 @@ class NewCategoriesFragment : Fragment() {
         categoryNameInput  = view.findViewById(R.id.categoriesNameInput)
 
         val sharedPreferences = requireContext().getSharedPreferences("user_prefs", MODE_PRIVATE)
-        val userID = sharedPreferences.getInt("user_id",-1)
+        val userID = sharedPreferences.getString("user_id","") ?: ""
 
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Category button click Listener
@@ -56,17 +56,35 @@ class NewCategoriesFragment : Fragment() {
         categorySaveButton.setOnClickListener {
             val name = categoryNameInput.text.toString().trim()
 
+            // Validate if fields are empty
             if(validateInput(name)){
-                val category = Category(
-                    categoryName = name,
-                    description = "",
-                    userID = userID
-                )
-                viewModel.insertCategory(category)
-                Toast.makeText(context, "Category was created", Toast.LENGTH_SHORT).show()
+                // Validate if category name exists
+                viewModel.validateCategoryInput(name,userID)
+
+                // Observing validation result
+                viewModel.categoryNotFound.observe(viewLifecycleOwner){notFound ->
+                    if(notFound){
+                        // Create new category
+                        val category = Category(
+                            categoryName = name,
+                            userID = userID
+                        )
+                        // Insert category into Firestore
+                        viewModel.insertCategory(category).observe(viewLifecycleOwner){success ->
+                            if(success){
+                                Toast.makeText(context, "Category was created", Toast.LENGTH_SHORT).show()
+                            }else{
+                                Toast.makeText(context, "Failed to create category", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }else{
+                        categoryNameInput.error ="Category already exists"
+
+                    }
+                }
+
             }
         }
-
     }
 
     //---------------------------------------------------------------------------------------------------------------------------------------//

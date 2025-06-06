@@ -52,7 +52,7 @@ class ReportsFragment : Fragment() {
         val expenseView =  view.findViewById<TextView>(R.id.ExpenseView)
         // Initialize shared preferences to get user ID
         val sharedPreferences = requireContext().getSharedPreferences("user_prefs", MODE_PRIVATE)
-        val userID = sharedPreferences.getInt("user_id",-1)
+        val userID = sharedPreferences.getString("user_id","")
 
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Category button click Listener

@@ -20,7 +20,7 @@ import com.example.prog7313_poe.classes.Goal
 
 class TransactionsReportsFragment : Fragment() {
 
-    private lateinit var mTransactionsReportsViewModel: TransactionsReportsViewModel
+    //private lateinit var mTransactionsReportsViewModel: TransactionsReportsViewModel
     private lateinit var startDate : EditText
     private lateinit var endDate : EditText
     private  lateinit var searchButton : Button
@@ -29,7 +29,7 @@ class TransactionsReportsFragment : Fragment() {
         fun newInstance() = TransactionsReportsFragment()
     }
 
-    private val viewModel: TransactionsReportsViewModel by viewModels()
+   // private val viewModel: TransactionsReportsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,53 +50,53 @@ class TransactionsReportsFragment : Fragment() {
     @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        // Set up the RecyclerView with its adapter
-        val adapter = TransactionReportAdapter()
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerTransactionReport)
-
-        // Attach the adapter to the RecyclerView
-        recyclerView.adapter = adapter
-
-        // Set a layout manager to determine how items are arranged (in this case, vertical list)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-        // Initialize the ViewModel to manage UI-related data
-        mTransactionsReportsViewModel = ViewModelProvider(this).get(TransactionsReportsViewModel::class.java)
-
-        //---------------------------------------------------------------------------------------------------------------------------------------//
-        // Initialize Views
-        //---------------------------------------------------------------------------------------------------------------------------------------//
-        startDate = view.findViewById(R.id.startDateTransaction)
-        endDate = view.findViewById(R.id.endDateTransaction)
-        searchButton = view.findViewById(R.id.searchTransactionButton)
-
-        // Initialize shared preferences to get user ID
-        val sharedPreferences = requireContext().getSharedPreferences("user_prefs", MODE_PRIVATE)
-        val userID = sharedPreferences.getInt("user_id",-1)
-
-        // Observe the transaction report data
-        mTransactionsReportsViewModel.transactionReportData.observe(viewLifecycleOwner) { transactions ->
-            // Update the adapter with the new data
-            adapter.setData(transactions)
-        }
-
-        //---------------------------------------------------------------------------------------------------------------------------------------//
-        // Search Transaction button click Listener
-        //---------------------------------------------------------------------------------------------------------------------------------------//
-        searchButton.setOnClickListener{
-            val start = startDate.text.toString()
-            val end = endDate.text.toString()
-            val stringUserID = userID.toString()
-
-
-                // Call the ViewModel method to fetch data
-                mTransactionsReportsViewModel.getExpensesPerPeriodWithPhoto(stringUserID, start, end)
-
-                mTransactionsReportsViewModel.transactionReportData.observe(viewLifecycleOwner) { transactions ->
-                    // Update the adapter with the new data
-                    adapter.setData(transactions)}
-
-        }
+//        // Set up the RecyclerView with its adapter
+//        val adapter = TransactionReportAdapter()
+//        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerTransactionReport)
+//
+//        // Attach the adapter to the RecyclerView
+//        recyclerView.adapter = adapter
+//
+//        // Set a layout manager to determine how items are arranged (in this case, vertical list)
+//        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+//
+//        // Initialize the ViewModel to manage UI-related data
+//        mTransactionsReportsViewModel = ViewModelProvider(this).get(TransactionsReportsViewModel::class.java)
+//
+//        //---------------------------------------------------------------------------------------------------------------------------------------//
+//        // Initialize Views
+//        //---------------------------------------------------------------------------------------------------------------------------------------//
+//        startDate = view.findViewById(R.id.startDateTransaction)
+//        endDate = view.findViewById(R.id.endDateTransaction)
+//        searchButton = view.findViewById(R.id.searchTransactionButton)
+//
+//        // Initialize shared preferences to get user ID
+//        val sharedPreferences = requireContext().getSharedPreferences("user_prefs", MODE_PRIVATE)
+//        val userID = sharedPreferences.getString("user_id","")?: ""
+//
+//        // Observe the transaction report data
+//        mTransactionsReportsViewModel.transactionReportData.observe(viewLifecycleOwner) { transactions ->
+//            // Update the adapter with the new data
+//            adapter.setData(transactions)
+//        }
+//
+//        //---------------------------------------------------------------------------------------------------------------------------------------//
+//        // Search Transaction button click Listener
+//        //---------------------------------------------------------------------------------------------------------------------------------------//
+//        searchButton.setOnClickListener{
+//            val start = startDate.text.toString()
+//            val end = endDate.text.toString()
+//            val stringUserID = userID.toString()
+//
+//
+//                // Call the ViewModel method to fetch data
+//                mTransactionsReportsViewModel.getExpensesPerPeriodWithPhoto(stringUserID, start, end)
+//
+//                mTransactionsReportsViewModel.transactionReportData.observe(viewLifecycleOwner) { transactions ->
+//                    // Update the adapter with the new data
+//                    adapter.setData(transactions)}
+//
+//        }
 
 
     }
@@ -104,16 +104,16 @@ class TransactionsReportsFragment : Fragment() {
     //---------------------------------------------------------------------------------------------------------------------------------------//
     // Validate Goal Input
     //---------------------------------------------------------------------------------------------------------------------------------------//
-    private fun validateInput( start: String, end: String): Boolean {
-
-        if (start.isEmpty()) {
-            startDate.error = "Start date cannot be empty"
-            return false
-        }
-        if(end.isEmpty()){
-            endDate.error = "End date cannot be empty"
-        }
-
-        return true
-    }
+//    private fun validateInput( start: String, end: String): Boolean {
+//
+//        if (start.isEmpty()) {
+//            startDate.error = "Start date cannot be empty"
+//            return false
+//        }
+//        if(end.isEmpty()){
+//            endDate.error = "End date cannot be empty"
+//        }
+//
+//        return true
+//    }
 }

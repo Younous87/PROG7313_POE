@@ -8,10 +8,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.prog7313_poe.classes.User
-import com.example.prog7313_poe.data_access_object.UserDAO
 import com.example.prog7313_poe.ui.loginRegister.LoginViewModel
 import com.google.firebase.Firebase
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
+import java.util.UUID
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var nameEditText: EditText
@@ -21,6 +22,8 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var registerButton: Button
     private lateinit var user : User
     private lateinit var loginViewModel: LoginViewModel
+
+    private val db = FirebaseFirestore.getInstance()
 
 
 
@@ -46,19 +49,16 @@ class RegisterActivity : AppCompatActivity() {
             if (validateInput(name, email, password, surname)) {
                 // Handle registration logic here
                 // After successful registration, go back to login
-                val user = User(0,email=email,password=password,name=name, surname=surname)
-                loginViewModel.insertUser(user)
+                val user = User(userID = UUID.randomUUID().toString(), email=email,password=password,name=name, surname=surname)
 
-                // Validate Login
-                loginViewModel.validateLogin(email, password).observe(this){ user ->
-                    if(user != null){
-                        Toast.makeText(this, "User registered", Toast.LENGTH_SHORT).show()
-
-
+                loginViewModel.insertUser(user).observe(this){ isSuccess ->
+                    if(isSuccess){
+                        Toast.makeText(this,"User registered succesfully", Toast.LENGTH_SHORT).show()
                     }else{
-                        Toast.makeText(this, "Could not register user, please try again", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this,"Registration Failed", Toast.LENGTH_SHORT).show()
                     }
                 }
+
             }
         }
 
@@ -84,7 +84,6 @@ class RegisterActivity : AppCompatActivity() {
             surnameEditText.error = "Surname cannot be empty"
             return false
         }
-
 
         return true
     }

@@ -41,7 +41,7 @@ class GoalsFragment : Fragment() {
         //---------------------------------------------------------------------------------------------------------------------------------------//
         newGoalButton = view.findViewById(R.id.button)
         val sharedPreferences = requireContext().getSharedPreferences("user_prefs", MODE_PRIVATE)
-        val userID = sharedPreferences.getInt("user_id",-1)
+        val userID = sharedPreferences.getString("user_id","")?: ""
 
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Goals button click Listener

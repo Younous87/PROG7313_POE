@@ -30,14 +30,15 @@ class LoginActivity : AppCompatActivity(){
         setContentView(R.layout.login_activity)
 
         val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+        sharedPreferences.edit().remove("user_id").apply()
         val isLoggedIn = sharedPreferences.getBoolean("is_logged_in", false)
 
         // Checks if user is already logged in
-        if(isLoggedIn){
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            return
-        }
+//        if(isLoggedIn){
+//            val intent = Intent(this, MainActivity::class.java)
+//            startActivity(intent)
+//            return
+//        }
 
 
 
@@ -70,7 +71,7 @@ class LoginActivity : AppCompatActivity(){
                         val sharedPref = getSharedPreferences("user_prefs", MODE_PRIVATE)
                         with(sharedPref.edit()){
                             putBoolean("is_logged_in",true)
-                            putInt("user_id",user.userID)
+                            putString("user_id",user.userID.toString())
                             apply()
                         }
 

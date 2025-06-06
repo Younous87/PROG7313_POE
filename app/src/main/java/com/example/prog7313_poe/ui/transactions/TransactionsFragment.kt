@@ -40,7 +40,7 @@ class TransactionsFragment : Fragment() {
     private var type : RadioGroup? = null
     private lateinit var selectedRadioButton: RadioButton
     private lateinit var transactionsViewModel : TransactionsViewModel
-    private lateinit var photoViewModel: PhotoViewModel
+    //private lateinit var photoViewModel: PhotoViewModel
 
     private var _binding: FragmentTransactionsBinding? = null
 
@@ -54,7 +54,7 @@ class TransactionsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         transactionsViewModel = ViewModelProvider(this)[TransactionsViewModel::class.java]
-        photoViewModel = ViewModelProvider(this)[PhotoViewModel::class.java]
+        //photoViewModel = ViewModelProvider(this)[PhotoViewModel::class.java]
 
         _binding = FragmentTransactionsBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -85,7 +85,7 @@ class TransactionsFragment : Fragment() {
         label_photo = view.findViewById(R.id.transactionPhotoInput)
         transactionButton = view.findViewById(R.id.transactionSaveButton)
         val sharedPreferences = requireContext().getSharedPreferences("user_prefs", MODE_PRIVATE)
-        val userID = sharedPreferences.getInt("user_id",-1)
+        val userID = sharedPreferences.getString("user_id","")?: ""
 
 
 
@@ -119,44 +119,44 @@ class TransactionsFragment : Fragment() {
                 Toast.makeText(requireContext(), "RadioGroup not found", Toast.LENGTH_SHORT).show()
             }
             // Sends data to the validation method
-            if(validateInput(date,time,description,amount,category)){
-                var photoID : Int? = null
-                if(savedPhoto!= null){
-                    var photo = Photo(0, filename = savedPhoto!!.filename, fileUri = savedPhoto!!.fileUri)
-                    photoViewModel.insertPhoto(photo)
-                    lifecycleScope.launch {
-                        photoID = photoViewModel.getPhotoIdByFilenameAndUri(
-                            filename = savedPhoto!!.filename.toString(),
-                            fileUri = savedPhoto!!.fileUri.toString())
-                    }
-
-                }
-
-                val expense = Expense(
-                    expenseID =  0,
-                    time =  time,
-                    date =  date,
-                    categoryID = 0,
-                    description =  description,
-                    amount = amount.toDouble(),
-                    photoID =  photoID?.toString(),
-                    transactionType = selectedValue,
-                    userID = userID
-                )
-                transactionsViewModel.insertTransaction(
-                    expense,
-                    onSuccess = {rowId ->
-                        if(rowId != -1L){
-                            Toast.makeText(requireContext(), "Transaction created", Toast.LENGTH_SHORT).show()
-                        }
-
-                    },
-                    onError = { error ->
-                        Toast.makeText(requireContext(), "Could not create transaction, try again", Toast.LENGTH_SHORT).show()
-                    }
-                )
-            }
-
+//            if(validateInput(date,time,description,amount,category)){
+//                var photoID : Int? = null
+//                if(savedPhoto!= null){
+//                    var photo = Photo(0, filename = savedPhoto!!.filename, fileUri = savedPhoto!!.fileUri)
+//                    photoViewModel.insertPhoto(photo)
+//                    lifecycleScope.launch {
+//                        photoID = photoViewModel.getPhotoIdByFilenameAndUri(
+//                            filename = savedPhoto!!.filename.toString(),
+//                            fileUri = savedPhoto!!.fileUri.toString())
+//                    }
+//
+//                }
+//
+//                val expense = Expense(
+//                    expenseID =  0,
+//                    time =  time,
+//                    date =  date,
+//                    categoryID = 0,
+//                    description =  description,
+//                    amount = amount.toDouble(),
+//                    photoID =  photoID?.toString(),
+//                    transactionType = selectedValue,
+//                    userID = userID
+//                )
+//                transactionsViewModel.insertTransaction(
+//                    expense,
+//                    onSuccess = {rowId ->
+//                        if(rowId != -1L){
+//                            Toast.makeText(requireContext(), "Transaction created", Toast.LENGTH_SHORT).show()
+//                        }
+//
+//                    },
+//                    onError = { error ->
+//                        Toast.makeText(requireContext(), "Could not create transaction, try again", Toast.LENGTH_SHORT).show()
+//                    }
+//                )
+//            }
+//
         }
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Get transaction type name
@@ -176,7 +176,7 @@ class TransactionsFragment : Fragment() {
             // Extract file name
             val fileName = uri.lastPathSegment?.split("/")?.last()
             label_photo.text = fileName
-            savedPhoto = Photo(0,fileName,uri)
+            //savedPhoto = Photo(0,fileName,uri)
         }
 
     }
