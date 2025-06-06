@@ -101,13 +101,17 @@
                                                 android:text="Start Date"
                                                 android:textColor="@color/ez_grey" />
 
-                                            <EditText
-                                                android:id="@+id/dateStartInput"
+                                            <TextView
+                                                android:id="@+id/dateStartPicker"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
-                                                android:ems="10"
-                                                android:inputType="date"
-                                                android:text="Enter Date"
+                                                android:background="?android:attr/selectableItemBackground"
+                                                android:clickable="true"
+                                                android:drawableEnd="@drawable/ic_calendar"
+                                                android:drawablePadding="8dp"
+                                                android:focusable="true"
+                                                android:padding="12dp"
+                                                android:text="Select Start Date"
                                                 android:textColor="@color/white" />
                                         </LinearLayout>
                                     </FrameLayout>
@@ -152,13 +156,17 @@
                                                 android:text="End Date"
                                                 android:textColor="@color/ez_grey" />
 
-                                            <EditText
-                                                android:id="@+id/dateEndInput"
+                                            <TextView
+                                                android:id="@+id/dateEndPicker"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
-                                                android:ems="10"
-                                                android:inputType="date"
-                                                android:text="Enter Date"
+                                                android:background="?android:attr/selectableItemBackground"
+                                                android:clickable="true"
+                                                android:drawableEnd="@drawable/ic_calendar"
+                                                android:drawablePadding="8dp"
+                                                android:focusable="true"
+                                                android:padding="12dp"
+                                                android:text="Select End Date"
                                                 android:textColor="@color/white" />
                                         </LinearLayout>
                                     </FrameLayout>
