@@ -99,14 +99,20 @@
                                         android:text="Month"
                                         android:textColor="@color/ez_grey" />
 
-                                    <EditText
+                                    <TextView
                                         android:id="@+id/monthNewGoalInput"
                                         android:layout_width="match_parent"
                                         android:layout_height="50dp"
-                                        android:ems="10"
-                                        android:inputType="text"
-                                        android:text="Enter Month"
-                                        android:textColor="@color/white" />
+                                        android:gravity="center_vertical"
+                                        android:text="Select Month"
+                                        android:textColor="@color/white"
+                                        android:background="?android:attr/selectableItemBackground"
+                                        android:clickable="true"
+                                        android:focusable="true"
+                                        android:drawableEnd="@drawable/ic_calendar"
+                                        android:drawablePadding="8dp"
+                                        android:paddingStart="8dp"
+                                        android:paddingEnd="8dp" />
                                 </LinearLayout>
                             </FrameLayout>
 
