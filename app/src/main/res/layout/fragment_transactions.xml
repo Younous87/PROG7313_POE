@@ -302,8 +302,8 @@
                                         android:text="Category"
                                         android:textColor="@color/ez_grey" />
 
-                                    <AutoCompleteTextView
-                                        android:id="@+id/autoCompleteCategoryInput"
+                                    <Spinner
+                                        android:id="@+id/spinnerCategory"
                                         android:layout_width="match_parent"
                                         android:layout_height="50dp"
                                         android:completionHint="Enter Category"

@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 data class Photo(
-    var photoID : Int,
+    var photoID : String? = null,
     var filename : String? = null,
     var fileUri: String? = null
 ){

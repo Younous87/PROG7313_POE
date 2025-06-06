@@ -81,13 +81,14 @@ class HomeFragment : Fragment() {
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Display latest transactions in home fragment
         //-----------------
+        transactionViewModel.fetchLatestAmounts(userID = userID.toString())
+        
         transactionViewModel.latestIncome.observe(viewLifecycleOwner) { income ->
             incomeView.text = "${income?.amount?:0.0}"
         }
         transactionViewModel.latestExpense.observe(viewLifecycleOwner) { expense ->
             expenseView.text = "${expense?.amount?:0.0}"
         }
-        transactionViewModel.fetchLatestAmounts(userID = userID.toString())
 
     }
 }

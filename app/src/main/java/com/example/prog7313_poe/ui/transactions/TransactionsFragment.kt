@@ -12,12 +12,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewParent
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -30,41 +34,85 @@ import com.example.prog7313_poe.classes.Category
 import com.example.prog7313_poe.classes.Expense
 import com.example.prog7313_poe.classes.Photo
 import com.example.prog7313_poe.databinding.FragmentTransactionsBinding
+import com.example.prog7313_poe.ui.categories.NewCategoriesViewModel
+import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.NonDisposableHandle.parent
 import kotlinx.coroutines.launch
-
+import java.text.FieldPosition
 
 
 class TransactionsFragment : Fragment() {
+    //Transaction in general
     private lateinit var input_date: EditText
     private lateinit var input_time: EditText
     private lateinit var input_description: EditText
     private lateinit var input_amount: EditText
     private lateinit var transactionButton: Button
-    private lateinit var input_category: AutoCompleteTextView
     private lateinit var addPhotoButton: ImageButton
+    private var type: RadioGroup? = null
+    private lateinit var selectedRadioButton: RadioButton
+
+    // For Images
     private lateinit var label_photo: TextView
     private var selectedImageUri: Uri? = null
     private var savedPhoto: Photo? = null
-    private var type: RadioGroup? = null
-    private lateinit var selectedRadioButton: RadioButton
-    private lateinit var transactionsViewModel : TransactionsViewModel
-    //private lateinit var photoViewModel: PhotoViewModel
 
+    // Category
+    private lateinit var spinner_category: Spinner
+    private var selectedCategoryID: String? = null
+    private var categoryList: List<Category> = emptyList()
+
+    // View Model
+    private lateinit var transactionsViewModel : TransactionsViewModel
+    private lateinit var photoViewModel: PhotoViewModel
+    private lateinit var newCategoriesViewModel: NewCategoriesViewModel
+
+    // Extra
     private val calendar = Calendar.getInstance()
     private var _binding: FragmentTransactionsBinding? = null
     private val binding get() = _binding!!
 
+    @OptIn(InternalCoroutinesApi::class)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        transactionsViewModel = ViewModelProvider(this)[TransactionsViewModel::class.java]
-        //photoViewModel = ViewModelProvider(this)[PhotoViewModel::class.java]
+    ): View? {
 
         _binding = FragmentTransactionsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        // ViewModels
+        transactionsViewModel = ViewModelProvider(this)[TransactionsViewModel::class.java]
+        photoViewModel = ViewModelProvider(this)[PhotoViewModel::class.java]
+        newCategoriesViewModel = ViewModelProvider(this)[NewCategoriesViewModel::class.java]
+
+        // Category Dropdown
+        val sharedPreferences = requireContext().getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val userID = sharedPreferences.getString("user_id", "") ?: ""
+
+        spinner_category = binding.spinnerCategory
+
+        // Fetch Categories from Firestore
+        newCategoriesViewModel.fetchAllCategories(userID){categories ->
+            categoryList = categories
+            val categoryNames = categories.map { it.categoryName }
+
+            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item , categoryNames)
+            spinner_category.adapter = adapter
+
+            // Set selectedCategoryID when user selects an item
+            spinner_category.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>, view: View?, position: Int, id: Long
+                ){
+                    selectedCategoryID = categoryList[position].categoryID
+                }
+                override fun onNothingSelected(parent: AdapterView<*>){
+                    selectedCategoryID = null
+                }
+            }
+        }
 //        val textView: TextView = binding.textNotifications
 //        transactionsViewModel.text.observe(viewLifecycleOwner) {
 //            textView.text = it
@@ -84,7 +132,7 @@ class TransactionsFragment : Fragment() {
         input_time = view.findViewById(R.id.transactionTimeInput)
         input_description = view.findViewById(R.id.transactionNameInput)
         input_amount = view.findViewById(R.id.transactionAmountInput)
-        input_category = view.findViewById(R.id.autoCompleteCategoryInput)
+        spinner_category = view.findViewById(R.id.spinnerCategory)
         addPhotoButton = view.findViewById(R.id.transactionAddPhotoButton)
         label_photo = view.findViewById(R.id.transactionPhotoInput)
         transactionButton = view.findViewById(R.id.transactionSaveButton)
@@ -109,7 +157,6 @@ class TransactionsFragment : Fragment() {
 
             val description = input_description.text.toString()
             val amount = input_amount.text.toString()
-            val category = input_category.text.toString()
             val photoName = label_photo.text.toString()
             type = view.findViewById(R.id.transactionGroup)
             var selectedValue = ""
@@ -123,45 +170,52 @@ class TransactionsFragment : Fragment() {
             } ?: run {
                 Toast.makeText(requireContext(), "RadioGroup not found", Toast.LENGTH_SHORT).show()
             }
-            // Sends data to the validation method
-//            if(validateInput(date,time,description,amount,category)){
-//                var photoID : Int? = null
-//                if(savedPhoto!= null){
-//                    var photo = Photo(0, filename = savedPhoto!!.filename, fileUri = savedPhoto!!.fileUri)
-//                    photoViewModel.insertPhoto(photo)
-//                    lifecycleScope.launch {
-//                        photoID = photoViewModel.getPhotoIdByFilenameAndUri(
-//                            filename = savedPhoto!!.filename.toString(),
-//                            fileUri = savedPhoto!!.fileUri.toString())
-//                    }
-//                }
-//
-//
-//                val expense = Expense(
-//                    expenseID =  0,
-//                    time =  time,
-//                    date =  date,
-//                    categoryID = 0,
-//                    description =  description,
-//                    amount = amount.toDouble(),
-//                    photoID = photoID?.toString(),
-//                    transactionType = selectedValue,
-//                    userID = userID
-//                )
-//
-//                transactionsViewModel.insertTransaction(
-//                    expense,
-//                    onSuccess = { rowId ->
-//                        if (rowId != -1L) {
-//                            Toast.makeText(requireContext(), "Transaction created", Toast.LENGTH_SHORT).show()
-//                            clearForm()
-//                        }
-//                    },
-//                    onError = { error ->
-//                        Toast.makeText(requireContext(), "Could not create transaction, try again", Toast.LENGTH_SHORT).show()
-//                    }
-//                )
-//            }
+
+            //Sends data to the validation method
+            if(validateInput(date,time,description,amount)){
+                viewLifecycleOwner.lifecycleScope.launch {
+                    var photoID = ""
+
+                    if(selectedImageUri!= null && photoName.isNotBlank()){
+                        val photo = Photo("",photoName,selectedImageUri.toString())
+                        val insertedPhotoID = photoViewModel.insertPhoto(photo)
+
+                        if(insertedPhotoID!=null){
+                            photoID = insertedPhotoID
+                            Toast.makeText(requireContext(), "Photo saved", Toast.LENGTH_SHORT).show()
+                    }else{
+                        Toast.makeText(requireContext(), "Failed to save photo", Toast.LENGTH_SHORT).show()
+                            return@launch
+                    }
+                }
+                    val expense = Expense(
+                        expenseID = "",
+                        time =  time,
+                        date =  date,
+                        categoryID = selectedCategoryID?: "",
+                        description =  description,
+                        amount = amount.toDouble(),
+                        photoID = photoID,
+                        transactionType = selectedValue,
+                        userID = userID
+                    )
+                    transactionsViewModel.insertTransaction(
+                        expense,
+                        onSuccess = {
+                            Toast.makeText(requireContext(), "Transaction created", Toast.LENGTH_SHORT).show()
+                            clearForm()
+
+                        },
+                        onError = {
+                            Toast.makeText(requireContext(), "Could not create transaction, try again", Toast.LENGTH_SHORT).show()
+                            Log.e("TransactionsFragment","Error Creating Transaction",it)
+                        }
+                    )
+
+                }
+
+
+            }
         }
     }
         //---------------------------------------------------------------------------------------------------------------------------------------//
@@ -225,7 +279,6 @@ class TransactionsFragment : Fragment() {
     private fun clearForm() {
         input_description.setText("")
         input_amount.setText("")
-        input_category.setText("")
         label_photo.text = "No photo selected"
         savedPhoto = null
         selectedImageUri = null
@@ -244,11 +297,11 @@ class TransactionsFragment : Fragment() {
             selectedImageUri = uri
             val fileName = uri.lastPathSegment?.split("/")?.last()
             label_photo.text = fileName
-            //savedPhoto = Photo(0,fileName,uri)
+            savedPhoto = Photo(photoID = "",filename=fileName, fileUri = uri.toString())
         }
     }
 
-    private fun validateInput(date: Date?, time: Date?, description: String, amount: String, category: String): Boolean {
+    private fun validateInput(date: Date?, time: Date?, description: String, amount: String): Boolean {
         if (date == null) {
             input_date.error = "Date is invalid"
             return false
@@ -263,10 +316,6 @@ class TransactionsFragment : Fragment() {
         }
         if (description.isEmpty()) {
             input_description.error = "Description cannot be empty"
-            return false
-        }
-        if (category.isEmpty()) {
-            input_category.error = "Category cannot be empty"
             return false
         }
         return true

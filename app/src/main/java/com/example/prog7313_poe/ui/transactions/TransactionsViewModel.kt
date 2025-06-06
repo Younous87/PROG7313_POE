@@ -34,14 +34,12 @@ class TransactionsViewModel (application: Application): AndroidViewModel(applica
     val text: LiveData<String> = _text
 
     // Insert a transaction into Firestore
-    fun insertTransaction(
-        transaction: Expense,
-        onSuccess: (Long) -> Unit,
-        onError: (Exception) -> Unit
-    ) {
+    fun insertTransaction(transaction: Expense, onSuccess: () -> Unit, onError: (Exception) -> Unit) {
         transactionCollection
             .add(transaction)
-            .addOnSuccessListener { }
+            .addOnSuccessListener {docRef ->
+                docRef.update("expenseID",docRef.id)
+                onSuccess() }
             .addOnFailureListener { onError(it) }
     }
 

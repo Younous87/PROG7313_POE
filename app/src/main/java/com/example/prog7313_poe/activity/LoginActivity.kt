@@ -94,7 +94,6 @@ class LoginActivity : AppCompatActivity(){
             startActivity(intent)
         }
 
-
     }
     // Validate Login input
     private fun validateInput(email: String, password: String): Boolean {

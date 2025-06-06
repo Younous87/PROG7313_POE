@@ -67,4 +67,17 @@ class NewCategoriesViewModel (application: Application): AndroidViewModel(applic
             }
             .addOnFailureListener { _categoryID.postValue(null) }
         }
+
+    fun fetchAllCategories(userId: String, onComplete: (List<Category>) -> Unit){
+        categoryCollection
+            .whereEqualTo("userID",userId)
+            .get()
+            .addOnSuccessListener { snapshot ->
+                val categories = snapshot.documents.mapNotNull { it.toObject((Category::class.java)) }
+                onComplete(categories)
+            }
+            .addOnFailureListener {
+                onComplete(emptyList())
+            }
+    }
 }

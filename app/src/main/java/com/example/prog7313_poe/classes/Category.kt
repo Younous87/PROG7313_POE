@@ -8,7 +8,8 @@ data class Category(
     var categoryID : String? = null,
     var categoryName: String? = null,
     var userID : String,
-
-)
+){
+    constructor(): this("","","")
+}
 
 
