@@ -172,7 +172,7 @@ class TransactionsFragment : Fragment() {
             }
 
             //Sends data to the validation method
-            if(validateInput(date,time,description,amount)){
+            if(validateInput(date,time,description,amount,selectedValue)){
                 viewLifecycleOwner.lifecycleScope.launch {
                     var photoID = ""
 
@@ -301,7 +301,7 @@ class TransactionsFragment : Fragment() {
         }
     }
 
-    private fun validateInput(date: Date?, time: Date?, description: String, amount: String): Boolean {
+    private fun validateInput(date: Date?, time: Date?, description: String, amount: String,radio: String): Boolean {
         if (date == null) {
             input_date.error = "Date is invalid"
             return false
@@ -316,6 +316,10 @@ class TransactionsFragment : Fragment() {
         }
         if (description.isEmpty()) {
             input_description.error = "Description cannot be empty"
+            return false
+        }
+        if (radio == ""){
+            Toast.makeText(requireContext(), "Select income or expense", Toast.LENGTH_SHORT).show()
             return false
         }
         return true
