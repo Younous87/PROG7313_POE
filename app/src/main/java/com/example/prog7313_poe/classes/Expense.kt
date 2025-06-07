@@ -12,8 +12,8 @@ import kotlin.math.exp
 
 data class Expense(
     var expenseID :String? = null,
-    var time : Date? = null,
-    var date : Date? = null,
+    var time : String? = null,
+    var date : String? = null,
     var categoryID : String? = null,
     var description : String? = null,
     var amount : Double? = null,

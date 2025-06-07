@@ -34,11 +34,12 @@ class NewGoalsFragment : Fragment() {
     private val selectedDate = Calendar.getInstance()  // Added to store selected date
     private var selectedMonthDate: Date? = null  // Added to store the actual Date object
 
+
     companion object {
         fun newInstance() = NewGoalsFragment()
     }
 
-    //private val viewModel: NewGoalsViewModel by viewModels()
+    private lateinit var viewModel: NewGoalsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,38 +63,44 @@ class NewGoalsFragment : Fragment() {
         input_minimum = view.findViewById(R.id.minimumNewGoalInput)
         input_maximum = view.findViewById(R.id.maximumNewGoalInput)
         goalButton = view.findViewById(R.id.newGoalSaveButton)
+        viewModel = ViewModelProvider(this)[NewGoalsViewModel::class.java]
 
         // Set up month picker click listener
         input_month.setOnClickListener { showMonthYearPicker() }
 
         // Initialize shared preferences to get user ID
         val sharedPreferences = requireContext().getSharedPreferences("user_prefs", MODE_PRIVATE)
-        val userID = sharedPreferences.getString("user_id","")
+        val userID = sharedPreferences.getString("user_id","")?: ""
 
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Save Transaction button click Listener, No logic for ID
         //---------------------------------------------------------------------------------------------------------------------------------------//
         goalButton.setOnClickListener{
-            val monthDate = selectedMonthDate  // Get the Date object instead of string
+            val monthDate = getSelectedDateFormatted()?: ""  // Get the String instead of Date object
             val min = input_minimum.text.toString()
             val max = input_maximum.text.toString()
 
             // validate input
-//            if(validateInput(monthDate, max, min)){
-//
-//                val goal = Goal(userID =  userID, month = monthDate, minimum = min, maximum =  max)  // Pass Date object
-//                viewModel.insertBudgetGoal(goal)
-//                // Validate goal
-//                viewModel.validateGoal(userID.toString(), monthDate, max).observe(viewLifecycleOwner){ goal ->
-//                    if(goal != null){
-//                        Toast.makeText(context, "Goal created", Toast.LENGTH_SHORT).show()
-//
-//                    }else{
-//                        Toast.makeText( context, "Please try again", Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//
-//            }
+            if(validateInput(monthDate, max, min)) {
+
+                val goal = Goal(
+                    goal_ID = "",
+                    userID = userID,
+                    month = monthDate,
+                    minimum = min.toDouble(),
+                    maximum = max.toDouble()
+                )  // Pass Date object
+
+                viewModel.insertBudgetGoal(goal).observe(viewLifecycleOwner) { isSucess ->
+                    if (isSucess) {
+                        Toast.makeText(context, "Goal created", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, "Please try again", Toast.LENGTH_SHORT).show()
+                    }
+
+                }
+
+            }
 
             // In your transaction activity, after successfully adding a transaction:
             val rankingManager = RankingManager()
@@ -108,6 +115,7 @@ class NewGoalsFragment : Fragment() {
             }
         }
     }
+
 
     //---------------------------------------------------------------------------------------------------------------------------------------//
     // Month Year Picker Functions
@@ -154,9 +162,10 @@ class NewGoalsFragment : Fragment() {
     //---------------------------------------------------------------------------------------------------------------------------------------//
     // Validate Goal Input
     //---------------------------------------------------------------------------------------------------------------------------------------//
-    private fun validateInput(monthDate: Date?, minimum: String, maximum: String): Boolean {
+    private fun validateInput(monthDate: String?, minimum: String, maximum: String): Boolean {
         if(monthDate == null){
             // Since we can't set error on TextView, you could show a Toast or highlight the field differently
+            Toast.makeText(context, "Please select a Month", Toast.LENGTH_SHORT).show()
             return false
         }
         if (minimum.isEmpty()) {

@@ -24,8 +24,8 @@ class CategoriesViewModel(app: Application) : AndroidViewModel(app) {
         transactionCollection
             .whereEqualTo("userId",userId)
             .whereEqualTo("transactionType","expense")
-            .whereGreaterThan("date", start)
-            .whereLessThan("date",end)
+            .whereGreaterThanOrEqualTo("date", start)
+            .whereLessThanOrEqualTo("date",end)
             .get()
             .addOnSuccessListener { expensesDocs ->
                 val categoryTotals = mutableMapOf<String, Double>()
