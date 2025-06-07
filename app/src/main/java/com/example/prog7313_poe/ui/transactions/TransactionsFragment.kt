@@ -33,6 +33,7 @@ import com.example.prog7313_poe.R
 import com.example.prog7313_poe.classes.Category
 import com.example.prog7313_poe.classes.Expense
 import com.example.prog7313_poe.classes.Photo
+import com.example.prog7313_poe.classes.RankingManager
 import com.example.prog7313_poe.databinding.FragmentTransactionsBinding
 import com.example.prog7313_poe.ui.categories.NewCategoriesViewModel
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -204,6 +205,15 @@ class TransactionsFragment : Fragment() {
                         onSuccess = {
                             Toast.makeText(requireContext(), "Transaction created", Toast.LENGTH_SHORT).show()
                             clearForm()
+
+                            val rankingManager = RankingManager()
+                            rankingManager.awardTransactionPoints(userID ?: "") { success ->
+                                if (success) {
+                                    Toast.makeText(this@TransactionsFragment.requireContext(), "+${RankingManager.TRANSACTION_XP} XP earned!", Toast.LENGTH_SHORT).show()
+                                }else{
+                                    Toast.makeText(this@TransactionsFragment.requireContext(), "Failed to award XP", Toast.LENGTH_SHORT).show()
+                                }
+                            }
 
                         },
                         onError = {

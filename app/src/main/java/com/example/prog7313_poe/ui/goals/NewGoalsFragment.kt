@@ -22,6 +22,7 @@ import com.example.prog7313_poe.ui.loginRegister.LoginViewModel
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.widget.TextView
+import com.example.prog7313_poe.classes.RankingManager
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -93,6 +94,18 @@ class NewGoalsFragment : Fragment() {
 //                }
 //
 //            }
+
+            // In your transaction activity, after successfully adding a transaction:
+            val rankingManager = RankingManager()
+
+
+            rankingManager.awardGoalPoints(userID ?: "") { success ->
+                if (success) {
+                    Toast.makeText(this@NewGoalsFragment.requireContext(), "+${RankingManager.TRANSACTION_XP} XP earned!", Toast.LENGTH_SHORT).show()
+                }else{
+                    Toast.makeText(this@NewGoalsFragment.requireContext(), "Failed to award XP", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 

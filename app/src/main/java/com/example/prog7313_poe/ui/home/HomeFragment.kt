@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 import androidx.fragment.app.Fragment
@@ -19,6 +20,7 @@ class HomeFragment : Fragment() {
     lateinit var viewAllTransactionsButton : Button
     lateinit var viewAllCategoriesButton : Button
     lateinit var viewAllGoalsButton : Button
+    lateinit var viewRankingButton : ImageButton
 
     private var _binding: FragmentHomeBinding? = null
 
@@ -57,6 +59,7 @@ class HomeFragment : Fragment() {
         viewAllCategoriesButton = view.findViewById(R.id.AllCategoryBttn)
         viewAllTransactionsButton = view.findViewById(R.id.AllTransactionsBttn)
         viewAllGoalsButton = view.findViewById(R.id.AllGoalsBttn)
+        viewRankingButton = view.findViewById(R.id.rankingButton)
         val incomeView = view.findViewById<TextView>(R.id.IcomeView)
         val expenseView =  view.findViewById<TextView>(R.id.ExpenseView)
         // Initialize shared preferences to get user ID
@@ -76,6 +79,11 @@ class HomeFragment : Fragment() {
         }
         viewAllGoalsButton.setOnClickListener{
             findNavController().navigate(R.id.navigation_goals)
+        }
+
+        viewRankingButton.setOnClickListener {
+            findNavController().navigate(R.id.rankingFragment2)
+
         }
 
         //---------------------------------------------------------------------------------------------------------------------------------------//
