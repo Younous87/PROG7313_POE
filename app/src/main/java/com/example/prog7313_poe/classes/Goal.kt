@@ -10,7 +10,7 @@ import java.util.Date
 data class Goal(
     var goal_ID : String? = null,
     var userID : String? = null,
-    var month : Date? = null,
+    var month : String? = null,
     var minimum : Double? = null,
     var maximum : Double? = null,
 ){

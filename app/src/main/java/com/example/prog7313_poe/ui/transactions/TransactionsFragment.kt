@@ -190,8 +190,8 @@ class TransactionsFragment : Fragment() {
                 }
                     val expense = Expense(
                         expenseID = "",
-                        time =  time,
-                        date =  date,
+                        time =  timeFormat.format(time!!),
+                        date =  dateFormat.format(date!!) ,
                         categoryID = selectedCategoryID?: "",
                         description =  description,
                         amount = amount.toDouble(),
