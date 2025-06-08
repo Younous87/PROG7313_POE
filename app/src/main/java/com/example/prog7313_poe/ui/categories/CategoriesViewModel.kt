@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
+import com.example.prog7313_poe.classes.Category
 import com.example.prog7313_poe.classes.CategorySpending
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
@@ -19,6 +20,29 @@ class CategoriesViewModel(app: Application) : AndroidViewModel(app) {
     // Get category name with total amount spent
     private val _categorySpendingList = MutableLiveData<List<CategorySpending>>()
     val categorySpendingList: LiveData<List<CategorySpending>> get() = _categorySpendingList
+
+    private val _allCategories = MutableLiveData<List<Category>>()
+    val allCategories: LiveData<List<Category>> = _allCategories
+
+    init {
+        loadAllCategories()
+    }
+
+    private fun loadAllCategories() {
+        categoryCollection
+            .get()
+            .addOnSuccessListener { snap ->
+                val list = snap.documents.mapNotNull { doc ->
+                    val id   = doc.id
+                    val name = doc.getString("categoryName") ?: return@mapNotNull null
+                    Category(id, name)
+                }
+                _allCategories.postValue(list)
+            }
+            .addOnFailureListener {
+                _allCategories.postValue(emptyList())
+            }
+    }
 
     fun loadTotals(userId: String, start: Date, end: Date){
         transactionCollection

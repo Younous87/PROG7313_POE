@@ -5,9 +5,9 @@ import androidx.room.PrimaryKey
 
 
 data class Category(
-    var categoryID : String? = null,
-    var categoryName: String? = null,
-    var userID : String,
+    var categoryID : String = "",
+    var categoryName: String = "",
+    var userID : String = "",
 ){
     constructor(): this("","","")
 }

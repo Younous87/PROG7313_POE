@@ -20,6 +20,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import androidx.core.content.ContextCompat
+import com.example.prog7313_poe.classes.DailyTotal
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -117,16 +118,17 @@ class ReportsFragment : Fragment(R.layout.fragment_reports) {
     }
 
     private fun loadTrendData(userId: String) {
-        val year = trendsCalendar.get(Calendar.YEAR)
+        val year  = trendsCalendar.get(Calendar.YEAR)
         val month = trendsCalendar.get(Calendar.MONTH)
-        reportsViewModel
-            .getDailyTotalsForMonth(userId, year, month)
-            .observe(viewLifecycleOwner) { dailyTotals ->
-                val labelFmt = SimpleDateFormat("dd MMM", Locale.getDefault())
-                val labels = dailyTotals.map { labelFmt.format(it.date) }
-                val values = dailyTotals.map { it.total.toFloat() }
-                updateTrendChart(labels, values)
-            }
+
+        reportsViewModel.loadDailyTotalsForMonth(userId, year, month)
+
+        reportsViewModel.dailyTotals.observe(viewLifecycleOwner) { dailyTotals: List<DailyTotal> ->
+            val labelFmt = SimpleDateFormat("dd MMM", Locale.getDefault())
+            val labels   = dailyTotals.map { dt -> labelFmt.format(dt.date) }
+            val values   = dailyTotals.map { dt -> dt.total.toFloat() }
+            updateTrendChart(labels, values)
+        }
     }
 
     private fun updateTrendChart(labels: List<String>, values: List<Float>) {

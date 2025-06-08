@@ -21,7 +21,6 @@ import androidx.core.net.toUri
 class TransactionsReportsViewModel(application: Application): AndroidViewModel(application) {
     private val db = FirebaseFirestore.getInstance()
 
-    // LiveData properties to store query results
     private val _transactionReportData = MutableLiveData<List<ExpenseWithPhoto>>()
     val transactionReportData: LiveData<List<ExpenseWithPhoto>> get() = _transactionReportData
 
@@ -44,7 +43,6 @@ class TransactionsReportsViewModel(application: Application): AndroidViewModel(a
         query.orderBy("date", Query.Direction.ASCENDING)
             .get()
             .addOnSuccessListener { expenseResult ->
-                // … same photo+category lookup logic you already have …
             }
             .addOnFailureListener {
                 _transactionReportData.value = emptyList()
@@ -69,7 +67,6 @@ class TransactionsReportsViewModel(application: Application): AndroidViewModel(a
                 val photoIDs = expenses.mapNotNull { it.getString("photoID") }.distinct()
                 val categoryIDs = expenses.mapNotNull { it.getString("categoryID") }.distinct()
 
-                // Firestore lookups: Photos and Categories
                 val photoTask = if(photoIDs.isNotEmpty()){
                     db.collection("photos").whereIn("photoID",photoIDs).get()
                 }else null
@@ -78,7 +75,6 @@ class TransactionsReportsViewModel(application: Application): AndroidViewModel(a
                     db.collection("categories").whereIn("categoryID",categoryIDs).get()
                 }else null
 
-                // Run both tasks in parallel and process results
                 val photoLookups = mutableMapOf<String, String?>()
                 val categoryLookups = mutableMapOf<String, String>()
 
@@ -87,7 +83,6 @@ class TransactionsReportsViewModel(application: Application): AndroidViewModel(a
                 categoryTask?.let { tasks.add(it) }
 
                 if((tasks.isEmpty())){
-                    // No photoID or categoryIDs, proceed with mapping
                     val expenseList = expenses.map {
                         ExpenseWithPhoto(
                             description = it.getString("description")?: "",
@@ -99,7 +94,6 @@ class TransactionsReportsViewModel(application: Application): AndroidViewModel(a
                     }
                     _transactionReportData.value = expenseList
                 }else{
-                    // wait for tasks to finish
                     com.google.android.gms.tasks.Tasks.whenAllSuccess<Any>(tasks)
                         .addOnSuccessListener { results ->
                             results.forEach{ result ->
