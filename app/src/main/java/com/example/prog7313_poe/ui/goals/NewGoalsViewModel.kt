@@ -19,36 +19,34 @@ class NewGoalsViewModel (application: Application): AndroidViewModel(application
 
     fun insertBudgetGoal(goal: Goal): LiveData<Boolean> {
         val result = MutableLiveData<Boolean>()
-        val docRef = goalsCollection.document()
-        val goalWithID = goal.copy(goal_ID = docRef.id)
-
-        docRef.set(goalWithID)
-            .addOnSuccessListener {result.postValue(true) }
-            .addOnFailureListener { result.postValue(false) }
-        return result
-    }
-
-    fun validateGoal(userId: String, month: String, maximum: String): LiveData<Goal?> {
-        val result = MutableLiveData<Goal?>()
 
         goalsCollection
-            .whereEqualTo("userID", userId)
-            .whereEqualTo("month", month)
-            .whereEqualTo("maximum",maximum)
-            .limit(1)
+            .whereEqualTo("userID", goal.userID)
+            .whereEqualTo("month", goal.month)
             .get()
             .addOnSuccessListener { documents ->
-                if (!documents.isEmpty){
-                    val goal = documents.documents[0].toObject(Goal::class.java)
-                    result.value = goal
-                }else{
-                    result.value = null
+                if (!documents.isEmpty) {
+                    // Goal for this month already exists, update it
+                    val existingDocId = documents.documents[0].id
+                    goalsCollection.document(existingDocId).set(goal.copy(goal_ID = existingDocId))
+                        .addOnSuccessListener { result.postValue(true) }
+                        .addOnFailureListener { result.postValue(false) }
+                } else {
+                    // No goal exists for this month, insert a new one
+                    val newDocRef = goalsCollection.document()
+                    val goalWithID = goal.copy(goal_ID = newDocRef.id)
+                    newDocRef.set(goalWithID)
+                        .addOnSuccessListener { result.postValue(true) }
+                        .addOnFailureListener { result.postValue(false) }
+
                 }
+
             }
             .addOnFailureListener {
-                result.value = null
+                result.postValue(false)
             }
-        return result
+        return  result
     }
+
 
 }

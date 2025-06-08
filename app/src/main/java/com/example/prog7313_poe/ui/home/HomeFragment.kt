@@ -1,27 +1,38 @@
 package com.example.prog7313_poe.ui.home
+import android.health.connect.datatypes.units.Length
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.prog7313_poe.R
+import com.example.prog7313_poe.classes.Goal
 import com.example.prog7313_poe.classes.RankingManager
 import com.example.prog7313_poe.databinding.FragmentHomeBinding
 import com.example.prog7313_poe.ui.home.HomeViewModel
 import com.example.prog7313_poe.ui.transactions.TransactionsViewModel
+import java.util.Date
 
 class HomeFragment : Fragment() {
+
     lateinit var viewAllTransactionsButton : Button
     lateinit var viewAllCategoriesButton : Button
     lateinit var viewAllGoalsButton : Button
     lateinit var viewRankingButton : ImageButton
+
+    // Goal Progress bar views
+    private lateinit var minGoalProgressBar : ProgressBar
+    private lateinit var  maxGoalProgressBar: ProgressBar
 
     // Day streak views
     private lateinit var dayStreakTextView: TextView
@@ -90,6 +101,12 @@ class HomeFragment : Fragment() {
         // Initialize ranking manager
         rankingManager = RankingManager()
 
+        // Initialize Progress bar views
+        minGoalProgressBar = view.findViewById(R.id.MinGoalProgressbar)
+        maxGoalProgressBar = view.findViewById(R.id.MaxGoalProgressbar)
+
+
+
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Category, Transaction and Goals button click Listener
         //---------------------------------------------------------------------------------------------------------------------------------------//
@@ -124,6 +141,7 @@ class HomeFragment : Fragment() {
         if (!userID.isNullOrEmpty()) {
             loadUserStreak(userID)
             loadUserRank(userID)
+            updateGoalProgress(userID)
 
         }
 
@@ -197,6 +215,61 @@ class HomeFragment : Fragment() {
             loadUserStreak(userID)
             loadUserRank(userID)
         }
+    }
+    //---------------------------------------------------------------------------------------------------------------------------------------//
+    // Goal Progress Bar
+    //---------------------------------------------------------------------------------------------------------------------------------------//
+    private fun updateGoalProgress(userID: String){
+        val db = com.google.firebase.firestore.FirebaseFirestore.getInstance()
+
+        // Get current month in format "MM yyyy"
+        val currentMonth = java.text.SimpleDateFormat("MMMM yyyy",java.util.Locale.getDefault()).format(Date())
+        // Get user's goal for current month
+        db.collection("goals")
+            .whereEqualTo("userID",userID)
+            .whereEqualTo("month",currentMonth)
+            .get()
+            .addOnSuccessListener { goalDocs ->
+                if(!goalDocs.isEmpty){
+                    val goal = goalDocs.documents[0].toObject(Goal::class.java)
+
+                    // Get all expenses fir this user in current month
+                    db.collection("expenses")
+                        .whereEqualTo("userID",userID)
+                        .whereEqualTo("transactionType","Expense")
+                        .get()
+                        .addOnSuccessListener { expenseDocs ->
+                            val totalExpenseForMonth = expenseDocs.documents
+                                .filter {
+                                    val dateStr = it.getString("date") ?: return@filter false
+                                    // Convert firestore date string to Date object
+                                    val formatter = java.text.SimpleDateFormat("dd/MM/yyyy",java.util.Locale.getDefault())
+
+                                    try {
+                                        val date = formatter.parse(dateStr)
+                                        val monthStr = java.text.SimpleDateFormat("MMMM yyyy",java.util.Locale.getDefault())
+                                        val expenseMonth = monthStr.format(date!!)
+                                        expenseMonth == currentMonth
+                                    } catch (e: Exception){
+                                        false
+                                    }
+                                }
+                                .sumOf { it.getDouble("amount")?: 0.0 }
+
+                            val min = goal?.minimum?: 0.0
+                            val max = goal?.maximum?:1.0
+
+                            val minProgress = ((totalExpenseForMonth/min) * 100).coerceAtMost(100.0).toInt()
+                            val maxProcess = ((totalExpenseForMonth/max) * 100).coerceAtMost(100.0).toInt()
+                            minGoalProgressBar.progress = minProgress
+                            maxGoalProgressBar.progress = maxProcess
+                        }
+                }else{
+                    minGoalProgressBar.progress = 0
+                    maxGoalProgressBar.progress = 0
+                }
+            }
+
     }
 
 

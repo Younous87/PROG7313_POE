@@ -181,20 +181,22 @@
                                 android:orientation="vertical">
 
                                 <TextView
-                                    android:id="@+id/HighCayegoryTitle"
+                                    android:id="@+id/HighCategoryTitle"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:gravity="center|top"
-                                    android:text="Almost there"
+                                    android:text="Maximum Goal"
                                     android:textColor="@color/ez_grey" />
 
-                                <TextView
-                                    android:id="@+id/HighCategory"
-                                    android:layout_width="match_parent"
+                                <ProgressBar
+                                    android:id="@+id/MaxGoalProgressbar"
+                                    style="@android:style/Widget.ProgressBar.Horizontal"
+                                    android:layout_width="158dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="TextView"
+                                    android:progress="0"
+                                    android:max="100"
                                     android:textColor="@color/white" />
                             </LinearLayout>
 
@@ -210,15 +212,17 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:gravity="center|top"
-                                    android:text="Long way to go"
+                                    android:text="Minimum Goal"
                                     android:textColor="@color/ez_grey" />
 
-                                <TextView
-                                    android:id="@+id/LowCategory"
-                                    android:layout_width="match_parent"
+                                <ProgressBar
+                                    android:id="@+id/MinGoalProgressbar"
+                                    style="@android:style/Widget.ProgressBar.Horizontal"
+                                    android:layout_width="158dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="TextView"
+                                    android:max="100"
+                                    android:progress="0"
                                     android:textColor="@color/white" />
                             </LinearLayout>
 

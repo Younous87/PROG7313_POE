@@ -44,10 +44,6 @@ class TransactionReportAdapter: RecyclerView.Adapter<TransactionReportAdapter.My
         Log.d("TransactionAdapter","Photo URI: ${currentTransaction.fileUri}")
 
         val photoUri = currentTransaction.fileUri
-//        if (photoUri != null) {
-//            imageView.setImageURI(photoUri)
-//        }
-
         Glide.with(holder.itemView.context)
             .load(photoUri)
             .into(imageView)
