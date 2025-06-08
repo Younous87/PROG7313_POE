@@ -27,7 +27,7 @@ class RankingFragment : Fragment() {
     private val rankingManager = RankingManager()
     private lateinit var userId: String
 
-    // Views (since you're not using view binding)
+    // Views
     private lateinit var backButton: ImageButton
     private lateinit var rankingOverall: TextView
     private lateinit var rankingOverallLogo: ImageView
@@ -55,8 +55,6 @@ class RankingFragment : Fragment() {
 
     private var _binding: FragmentRankingBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {

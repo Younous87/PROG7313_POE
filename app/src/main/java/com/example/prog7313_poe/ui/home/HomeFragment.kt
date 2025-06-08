@@ -94,11 +94,11 @@ class HomeFragment : Fragment() {
         // Category, Transaction and Goals button click Listener
         //---------------------------------------------------------------------------------------------------------------------------------------//
         viewAllCategoriesButton.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_reports_to_categoriesReportsFragment2)
+            findNavController().navigate(R.id.categoriesReportsFragment)
         }
 
         viewAllTransactionsButton.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_reports_to_transactionsReportsFragment2)
+            findNavController().navigate(R.id.transactionsReportsFragment)
         }
 
         viewAllGoalsButton.setOnClickListener{

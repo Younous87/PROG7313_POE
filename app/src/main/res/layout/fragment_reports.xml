@@ -32,7 +32,8 @@
                     android:layout_height="50dp"
                     android:background="@drawable/roundstyle_black"
                     android:scaleType="fitStart"
-                    android:src="@drawable/arrow_left" />
+                    android:src="@drawable/arrow_left"
+                    android:visibility="invisible" />
 
                 <TextView
                     android:id="@+id/textView2"

@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.prog7313_poe.R
@@ -18,6 +19,7 @@ class NewCategoriesFragment : Fragment() {
     private lateinit var categorySaveButton : Button
     private lateinit var categoryNameInput : EditText
     private lateinit var categoryBudgetInput : EditText
+    private lateinit var backButton: ImageButton
 
     companion object {
         fun newInstance() = NewCategoriesFragment()
@@ -46,6 +48,8 @@ class NewCategoriesFragment : Fragment() {
         //---------------------------------------------------------------------------------------------------------------------------------------//
         categorySaveButton = view.findViewById(R.id.newCategorySaveButton)
         categoryNameInput  = view.findViewById(R.id.categoriesNameInput)
+        backButton = view.findViewById(R.id.imageButton5)
+        setupClickListeners()
 
         val sharedPreferences = requireContext().getSharedPreferences("user_prefs", MODE_PRIVATE)
         val userID = sharedPreferences.getString("user_id","") ?: ""
@@ -84,6 +88,13 @@ class NewCategoriesFragment : Fragment() {
                 }
 
             }
+        }
+    }
+
+    private fun setupClickListeners() {
+        backButton.setOnClickListener {
+            // Handle back navigation - adjust based on your navigation setup
+            requireActivity().onBackPressed()
         }
     }
 
