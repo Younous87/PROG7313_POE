@@ -10,8 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import android.util.Log
-import androidx.room.Query
-
+import com.google.firebase.firestore.Query
 import com.example.prog7313_poe.classes.ExpenseWithPhoto
 import com.google.api.Context
 import com.google.firebase.firestore.FirebaseFirestore
@@ -26,6 +25,31 @@ class TransactionsReportsViewModel(application: Application): AndroidViewModel(a
     private val _transactionReportData = MutableLiveData<List<ExpenseWithPhoto>>()
     val transactionReportData: LiveData<List<ExpenseWithPhoto>> get() = _transactionReportData
 
+    fun getExpensesPerPeriodWithCategory(
+        userID: String,
+        startDate: String,
+        endDate: String,
+        categoryID: String
+    ) {
+        val query = db.collection("expenses")
+            .whereEqualTo("userID", userID)
+            .whereGreaterThanOrEqualTo("date", startDate)
+            .whereLessThanOrEqualTo("date", endDate)
+
+        // only filter by category if one is selected
+        if (categoryID.isNotBlank()) {
+            query.whereEqualTo("categoryID", categoryID)
+        }
+
+        query.orderBy("date", Query.Direction.ASCENDING)
+            .get()
+            .addOnSuccessListener { expenseResult ->
+                // … same photo+category lookup logic you already have …
+            }
+            .addOnFailureListener {
+                _transactionReportData.value = emptyList()
+            }
+    }
 
     fun getExpensesPerPeriodWithPhoto(userID: String, startDate: String, endDate: String) {
         val context = getApplication<Application>().applicationContext
