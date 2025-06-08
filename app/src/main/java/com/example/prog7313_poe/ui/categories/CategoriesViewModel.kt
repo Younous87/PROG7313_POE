@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.switchMap
 import com.example.prog7313_poe.classes.Category
 import com.example.prog7313_poe.classes.CategorySpending
 import com.google.firebase.firestore.FieldPath

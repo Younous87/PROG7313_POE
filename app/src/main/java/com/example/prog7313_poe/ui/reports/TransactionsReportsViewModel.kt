@@ -1,21 +1,12 @@
 package com.example.prog7313_poe.ui.reports
 
 import android.app.Application
-import android.net.Uri
-import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import android.util.Log
 import com.google.firebase.firestore.Query
 import com.example.prog7313_poe.classes.ExpenseWithPhoto
-import com.google.api.Context
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import androidx.core.net.toUri
 
 class TransactionsReportsViewModel(application: Application): AndroidViewModel(application) {
