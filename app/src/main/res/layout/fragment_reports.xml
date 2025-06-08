@@ -95,7 +95,7 @@
                                     android:layout_weight="1" />
 
                                 <ImageButton
-                                    android:id="@+id/reportsPreviousCategoryMonth"
+                                    android:id="@+id/reportsPreviousCategorySelect"
                                     android:layout_width="50dp"
                                     android:layout_height="50dp"
                                     android:layout_weight="1"
@@ -103,7 +103,7 @@
                                     android:src="@drawable/chevron_left" />
 
                                 <TextView
-                                    android:id="@+id/textView11"
+                                    android:id="@+id/reportsCategorySelect"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="8dp"
@@ -113,7 +113,7 @@
                                     android:textSize="16sp" />
 
                                 <ImageButton
-                                    android:id="@+id/imageButton4"
+                                    android:id="@+id/reportsNextCategorySelect"
                                     android:layout_width="50dp"
                                     android:layout_height="50dp"
                                     android:layout_weight="1"
@@ -144,7 +144,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:gravity="center|top"
-                                        android:text="Over Budget"
+                                        android:text="Total Expense"
                                         android:textColor="@color/ez_grey" />
 
                                     <TextView
@@ -160,7 +160,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"
-                                    android:orientation="vertical">
+                                    android:orientation="vertical"
+                                    android:visibility="invisible">
 
                                     <TextView
                                         android:id="@+id/LowBudgetTitle"
@@ -235,7 +236,7 @@
                                     android:layout_weight="1" />
 
                                 <ImageButton
-                                    android:id="@+id/reportsTransactionsPreviousMonthBttn"
+                                    android:id="@+id/reportsTransactionsPreviousMonth"
                                     android:layout_width="50dp"
                                     android:layout_height="50dp"
                                     android:layout_weight="1"
@@ -253,7 +254,7 @@
                                     android:textSize="16sp" />
 
                                 <ImageButton
-                                    android:id="@+id/reportsTransactionsNextMonthBttn"
+                                    android:id="@+id/reportsTransactionsNextMonth"
                                     android:layout_width="50dp"
                                     android:layout_height="50dp"
                                     android:layout_weight="1"

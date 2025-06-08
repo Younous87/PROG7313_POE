@@ -4,7 +4,10 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.prog7313_poe.classes.Category
+import com.example.prog7313_poe.classes.CategorySpending
 import com.example.prog7313_poe.classes.DailyTotal
+import com.example.prog7313_poe.classes.Expense
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.*
@@ -14,6 +17,15 @@ class ReportsViewModel(application: Application) : AndroidViewModel(application)
 
     private val _dailyTotals = MutableLiveData<List<DailyTotal>>()
     val dailyTotals: LiveData<List<DailyTotal>> = _dailyTotals
+
+    private val _categorySpending = MutableLiveData<List<CategorySpending>>()
+    val categorySpending: LiveData<List<CategorySpending>> = _categorySpending
+
+    private val _currentCategoryIndex = MutableLiveData<Int>(0)
+    val currentCategoryIndex: LiveData<Int> = _currentCategoryIndex
+
+    private val _currentCategorySpending = MutableLiveData<CategorySpending?>()
+    val currentCategorySpending: LiveData<CategorySpending?> = _currentCategorySpending
 
     fun loadDailyTotalsForMonth(userId: String, year: Int, month: Int) {
         val cal = Calendar.getInstance().apply {
@@ -40,8 +52,8 @@ class ReportsViewModel(application: Application) : AndroidViewModel(application)
                     .groupBy({ it.first }, { it.second })
 
                 val daily = byDate.mapNotNull { (dateStr, sums) ->
-                    sdf.parse(dateStr)?.let { Date ->
-                        DailyTotal(Date, sums.sum())
+                    sdf.parse(dateStr)?.let { date ->
+                        DailyTotal(date, sums.sum())
                     }
                 }.sortedBy { it.date }
 
@@ -50,5 +62,112 @@ class ReportsViewModel(application: Application) : AndroidViewModel(application)
             .addOnFailureListener {
                 _dailyTotals.value = emptyList()
             }
+    }
+
+    fun loadCategorySpending(userId: String) {
+        // First, get all categories for the user
+        db.collection("categories")
+            .whereEqualTo("userID", userId)
+            .get()
+            .addOnSuccessListener { categorySnap ->
+                val categories = categorySnap.documents.mapNotNull { doc ->
+                    doc.toObject(Category::class.java)?.apply {
+                        categoryID = doc.id
+                    }
+                }
+
+                // Then get expenses for each category
+                loadExpensesForCategories(userId, categories)
+            }
+            .addOnFailureListener {
+                _categorySpending.value = emptyList()
+            }
+    }
+
+    private fun loadExpensesForCategories(userId: String, categories: List<Category>) {
+        val categorySpendingList = mutableListOf<CategorySpending>()
+        var completedRequests = 0
+
+        if (categories.isEmpty()) {
+            _categorySpending.value = emptyList()
+            return
+        }
+
+        categories.forEach { category ->
+            db.collection("expenses")
+                .whereEqualTo("userID", userId)
+                .whereEqualTo("categoryID", category.categoryID)
+                .get()
+                .addOnSuccessListener { expenseSnap ->
+                    val expenses = expenseSnap.documents.mapNotNull { doc ->
+                        doc.toObject(Expense::class.java)
+                    }
+
+                    val totalAmount = expenses.sumOf { expense ->
+                        expense.amount ?: 0.0
+                    }
+
+                    categorySpendingList.add(
+                        CategorySpending(
+                            categoryName = category.categoryName,
+                            totalAmount = totalAmount
+                        )
+                    )
+
+                    completedRequests++
+
+                    // When all requests are complete, update the LiveData
+                    if (completedRequests == categories.size) {
+                        val sortedList = categorySpendingList.sortedByDescending { it.totalAmount }
+                        _categorySpending.value = sortedList
+
+                        // Set the first category as current if available
+                        if (sortedList.isNotEmpty()) {
+                            _currentCategoryIndex.value = 0
+                            _currentCategorySpending.value = sortedList[0]
+                        }
+                    }
+                }
+                .addOnFailureListener {
+                    completedRequests++
+
+                    // Even on failure, check if all requests are complete
+                    if (completedRequests == categories.size) {
+                        val sortedList = categorySpendingList.sortedByDescending { it.totalAmount }
+                        _categorySpending.value = sortedList
+
+                        if (sortedList.isNotEmpty()) {
+                            _currentCategoryIndex.value = 0
+                            _currentCategorySpending.value = sortedList[0]
+                        }
+                    }
+                }
+        }
+    }
+
+    fun navigateToNextCategory() {
+        val current = _currentCategoryIndex.value ?: 0
+        val categories = _categorySpending.value ?: return
+
+        if (categories.isNotEmpty()) {
+            val nextIndex = if (current < categories.size - 1) current + 1 else 0
+            _currentCategoryIndex.value = nextIndex
+            _currentCategorySpending.value = categories[nextIndex]
+        }
+    }
+
+    fun navigateToPreviousCategory() {
+        val current = _currentCategoryIndex.value ?: 0
+        val categories = _categorySpending.value ?: return
+
+        if (categories.isNotEmpty()) {
+            val prevIndex = if (current > 0) current - 1 else categories.size - 1
+            _currentCategoryIndex.value = prevIndex
+            _currentCategorySpending.value = categories[prevIndex]
+        }
+    }
+
+    fun getTotalExpenseForAllCategories(): Double {
+        return _categorySpending.value?.sumOf { it.totalAmount } ?: 0.0
     }
 }
