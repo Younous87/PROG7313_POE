@@ -58,7 +58,7 @@ class ReportsFragment : Fragment(R.layout.fragment_reports) {
         trendsPrevBtn = view.findViewById(R.id.reportsTrendsPrevMonthBttn)
         trendsNextBtn = view.findViewById(R.id.reportsTrendsNextMonthBttn)
         trendsMonthLabel = view.findViewById(R.id.reportsTrendsMonth)
-        viewAllTrendsLink = view.findViewById(R.id.viewAllTrends)
+        viewAllTrendsLink = view.findViewById(R.id.AllTrendsBttn)
         trendsChart = view.findViewById(R.id.reportsLineChart)
 
         val sharedPreferences = requireContext()
@@ -80,7 +80,6 @@ class ReportsFragment : Fragment(R.layout.fragment_reports) {
         }
         transactionViewModel.fetchLatestAmounts(userID)
 
-        // Trends setup
         configureTrendChart()
         updateTrendMonthLabel()
         loadTrendData(userID)
