@@ -1,7 +1,9 @@
 package com.example.prog7313_poe.ui.transactions
 
+import android.app.Application
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Intent
 import android.widget.DatePicker
 import android.widget.TimePicker
 import java.text.SimpleDateFormat
@@ -303,6 +305,16 @@ class TransactionsFragment : Fragment() {
         ActivityResultContracts.GetContent()
     ){ uri ->
         if(uri != null){
+            // Take persistable permission
+            val contentResolver = requireContext().contentResolver
+            val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+
+            try {
+                contentResolver.takePersistableUriPermission(uri, takeFlags)
+            }catch (e: SecurityException){
+                Log.e("URI_PERSIST", "Could not persist URI permission")
+            }
+
             //Save file into var
             selectedImageUri = uri
             val fileName = uri.lastPathSegment?.split("/")?.last()

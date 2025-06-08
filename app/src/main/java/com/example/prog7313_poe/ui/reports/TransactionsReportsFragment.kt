@@ -30,7 +30,7 @@ import java.util.Locale
 
 class TransactionsReportsFragment : Fragment() {
 
-    //private lateinit var mTransactionsReportsViewModel: TransactionsReportsViewModel
+    private lateinit var mTransactionsReportsViewModel: TransactionsReportsViewModel
     private lateinit var startDatePicker: TextView
     private lateinit var endDatePicker: TextView
     private lateinit var searchButton: Button
@@ -38,13 +38,13 @@ class TransactionsReportsFragment : Fragment() {
     // Date handling variables
     private val startDate = Calendar.getInstance()
     private val endDate = Calendar.getInstance()
-    private val dateFormat = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault())
+    private val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
     companion object {
         fun newInstance() = TransactionsReportsFragment()
     }
 
-    // private val viewModel: TransactionsReportsViewModel by viewModels()
+    private val viewModel: TransactionsReportsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,7 +79,7 @@ class TransactionsReportsFragment : Fragment() {
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Uncomment and modify this section when you're ready to use the ViewModel
         //---------------------------------------------------------------------------------------------------------------------------------------//
-        /*
+
         // Set up the RecyclerView with its adapter
         val adapter = TransactionReportAdapter()
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerTransactionReport)
@@ -91,14 +91,14 @@ class TransactionsReportsFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         // Initialize the ViewModel to manage UI-related data
-        mTransactionsReportsViewModel = ViewModelProvider(this).get(TransactionsReportsViewModel::class.java)
+        mTransactionsReportsViewModel = ViewModelProvider(this)[TransactionsReportsViewModel::class.java]
 
         // Observe the transaction report data
         mTransactionsReportsViewModel.transactionReportData.observe(viewLifecycleOwner) { transactions ->
             // Update the adapter with the new data
             adapter.setData(transactions)
         }
-        */
+
 
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Search Transaction button click Listener
@@ -107,7 +107,6 @@ class TransactionsReportsFragment : Fragment() {
             if (validateInput()) {
                 val start = getStartDateString()
                 val end = getEndDateString()
-                val stringUserID = userID.toString()
 
                 // Show selected date range for confirmation
                 Toast.makeText(
@@ -119,15 +118,15 @@ class TransactionsReportsFragment : Fragment() {
                 //---------------------------------------------------------------------------------------------------------------------------------------//
                 // Uncomment this section when you're ready to use the ViewModel
                 //---------------------------------------------------------------------------------------------------------------------------------------//
-                /*
+
                 // Call the ViewModel method to fetch data
-                mTransactionsReportsViewModel.getExpensesPerPeriodWithPhoto(stringUserID, start, end)
+                mTransactionsReportsViewModel.getExpensesPerPeriodWithPhoto(userID, start, end)
 
                 mTransactionsReportsViewModel.transactionReportData.observe(viewLifecycleOwner) { transactions ->
                     // Update the adapter with the new data
                     adapter.setData(transactions)
                 }
-                */
+
             }
         }
     }
