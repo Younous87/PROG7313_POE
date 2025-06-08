@@ -395,18 +395,18 @@
                             <com.github.mikephil.charting.charts.LineChart
                                 android:id="@+id/reportsLineChart"
                                 android:layout_width="339dp"
-                                android:layout_height="126dp"
+                                android:layout_height="105dp"
                                 android:layout_marginTop="12dp" />
 
-                            <TextView
-                                android:id="@+id/viewAllTrends"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginTop="8dp"
-                                android:text="View all trends"
-                                android:textColor="@color/ez_yellow"
-                                android:textSize="14sp" />
+                            <Button
+                                android:id="@+id/AllTrendsBttn"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:layout_marginTop="5dp"
+                                android:background="@color/ez_black"
+                                android:text="View all transactions"
+                                android:textAllCaps="false"
+                                android:textColor="@color/ez_yellow" />
                         </LinearLayout>
                     </FrameLayout>
 

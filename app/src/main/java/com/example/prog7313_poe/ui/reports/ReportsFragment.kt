@@ -25,25 +25,20 @@ import java.util.*
 
 class ReportsFragment : Fragment(R.layout.fragment_reports) {
 
-    // Navigation buttons
     private lateinit var viewAllTransactionsButton: Button
     private lateinit var viewAllCategoriesButton: Button
 
-    // Summary views
     private lateinit var incomeView: TextView
     private lateinit var expenseView: TextView
 
-    // Trends UI
     private lateinit var trendsPrevBtn: ImageButton
     private lateinit var trendsNextBtn: ImageButton
     private lateinit var trendsMonthLabel: TextView
     private lateinit var viewAllTrendsLink: TextView
     private lateinit var trendsChart: LineChart
 
-    // Calendar for month navigation
     private val trendsCalendar = Calendar.getInstance()
 
-    // ViewModels
     private val transactionViewModel: TransactionsViewModel by viewModels()
     private val categoriesViewModel: CategoriesViewModel by viewModels()
     private val reportsViewModel: ReportsViewModel by viewModels()
@@ -55,25 +50,21 @@ class ReportsFragment : Fragment(R.layout.fragment_reports) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Initialize navigation and summary views
         viewAllCategoriesButton = view.findViewById(R.id.AllCategoryBttn)
         viewAllTransactionsButton = view.findViewById(R.id.AllTransactionsBttn)
         incomeView = view.findViewById(R.id.IcomeView)
         expenseView = view.findViewById(R.id.ExpenseView)
 
-        // Initialize Trends views
         trendsPrevBtn = view.findViewById(R.id.reportsTrendsPrevMonthBttn)
         trendsNextBtn = view.findViewById(R.id.reportsTrendsNextMonthBttn)
         trendsMonthLabel = view.findViewById(R.id.reportsTrendsMonth)
         viewAllTrendsLink = view.findViewById(R.id.viewAllTrends)
         trendsChart = view.findViewById(R.id.reportsLineChart)
 
-        // Get user ID
         val sharedPreferences = requireContext()
             .getSharedPreferences("user_prefs", MODE_PRIVATE)
         val userID = sharedPreferences.getString("user_id", "") ?: ""
 
-        // Navigation
         viewAllCategoriesButton.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_reports_to_categoriesReportsFragment2)
         }
@@ -81,7 +72,6 @@ class ReportsFragment : Fragment(R.layout.fragment_reports) {
             findNavController().navigate(R.id.action_navigation_reports_to_transactionsReportsFragment2)
         }
 
-        // Observe latest amounts
         transactionViewModel.latestIncome.observe(viewLifecycleOwner) { income ->
             incomeView.text = "${income?.amount ?: 0.0}"
         }
@@ -111,7 +101,6 @@ class ReportsFragment : Fragment(R.layout.fragment_reports) {
         }
     }
 
-    // Configure chart appearance
     private fun configureTrendChart() {
         with(trendsChart) {
             axisRight.isEnabled = false
@@ -123,13 +112,11 @@ class ReportsFragment : Fragment(R.layout.fragment_reports) {
         }
     }
 
-    // Update the month label text
     private fun updateTrendMonthLabel() {
         val fmt = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
         trendsMonthLabel.text = fmt.format(trendsCalendar.time)
     }
 
-    // Load data and observe
     private fun loadTrendData(userId: String) {
         val year = trendsCalendar.get(Calendar.YEAR)
         val month = trendsCalendar.get(Calendar.MONTH)
@@ -143,7 +130,6 @@ class ReportsFragment : Fragment(R.layout.fragment_reports) {
             }
     }
 
-    // Update chart with new data
     private fun updateTrendChart(labels: List<String>, values: List<Float>) {
         val entries = values.mapIndexed { i, v -> Entry(i.toFloat(), v) }
         val set = LineDataSet(entries, "Expenses").apply {
