@@ -21,6 +21,7 @@ import com.example.prog7313_poe.ui.loginRegister.LoginViewModel
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.widget.ImageButton
 import android.widget.TextView
 import com.example.prog7313_poe.classes.RankingManager
 import java.text.SimpleDateFormat
@@ -33,6 +34,8 @@ class NewGoalsFragment : Fragment() {
     private lateinit var goalButton : Button
     private val selectedDate = Calendar.getInstance()  // Added to store selected date
     private var selectedMonthDate: Date? = null  // Added to store the actual Date object
+
+    private lateinit var backButton: ImageButton
 
 
     companion object {
@@ -64,6 +67,9 @@ class NewGoalsFragment : Fragment() {
         input_maximum = view.findViewById(R.id.maximumNewGoalInput)
         goalButton = view.findViewById(R.id.newGoalSaveButton)
         viewModel = ViewModelProvider(this)[NewGoalsViewModel::class.java]
+
+        backButton = view.findViewById(R.id.backButton)
+        setupClickListeners()
 
         // Set up month picker click listener
         input_month.setOnClickListener { showMonthYearPicker() }
@@ -113,6 +119,13 @@ class NewGoalsFragment : Fragment() {
                     Toast.makeText(this@NewGoalsFragment.requireContext(), "Failed to award XP", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+    }
+
+    private fun setupClickListeners() {
+        backButton.setOnClickListener {
+            // Handle back navigation - adjust based on your navigation setup
+            requireActivity().onBackPressed()
         }
     }
 

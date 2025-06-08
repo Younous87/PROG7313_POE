@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
@@ -26,6 +27,7 @@ class CategoriesReportsFragment : Fragment() {
 
     private lateinit var dateStartPicker: TextView
     private lateinit var dateEndPicker: TextView
+    private lateinit var backButton: ImageButton
 
     private var startDate: Calendar = Calendar.getInstance()
     private var endDate: Calendar = Calendar.getInstance()
@@ -54,6 +56,9 @@ class CategoriesReportsFragment : Fragment() {
         // Initialize views with new IDs
         dateStartPicker = view.findViewById(R.id.dateStartPicker)
         dateEndPicker = view.findViewById(R.id.dateEndPicker)
+        backButton = view.findViewById(R.id.imageButton5)
+
+
         val searchButton = view.findViewById<Button>(R.id.newGoalSaveButton)
         val sharedPreferences = requireContext().getSharedPreferences("user_prefs", MODE_PRIVATE)
         val userId = sharedPreferences.getString("user_id", "") ?: ""
@@ -72,6 +77,7 @@ class CategoriesReportsFragment : Fragment() {
         dateStartPicker.setOnClickListener { showStartDatePicker() }
         dateEndPicker.setOnClickListener { showEndDatePicker() }
 
+        setupClickListeners()
         // Setup Listeners
         searchButton.setOnClickListener {
             if (isDateRangeValid()) {
@@ -79,6 +85,13 @@ class CategoriesReportsFragment : Fragment() {
             }
         }
 
+    }
+
+    private fun setupClickListeners() {
+        backButton.setOnClickListener {
+            // Handle back navigation - adjust based on your navigation setup
+            requireActivity().onBackPressed()
+        }
     }
 
     private fun showStartDatePicker() {

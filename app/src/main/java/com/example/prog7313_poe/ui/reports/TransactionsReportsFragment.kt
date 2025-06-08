@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 import androidx.lifecycle.Observer
@@ -34,6 +35,7 @@ class TransactionsReportsFragment : Fragment() {
     private lateinit var startDatePicker: TextView
     private lateinit var endDatePicker: TextView
     private lateinit var searchButton: Button
+    private lateinit var backButton: ImageButton
 
     // Date handling variables
     private val startDate = Calendar.getInstance()
@@ -68,6 +70,8 @@ class TransactionsReportsFragment : Fragment() {
         startDatePicker = view.findViewById(R.id.startDatePicker)
         endDatePicker = view.findViewById(R.id.endDatePicker)
         searchButton = view.findViewById(R.id.searchTransactionButton)
+        backButton = view.findViewById(R.id.imageButton5)
+
 
         // Set up date picker click listeners
         setupDatePickers()
@@ -99,6 +103,7 @@ class TransactionsReportsFragment : Fragment() {
             adapter.setData(transactions)
         }
 
+        setupClickListeners()
 
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Search Transaction button click Listener
@@ -128,6 +133,13 @@ class TransactionsReportsFragment : Fragment() {
                 }
 
             }
+        }
+    }
+
+    private fun setupClickListeners() {
+        backButton.setOnClickListener {
+            // Handle back navigation - adjust based on your navigation setup
+            requireActivity().onBackPressed()
         }
     }
 
