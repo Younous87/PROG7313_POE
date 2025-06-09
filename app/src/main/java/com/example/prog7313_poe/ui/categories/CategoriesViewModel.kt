@@ -16,24 +16,39 @@ class CategoriesViewModel(app: Application) : AndroidViewModel(app) {
     private val categoryCollection = firestore.collection("categories")
     private val transactionCollection = firestore.collection("expenses")
 
-    // Get category name with total amount spent
     private val _categorySpendingList = MutableLiveData<List<CategorySpending>>()
     val categorySpendingList: LiveData<List<CategorySpending>> get() = _categorySpendingList
 
     private val _allCategories = MutableLiveData<List<Category>>()
     val allCategories: LiveData<List<Category>> = _allCategories
 
-
+    init {
+        loadAllCategories()
+    }
 
     fun loadCategoriesForUser(userId: String) {
         categoryCollection
             .whereEqualTo("userID", userId)
             .get()
-            .addOnSuccessListener {
-                snap ->
-                val list = snap.documents.mapNotNull{
-                    doc ->
-                    val id = doc.id
+            .addOnSuccessListener { snap ->
+                val list = snap.documents.mapNotNull { doc ->
+                    val id   = doc.id
+                    val name = doc.getString("categoryName") ?: return@mapNotNull null
+                    Category(id, name)
+                }
+                _allCategories.postValue(list)
+            }
+            .addOnFailureListener {
+                _allCategories.postValue(emptyList())
+            }
+    }
+
+    private fun loadAllCategories() {
+        categoryCollection
+            .get()
+            .addOnSuccessListener { snap ->
+                val list = snap.documents.mapNotNull { doc ->
+                    val id   = doc.id
                     val name = doc.getString("categoryName") ?: return@mapNotNull null
                     Category(id, name)
                 }
@@ -46,7 +61,7 @@ class CategoriesViewModel(app: Application) : AndroidViewModel(app) {
 
     fun loadTotals(userId: String, start: String, end: String){
         transactionCollection
-            .whereEqualTo("userID",userId)
+            .whereEqualTo("userId",userId)
             .whereEqualTo("transactionType","expense")
             .whereGreaterThanOrEqualTo("date", start)
             .whereLessThanOrEqualTo("date",end)

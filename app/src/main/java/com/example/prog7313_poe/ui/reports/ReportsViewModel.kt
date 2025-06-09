@@ -12,7 +12,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.*
 
-    class ReportsViewModel(application: Application) : AndroidViewModel(application) {
+class ReportsViewModel(application: Application) : AndroidViewModel(application) {
     private val db = FirebaseFirestore.getInstance()
 
     private val _monthlyIncome = MutableLiveData<Double>(0.0)
@@ -24,7 +24,6 @@ import java.util.*
     private val _dailyTotals = MutableLiveData<List<DailyTotal>>()
     val dailyTotals: LiveData<List<DailyTotal>> = _dailyTotals
 
-                
     private val _categorySpending = MutableLiveData<List<CategorySpending>>()
     val categorySpending: LiveData<List<CategorySpending>> = _categorySpending
 
@@ -66,48 +65,10 @@ import java.util.*
 
                 _dailyTotals.value = daily
             }
-            val calEnd = Calendar.getInstance().apply {
-                set(Calendar.YEAR, year)
-                set(Calendar.MONTH, month)
-                set(Calendar.DAY_OF_MONTH, calStart.getActualMaximum(Calendar.DAY_OF_MONTH))
-            }
-    }
-    
-    fun loadDailyTotalsForMonth(userId: String, year: Int, month: Int) {
-        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        val calStart = Calendar.getInstance().apply {
-            set(Calendar.YEAR, year)
-            set(Calendar.MONTH, month)
-            set(Calendar.DAY_OF_MONTH, 1)
-        val startStr = sdf.format(calStart.time)
-        val endStr   = sdf.format(calEnd.time)
-
-        db.collection("expenses")
-            .whereEqualTo("userID", userId)
-            .whereGreaterThanOrEqualTo("date", startStr)
-            .whereLessThanOrEqualTo("date", endStr)
-            .get()
-            .addOnSuccessListener { snap ->
-                val grouped = snap.documents
-                    .mapNotNull { doc ->
-                        val ds  = doc.getString("date") ?: return@mapNotNull null
-                        val amt = doc.getDouble("amount")  ?: 0.0
-                        ds to amt
-                    }
-                    .groupBy({ it.first }, { it.second })
-
-                val list = grouped.mapNotNull { (ds, amounts) ->
-                    sdf.parse(ds)?.let { dateObj ->
-                        DailyTotal(dateObj, amounts.sum())
-                    }
-                }.sortedBy { it.date }
-
-                _dailyTotals.value = list
-            }
             .addOnFailureListener {
                 _dailyTotals.value = emptyList()
             }
-      }
+    }
 
     fun loadCategorySpending(userId: String) {
         // First, get all categories for the user
@@ -291,4 +252,5 @@ import java.util.*
                 _monthlyIncome.value = 0.0
             }
     }
-    }
+
+}
