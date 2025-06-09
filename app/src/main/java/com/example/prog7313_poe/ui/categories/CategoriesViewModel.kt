@@ -27,7 +27,7 @@ class CategoriesViewModel(app: Application) : AndroidViewModel(app) {
 
     fun loadCategoriesForUser(userId: String) {
         categoryCollection
-            .whereEqualTo("userId", userId)
+            .whereEqualTo("userID", userId)
             .get()
             .addOnSuccessListener {
                 snap ->
@@ -46,7 +46,7 @@ class CategoriesViewModel(app: Application) : AndroidViewModel(app) {
 
     fun loadTotals(userId: String, start: Date, end: Date){
         transactionCollection
-            .whereEqualTo("userId",userId)
+            .whereEqualTo("userID",userId)
             .whereEqualTo("transactionType","expense")
             .whereGreaterThanOrEqualTo("date", start)
             .whereLessThanOrEqualTo("date",end)
