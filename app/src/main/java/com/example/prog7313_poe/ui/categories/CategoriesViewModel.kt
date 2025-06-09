@@ -43,7 +43,7 @@ class CategoriesViewModel(app: Application) : AndroidViewModel(app) {
             }
     }
 
-    fun loadTotals(userId: String, start: Date, end: Date){
+    fun loadTotals(userId: String, start: String, end: String){
         transactionCollection
             .whereEqualTo("userId",userId)
             .whereEqualTo("transactionType","expense")

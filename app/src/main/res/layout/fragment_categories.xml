@@ -82,54 +82,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:background="@drawable/border"
-                        android:visibility="visible">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal">
-
-                            <FrameLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_marginLeft="15dp"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginRight="15dp"
-                                android:layout_marginBottom="10dp"
-                                android:layout_weight="15">
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:id="@+id/transactionReportsCategoryView"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="textView"
-                                        android:textColor="@color/white" />
-
-                                    <TextView
-                                        android:id="@+id/textView3"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="10dp"
-                                        android:text="Total Expenses"
-                                        android:textColor="@color/ez_grey" />
-
-                                    <TextView
-                                        android:id="@+id/transactionReportsTotalView"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="textView"
-                                        android:textColor="@color/white" />
-
-                                </LinearLayout>
-                            </FrameLayout>
-
-                        </LinearLayout>
-                    </FrameLayout>
+                        android:visibility="visible"/>
 
                 </LinearLayout>
             </FrameLayout>
