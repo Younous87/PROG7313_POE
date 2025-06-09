@@ -32,8 +32,6 @@ class CategoriesFragment : Fragment() {
     private val viewModel: CategoriesViewModel by viewModels()
     private val args: CategoriesFragmentArgs by navArgs()
     lateinit var newCategoryButton : Button
-    private lateinit var  categoryNameTextView: TextView
-    private lateinit var categoryTotalTextView: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,44 +42,16 @@ class CategoriesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //Get views
-        categoryNameTextView = view.findViewById(R.id.transactionReportsCategoryView)
-        categoryTotalTextView = view.findViewById(R.id.transactionReportsTotalView)
 
         // fetches the user id from the shared preferences
         val sharedPreferences = requireContext().getSharedPreferences("user_prefs", MODE_PRIVATE)
         val userID = sharedPreferences.getString("user_id", "")?: ""
 
-        // Parse date strings to date objects
-        val startDate = if(args.startDate.isNotBlank()) parseDate(args.startDate) else Date()
-        val endDate = if(args.endDate.isNotBlank()) parseDate(args.endDate) else Date()
-
-        // Load the category total from viewmodel
-        viewModel.loadTotals(userID, startDate, endDate)
-
-        // fetches dates from the nav args in fragment_categories.xml
-        viewModel.categorySpendingList.observe(viewLifecycleOwner){list->
-            if(list.isNotEmpty()){
-                val first = list.first()
-                categoryNameTextView.text = first.categoryName
-                categoryTotalTextView.text = "R %.2f".format(first.totalAmount)
-            }else{
-                categoryNameTextView.text = "No category data"
-                categoryTotalTextView.text = "0.0"
-            }
-        }
         // Navigate to add category screen
         view.findViewById<Button>(R.id.categoriesAddButton).setOnClickListener {
             val action = CategoriesFragmentDirections.actionCategoriesToNewCategory()
             findNavController().navigate(action)
         }
     }
-    private fun parseDate(dateString: String): Date{
-        return try{
-            val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-            formatter.parse(dateString) ?: Date()
-        } catch (e: Exception){
-            Date()
-        }
-    }
+
 }

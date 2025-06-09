@@ -20,8 +20,12 @@ import com.example.prog7313_poe.classes.Goal
 import com.example.prog7313_poe.classes.RankingManager
 import com.example.prog7313_poe.databinding.FragmentHomeBinding
 import com.example.prog7313_poe.ui.home.HomeViewModel
+import com.example.prog7313_poe.ui.reports.ReportsViewModel
 import com.example.prog7313_poe.ui.transactions.TransactionsViewModel
+import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
+import java.util.Locale
 
 class HomeFragment : Fragment() {
 
@@ -34,6 +38,17 @@ class HomeFragment : Fragment() {
     private lateinit var minGoalProgressBar : ProgressBar
     private lateinit var  maxGoalProgressBar: ProgressBar
 
+    // Category navigation views
+    private lateinit var categoryPrevBtn: ImageButton
+    private lateinit var categoryNextBtn: ImageButton
+    private lateinit var categorySelectLabel: TextView
+    private lateinit var highBudgetView: TextView
+
+    // Transactions views
+    private lateinit var transactionsPrevBtn: ImageButton
+    private lateinit var transactionsNextBtn: ImageButton
+    private lateinit var transactionsMonthLabel: TextView
+
     // Day streak views
     private lateinit var dayStreakTextView: TextView
     private lateinit var daysLabelTextView: TextView
@@ -44,12 +59,19 @@ class HomeFragment : Fragment() {
     // Ranking manager
     private lateinit var rankingManager: RankingManager
 
+    // Income and expense views
+    private lateinit var incomeView: TextView
+    private lateinit var expenseView: TextView
+
+    private val transactionsCalendar = Calendar.getInstance()
+
     private var _binding: FragmentHomeBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
     private val transactionViewModel: TransactionsViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -84,6 +106,18 @@ class HomeFragment : Fragment() {
         viewAllGoalsButton = view.findViewById(R.id.AllGoalsBttn)
         viewRankingButton = view.findViewById(R.id.rankingButton)
 
+        // Category navigation views
+        categoryPrevBtn = view.findViewById(R.id.previousCategoryMonth)
+        categoryNextBtn = view.findViewById(R.id.nextCategoryMonth)
+        categorySelectLabel = view.findViewById(R.id.categoryMonthDash)
+        highBudgetView = view.findViewById(R.id.totalExpenseCategories)
+
+        // Transactions views
+        transactionsPrevBtn = view.findViewById(R.id.TransactionsPreviousMonthBttn)
+        transactionsNextBtn = view.findViewById(R.id.TransactionsNextMonthBttn)
+        transactionsMonthLabel = view.findViewById(R.id.TransactionsMonthDash)
+
+
         // Initialize day streak views
         dayStreakTextView = view.findViewById(R.id.textView9)
         daysLabelTextView = view.findViewById(R.id.textView10)
@@ -91,8 +125,6 @@ class HomeFragment : Fragment() {
         // Initialize rank display button (left button)
         rankDisplayButton = view.findViewById(R.id.imageButton)
 
-        val incomeView = view.findViewById<TextView>(R.id.IcomeView)
-        val expenseView =  view.findViewById<TextView>(R.id.ExpenseView)
 
         // Initialize shared preferences to get user ID
         val sharedPreferences = requireContext().getSharedPreferences("user_prefs", MODE_PRIVATE)
@@ -104,6 +136,10 @@ class HomeFragment : Fragment() {
         // Initialize Progress bar views
         minGoalProgressBar = view.findViewById(R.id.MinGoalProgressbar)
         maxGoalProgressBar = view.findViewById(R.id.MaxGoalProgressbar)
+
+        // Income and expense views
+        incomeView = view.findViewById(R.id.IncomeViewTransactions)
+        expenseView = view.findViewById(R.id.ExpenseViewTransactions)
 
 
 
@@ -145,6 +181,15 @@ class HomeFragment : Fragment() {
 
         }
 
+        // Category navigation
+        categoryPrevBtn.setOnClickListener {
+            homeViewModel.navigateToPreviousCategory()
+        }
+
+        categoryNextBtn.setOnClickListener {
+            homeViewModel.navigateToNextCategory()
+        }
+
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Display latest transactions in home fragment
         //---------------------------------------------------------------------------------------------------------------------------------------//
@@ -157,6 +202,82 @@ class HomeFragment : Fragment() {
         transactionViewModel.latestExpense.observe(viewLifecycleOwner) { expense ->
             expenseView.text = "${expense?.amount?:0.0}"
         }
+
+
+        // Transactions navigation
+        transactionsPrevBtn.setOnClickListener {
+            transactionsCalendar.add(Calendar.MONTH, -1)
+            updateTransactionMonthLabel()
+            if (userID != null) {
+                loadMonthlyTransactions(userID)
+            }
+        }
+
+        // Transactions navigation
+        transactionsNextBtn.setOnClickListener {
+            transactionsCalendar.add(Calendar.MONTH, 1)
+            updateTransactionMonthLabel()
+            if (userID != null) {
+                loadMonthlyTransactions(userID)
+            }
+        }
+
+        // Initialize observers
+        setupObservers()
+        // Load data
+        if (userID != null) {
+            homeViewModel.loadCategorySpending(userID)
+            transactionViewModel.fetchLatestAmounts(userID)
+            updateTransactionMonthLabel()
+            loadMonthlyTransactions(userID)
+        }
+
+
+    }
+
+    private fun setupObservers() {
+
+        // Category spending observers
+        homeViewModel.currentCategorySpending.observe(viewLifecycleOwner) { categorySpending ->
+            if (categorySpending != null) {
+                categorySelectLabel.text = categorySpending.categoryName
+                highBudgetView.text = String.format("%.2f", categorySpending.totalAmount)
+            } else {
+                categorySelectLabel.text = "No Categories"
+                highBudgetView.text = "0.00"
+            }
+        }
+
+        homeViewModel.categorySpending.observe(viewLifecycleOwner) { categories ->
+            // Update category navigation button states
+            val hasCategories = categories.isNotEmpty()
+            categoryPrevBtn.isEnabled = hasCategories
+            categoryNextBtn.isEnabled = hasCategories
+
+            if (!hasCategories) {
+                categorySelectLabel.text = "No Categories"
+                highBudgetView.text = "0.00"
+            }
+        }
+
+        homeViewModel.monthlyIncome.observe(viewLifecycleOwner) { income ->
+            incomeView.text = String.format("%.2f", income)
+        }
+
+        homeViewModel.monthlyExpense.observe(viewLifecycleOwner) { expense ->
+            expenseView.text = String.format("%.2f", expense)
+        }
+    }
+
+    private fun updateTransactionMonthLabel() {
+        val fmt = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
+        transactionsMonthLabel.text = fmt.format(transactionsCalendar.time)
+    }
+
+    private fun loadMonthlyTransactions(userId: String) {
+        val year = transactionsCalendar.get(Calendar.YEAR)
+        val month = transactionsCalendar.get(Calendar.MONTH)
+        homeViewModel.loadMonthlyTotals(userId, year, month)
     }
 
     //---------------------------------------------------------------------------------------------------------------------------------------//
@@ -193,7 +314,6 @@ class HomeFragment : Fragment() {
         val rankDrawable = rankingManager.getRankDrawable(rank)
         rankDisplayButton.setImageResource(rankDrawable)
 
-        // Optional: Add content description for accessibility
         rankDisplayButton.contentDescription = "$rank Rank"
 
     }
@@ -203,6 +323,8 @@ class HomeFragment : Fragment() {
         daysLabelTextView.text = if (streakCount == 1) " Day" else " Days"
 
     }
+
+
 
 
     override fun onResume() {

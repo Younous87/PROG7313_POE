@@ -31,6 +31,16 @@ class ReportsFragment : Fragment(R.layout.fragment_reports) {
     private lateinit var incomeView: TextView
     private lateinit var expenseView: TextView
 
+    // Category navigation views
+    private lateinit var categoryPrevBtn: ImageButton
+    private lateinit var categoryNextBtn: ImageButton
+    private lateinit var categorySelectLabel: TextView
+    private lateinit var highBudgetView: TextView
+
+    private lateinit var transactionsPrevBtn: ImageButton
+    private lateinit var transactionsNextBtn: ImageButton
+    private lateinit var transactionsMonthLabel: TextView
+
     private lateinit var trendsPrevBtn: ImageButton
     private lateinit var trendsNextBtn: ImageButton
     private lateinit var trendsMonthLabel: TextView
@@ -38,6 +48,8 @@ class ReportsFragment : Fragment(R.layout.fragment_reports) {
     private lateinit var trendsChart: LineChart
 
     private val trendsCalendar = Calendar.getInstance()
+
+    private val transactionsCalendar = Calendar.getInstance()
 
     private val transactionViewModel: TransactionsViewModel by viewModels()
     private val categoriesViewModel: CategoriesViewModel by viewModels()
@@ -50,11 +62,25 @@ class ReportsFragment : Fragment(R.layout.fragment_reports) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Initialize views
         viewAllCategoriesButton = view.findViewById(R.id.AllCategoryBttn)
         viewAllTransactionsButton = view.findViewById(R.id.AllTransactionsBttn)
         incomeView = view.findViewById(R.id.IcomeView)
         expenseView = view.findViewById(R.id.ExpenseView)
 
+        // Category navigation views
+        categoryPrevBtn = view.findViewById(R.id.reportsPreviousCategorySelect)
+        categoryNextBtn = view.findViewById(R.id.reportsNextCategorySelect)
+        categorySelectLabel = view.findViewById(R.id.reportsCategorySelect)
+        highBudgetView = view.findViewById(R.id.HighBudget)
+
+        // Transactions views
+        transactionsPrevBtn = view.findViewById(R.id.reportsTransactionsPreviousMonth)
+        transactionsNextBtn = view.findViewById(R.id.reportsTransactionsNextMonth)
+        transactionsMonthLabel = view.findViewById(R.id.TransactionsMonth)
+
+
+        // Trends views
         trendsPrevBtn = view.findViewById(R.id.reportsTrendsPrevMonthBttn)
         trendsNextBtn = view.findViewById(R.id.reportsTrendsNextMonthBttn)
         trendsMonthLabel = view.findViewById(R.id.reportsTrendsMonth)
@@ -65,30 +91,46 @@ class ReportsFragment : Fragment(R.layout.fragment_reports) {
             .getSharedPreferences("user_prefs", MODE_PRIVATE)
         val userID = sharedPreferences.getString("user_id", "") ?: ""
 
-        viewAllCategoriesButton.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_reports_to_categoriesReportsFragment2)
-        }
-        viewAllTransactionsButton.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_reports_to_transactionsReportsFragment2)
-        }
+        setupClickListeners(userID)
+        setupObservers()
 
-        transactionViewModel.latestIncome.observe(viewLifecycleOwner) { income ->
-            incomeView.text = "${income?.amount ?: 0.0}"
-        }
-        transactionViewModel.latestExpense.observe(viewLifecycleOwner) { expense ->
-            expenseView.text = "${expense?.amount ?: 0.0}"
-        }
+        // Load data
         transactionViewModel.fetchLatestAmounts(userID)
+        reportsViewModel.loadCategorySpending(userID)
 
         configureTrendChart()
         updateTrendMonthLabel()
         loadTrendData(userID)
 
+        updateTransactionMonthLabel()
+        loadMonthlyTransactions(userID)
+    }
+
+    private fun setupClickListeners(userID: String) {
+        viewAllCategoriesButton.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_reports_to_categoriesReportsFragment2)
+        }
+
+        viewAllTransactionsButton.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_reports_to_transactionsReportsFragment2)
+        }
+
+        // Category navigation
+        categoryPrevBtn.setOnClickListener {
+            reportsViewModel.navigateToPreviousCategory()
+        }
+
+        categoryNextBtn.setOnClickListener {
+            reportsViewModel.navigateToNextCategory()
+        }
+
+        // Trends navigation
         trendsPrevBtn.setOnClickListener {
             trendsCalendar.add(Calendar.MONTH, -1)
             updateTrendMonthLabel()
             loadTrendData(userID)
         }
+
         trendsNextBtn.setOnClickListener {
             trendsCalendar.add(Calendar.MONTH, 1)
             updateTrendMonthLabel()
@@ -98,6 +140,73 @@ class ReportsFragment : Fragment(R.layout.fragment_reports) {
         viewAllTrendsLink.setOnClickListener {
             // TODO: Navigate to detailed trends screen
         }
+
+        transactionsPrevBtn.setOnClickListener {
+            transactionsCalendar.add(Calendar.MONTH, -1)
+            updateTransactionMonthLabel()
+            loadMonthlyTransactions(userID)
+        }
+
+        transactionsNextBtn.setOnClickListener {
+            transactionsCalendar.add(Calendar.MONTH, 1)
+            updateTransactionMonthLabel()
+            loadMonthlyTransactions(userID)
+        }
+
+
+    }
+
+    private fun setupObservers() {
+        // Income and expense observers
+        transactionViewModel.latestIncome.observe(viewLifecycleOwner) { income ->
+            incomeView.text = "${income?.amount ?: 0.0}"
+        }
+
+        transactionViewModel.latestExpense.observe(viewLifecycleOwner) { expense ->
+            expenseView.text = "${expense?.amount ?: 0.0}"
+        }
+
+        // Category spending observers
+        reportsViewModel.currentCategorySpending.observe(viewLifecycleOwner) { categorySpending ->
+            if (categorySpending != null) {
+                categorySelectLabel.text = categorySpending.categoryName
+                highBudgetView.text = String.format("%.2f", categorySpending.totalAmount)
+            } else {
+                categorySelectLabel.text = "No Categories"
+                highBudgetView.text = "0.00"
+            }
+        }
+
+        reportsViewModel.categorySpending.observe(viewLifecycleOwner) { categories ->
+            // Update category navigation button states
+            val hasCategories = categories.isNotEmpty()
+            categoryPrevBtn.isEnabled = hasCategories
+            categoryNextBtn.isEnabled = hasCategories
+
+            if (!hasCategories) {
+                categorySelectLabel.text = "No Categories"
+                highBudgetView.text = "0.00"
+            }
+        }
+
+        reportsViewModel.monthlyIncome.observe(viewLifecycleOwner) { income ->
+            incomeView.text = String.format("%.2f", income)
+        }
+
+        reportsViewModel.monthlyExpense.observe(viewLifecycleOwner) { expense ->
+            expenseView.text = String.format("%.2f", expense)
+        }
+    }
+
+    private fun updateTransactionMonthLabel() {
+        val fmt = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
+        transactionsMonthLabel.text = fmt.format(transactionsCalendar.time)
+    }
+
+    private fun loadMonthlyTransactions(userId: String) {
+        val year = transactionsCalendar.get(Calendar.YEAR)
+        val month = transactionsCalendar.get(Calendar.MONTH)
+        reportsViewModel.loadMonthlyTotals(userId, year, month)
     }
 
     private fun configureTrendChart() {
@@ -117,15 +226,15 @@ class ReportsFragment : Fragment(R.layout.fragment_reports) {
     }
 
     private fun loadTrendData(userId: String) {
-        val year  = trendsCalendar.get(Calendar.YEAR)
+        val year = trendsCalendar.get(Calendar.YEAR)
         val month = trendsCalendar.get(Calendar.MONTH)
 
         reportsViewModel.loadDailyTotalsForMonth(userId, year, month)
 
         reportsViewModel.dailyTotals.observe(viewLifecycleOwner) { dailyTotals: List<DailyTotal> ->
             val labelFmt = SimpleDateFormat("dd MMM", Locale.getDefault())
-            val labels   = dailyTotals.map { dt -> labelFmt.format(dt.date) }
-            val values   = dailyTotals.map { dt -> dt.total.toFloat() }
+            val labels = dailyTotals.map { dt -> labelFmt.format(dt.date) }
+            val values = dailyTotals.map { dt -> dt.total.toFloat() }
             updateTrendChart(labels, values)
         }
     }
@@ -142,4 +251,6 @@ class ReportsFragment : Fragment(R.layout.fragment_reports) {
         trendsChart.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
         trendsChart.invalidate()
     }
+
+
 }
