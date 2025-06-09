@@ -23,7 +23,7 @@ import com.example.prog7313_poe.classes.DailyTotal
 import java.text.SimpleDateFormat
 import java.util.*
 
-classReportsFragment : Fragment(R.layout.fragment_reports) {
+class ReportsFragment : Fragment(R.layout.fragment_reports) {
 
     private lateinit var viewAllTransactionsButton: Button
     private lateinit var viewAllCategoriesButton: Button
