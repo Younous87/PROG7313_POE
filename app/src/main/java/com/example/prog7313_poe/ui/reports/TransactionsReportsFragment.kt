@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +15,12 @@ import com.example.prog7313_poe.R
 import com.example.prog7313_poe.classes.ExpenseWithPhoto
 import com.example.prog7313_poe.ui.categories.CategoriesViewModel
 import com.example.prog7313_poe.classes.Category
+import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -31,6 +38,7 @@ class TransactionsReportsFragment : Fragment(R.layout.fragment_transactions_repo
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
     private lateinit var adapter: TransactionReportAdapter
+    private lateinit var lineChart: LineChart
 
     private val viewModel: TransactionsReportsViewModel by viewModels()
     private val categoriesViewModel: CategoriesViewModel by viewModels()
@@ -44,6 +52,9 @@ class TransactionsReportsFragment : Fragment(R.layout.fragment_transactions_repo
         spinnerCategory   = view.findViewById(R.id.spinnerCategory)
         searchButton      = view.findViewById(R.id.searchTransactionButton)
         recyclerView      = view.findViewById(R.id.recyclerTransactionReport)
+        lineChart         = view.findViewById(R.id.lineChart)
+
+        configureChart(lineChart)
 
         adapter = TransactionReportAdapter()
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -75,6 +86,11 @@ class TransactionsReportsFragment : Fragment(R.layout.fragment_transactions_repo
             ).also { it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item) }
 
             spinnerCategory.tag = ids
+        }
+
+        viewModel.transactionReportData.observe(viewLifecycleOwner) { list ->
+            adapter.setData(list)
+            updateChartWith(list)
         }
 
         viewModel.transactionReportData.observe(viewLifecycleOwner) { list: List<ExpenseWithPhoto> ->
@@ -137,5 +153,50 @@ class TransactionsReportsFragment : Fragment(R.layout.fragment_transactions_repo
             return false
         }
         return true
+    }
+
+    private fun configureChart(chart: LineChart) {
+        with(chart) {
+            axisRight.isEnabled = false
+            description.isEnabled = false
+            legend.isEnabled = false
+            xAxis.position = XAxis.XAxisPosition.BOTTOM
+            xAxis.setDrawGridLines(false)
+            axisLeft.setDrawGridLines(false)
+        }
+    }
+
+    private fun updateChartWith(data: List<ExpenseWithPhoto>) {
+        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+
+        val nonNullData = data.filter { !it.date.isNullOrBlank() }
+
+        val grouped = nonNullData
+            .groupBy { it.date!! }
+            .mapValues { (_, items) ->
+                items.sumOf { it.amount ?: 0.0 }
+            }
+
+        val sortedDates = grouped.keys
+            .mapNotNull { ds ->
+                sdf.parse(ds)?.let { parsed -> ds to parsed }
+            }
+            .sortedBy { it.second }
+            .map { it.first }
+
+        val entries = sortedDates.mapIndexed { idx, ds ->
+            Entry(idx.toFloat(), (grouped[ds] ?: 0.0).toFloat())
+        }
+
+        val set = LineDataSet(entries, "Daily Totals").apply {
+            color = ContextCompat.getColor(requireContext(), R.color.ez_yellow)
+            setDrawCircles(false)
+            lineWidth = 2f
+            mode = LineDataSet.Mode.CUBIC_BEZIER
+        }
+
+        lineChart.data = LineData(set)
+        lineChart.xAxis.valueFormatter = IndexAxisValueFormatter(sortedDates)
+        lineChart.invalidate()
     }
 }

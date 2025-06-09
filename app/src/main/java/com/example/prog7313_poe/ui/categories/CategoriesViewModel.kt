@@ -27,7 +27,7 @@ class CategoriesViewModel(app: Application) : AndroidViewModel(app) {
 
     fun loadCategoriesForUser(userId: String) {
         categoryCollection
-            .whereEqualTo("userID", userId)
+            .whereEqualTo("userId", userId)
             .get()
             .addOnSuccessListener {
                 snap ->
