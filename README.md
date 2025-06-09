@@ -49,3 +49,6 @@ budgeting goals. EZ Budget includes features such as:
 * Kotlin Documentation : https://kotlinlang.org/docs/home.html
 * Youtube help : [youtube.com/watch?v=bOd3wO0uFr8&t=2249s&ab_channel=PhilippLackner](https://www.youtube.com/watch?v=bOd3wO0uFr8&t=2249s&ab_channel=PhilippLackner)
 * ChatGPT: [ at.openai.com](https://chat.openai.com/)
+* Google Firebase: https://firebase.google.com/docs/firestore
+* GeeksforGeeks: https://www.geeksforgeeks.org/image-loading-caching-library-android-set-2/
+  
