@@ -25,6 +25,8 @@ budgeting goals. EZ Budget includes features such as:
 
 [**Video channel link**](https://youtube.com/@joselubota8110?si=96NdwC4EH7XdnSJh)
 [**Video drive link**](https://drive.google.com/drive/folders/1Qcy2aG4JV-R89Mmv9XUZplesoa-V9Crz?usp=drive_link)
+[**Video Youtube link**](https://youtu.be/PK2usujQAtg?si=4yMwmt8GJ6Qpb4zZ)
+
 
 
 https://github.com/user-attachments/assets/61b0e5a1-c76a-49d9-a8ed-6593d89dbd21
