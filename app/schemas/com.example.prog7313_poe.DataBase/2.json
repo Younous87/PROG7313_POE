@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "d8f7770f9dc219d3e8d2e973feb7bb04",
+    "identityHash": "67efad2d42e283ab85432bc092c8293f",
     "entities": [
       {
         "tableName": "Category",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`categoryID` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `categoryName` TEXT NOT NULL, `description` TEXT NOT NULL, `userID` INTEGER NOT NULL, FOREIGN KEY(`userID`) REFERENCES `User`(`userID`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`categoryID` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `categoryName` TEXT NOT NULL, `description` TEXT NOT NULL, `userID` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "categoryID",
@@ -38,24 +38,11 @@
           "columnNames": [
             "categoryID"
           ]
-        },
-        "foreignKeys": [
-          {
-            "table": "User",
-            "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "userID"
-            ],
-            "referencedColumns": [
-              "userID"
-            ]
-          }
-        ]
+        }
       },
       {
         "tableName": "Expense",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`expenseID` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `time` TEXT, `date` TEXT, `categoryID` INTEGER NOT NULL, `description` TEXT, `amount` REAL, `photoID` TEXT, `transactionType` TEXT, `userID` INTEGER NOT NULL, FOREIGN KEY(`categoryID`) REFERENCES `Category`(`categoryID`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`photoID`) REFERENCES `Photo`(`photoID`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`userID`) REFERENCES `User`(`userID`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`expenseID` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `time` TEXT, `date` TEXT, `categoryID` INTEGER NOT NULL, `description` TEXT, `amount` REAL, `photoID` TEXT, `transactionType` TEXT, `userID` INTEGER NOT NULL, FOREIGN KEY(`categoryID`) REFERENCES `Category`(`categoryID`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`photoID`) REFERENCES `Photo`(`photoID`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "expenseID",
@@ -134,23 +121,12 @@
             "referencedColumns": [
               "photoID"
             ]
-          },
-          {
-            "table": "User",
-            "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "userID"
-            ],
-            "referencedColumns": [
-              "userID"
-            ]
           }
         ]
       },
       {
         "tableName": "Goal",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`goal_ID` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `userID` TEXT, `month` TEXT, `minimum` TEXT, `maximum` TEXT, FOREIGN KEY(`userID`) REFERENCES `User`(`userID`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`goal_ID` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `userID` TEXT, `month` TEXT, `minimum` TEXT, `maximum` TEXT)",
         "fields": [
           {
             "fieldPath": "goal_ID",
@@ -184,20 +160,7 @@
           "columnNames": [
             "goal_ID"
           ]
-        },
-        "foreignKeys": [
-          {
-            "table": "User",
-            "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "userID"
-            ],
-            "referencedColumns": [
-              "userID"
-            ]
-          }
-        ]
+        }
       },
       {
         "tableName": "Photo",
@@ -229,13 +192,12 @@
       },
       {
         "tableName": "User",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userID` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `email` TEXT, `password` TEXT, `name` TEXT, `surname` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userID` TEXT, `email` TEXT, `password` TEXT, `name` TEXT, `surname` TEXT)",
         "fields": [
           {
             "fieldPath": "userID",
             "columnName": "userID",
-            "affinity": "INTEGER",
-            "notNull": true
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "email",
@@ -259,16 +221,14 @@
           }
         ],
         "primaryKey": {
-          "autoGenerate": true,
-          "columnNames": [
-            "userID"
-          ]
+          "autoGenerate": false,
+          "columnNames": []
         }
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd8f7770f9dc219d3e8d2e973feb7bb04')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '67efad2d42e283ab85432bc092c8293f')"
     ]
   }
 }

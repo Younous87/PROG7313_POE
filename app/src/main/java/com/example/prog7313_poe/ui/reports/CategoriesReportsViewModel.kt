@@ -6,37 +6,45 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.room.Room
-import com.example.prog7313_poe.DataBase
 import com.example.prog7313_poe.classes.Category
 import com.example.prog7313_poe.classes.Goal
-import com.example.prog7313_poe.data_access_object.CategoryDAO
+import com.google.android.material.animation.AnimatableView.Listener
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import kotlinx.coroutines.launch
 
 
 class CategoriesReportsViewModel (application: Application): AndroidViewModel(application) {
-    private var categoryDAO: CategoryDAO
+    private val db = FirebaseFirestore.getInstance()
+    private val _getAllData = MutableLiveData<List<Category>>()
+    val getAllData: LiveData<List<Category>> get() = _getAllData
+
+    private var listener: ListenerRegistration? = null
+
+    init{
+        fetchCategories()
+    }
+
+    private fun fetchCategories(){
+        listener = db.collection("categories")
+            .addSnapshotListener{ snapshot, error ->
+                if(error!=null){
+                    _getAllData.value = emptyList()
+                    return@addSnapshotListener
+                }
+                val categoryList = snapshot?.documents?.mapNotNull { doc ->
+                    doc.toObject(Category::class.java)?.apply { categoryID = doc.id }
+                } ?: emptyList()
+
+                _getAllData.value = categoryList
+            }
+    }
 
 
-    private val repository: CategoriesReportRepository
 
-
-    val getAllData: LiveData<List<Category>>
-
-    init {
-        val db = Room.databaseBuilder(
-            application,
-            DataBase::class.java,
-            "DataBase"
-        ).build()
-
-        categoryDAO = db.cDao
-
-
-        repository = CategoriesReportRepository(categoryDAO)
-
-
-        getAllData = repository.getAllData
+    override fun onCleared() {
+        super.onCleared()
+        listener?.remove()
     }
 
 }

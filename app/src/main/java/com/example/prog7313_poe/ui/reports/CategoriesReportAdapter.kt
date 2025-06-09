@@ -8,34 +8,30 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.prog7313_poe.R
 import com.example.prog7313_poe.classes.CategorySpending
 
-class CategoriesReportAdapter :
-    RecyclerView.Adapter<CategoriesReportAdapter.MyViewHolder>() {
+class CategoriesReportAdapter(
+    private var items: List<CategorySpending>
+):  RecyclerView.Adapter<CategoriesReportAdapter.CategoryViewHolder>() {
 
-    // start with an empty list
-    private var data: List<CategorySpending> = emptyList()
-
-    class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val categoryName: TextView  = view.findViewById(R.id.customCategoryName)
-        val totalAmount: TextView   = view.findViewById(R.id.customCategoryTotal)
+    inner class CategoryViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+        val categoryName: TextView  = itemView.findViewById(R.id.customCategoryName)
+        val totalAmount: TextView   = itemView.findViewById(R.id.customCategoryTotal)
     }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.custom_row, parent, false)
-        return MyViewHolder(itemView)
+        return CategoryViewHolder(itemView)
     }
-
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val item = data[position]
+        override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
+        val item = items[position]
         holder.categoryName.text  = item.categoryName
-        holder.totalAmount.text   = "R ${"%.2f".format(item.totalAmount)}"
-    }
+        holder.totalAmount.text = "%.2f".format(item.totalAmount)
+        }
 
-    override fun getItemCount(): Int = data.size
+    override fun getItemCount(): Int = items.size
 
-    /** Replace the adapter’s data and refresh the list */
-    fun setData(newData: List<CategorySpending>) {
-        data = newData
+    fun updateList(newItems: List<CategorySpending>){
+        items = newItems
         notifyDataSetChanged()
     }
+
 }

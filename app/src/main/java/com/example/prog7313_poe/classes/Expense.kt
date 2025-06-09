@@ -1,42 +1,25 @@
 package com.example.prog7313_poe.classes
+import android.icu.text.DateFormat.HourCycle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import java.sql.Time
+import java.time.LocalDate
+import java.time.LocalTime
 import java.util.Date
 import kotlin.math.exp
-@Entity(
-    foreignKeys = [ForeignKey(
-        entity = Category::class,
-        parentColumns = ["categoryID"],
-        childColumns = ["categoryID"],
-        onDelete = ForeignKey.CASCADE
-    ),
-    ForeignKey(
-        entity = Photo::class,
-        parentColumns = ["photoID"],
-        childColumns = ["photoID"],
-        onDelete = ForeignKey.CASCADE
-    ),
-    ForeignKey(
-        entity = User::class,
-        parentColumns = ["userID"],
-        childColumns = ["userID"],
-        onDelete = ForeignKey.CASCADE
-    )]
-)
+
 data class Expense(
-    @PrimaryKey(autoGenerate = true)
-    val expenseID : Int,
-    val time : String? = null,
-    val date : String? = null,
-    val categoryID : Int,
-    val description : String? = null,
-    val amount : Double? = null,
-    val photoID : String? = null,
-    val transactionType: String? = null,
-    val userID : Int,
+    var expenseID :String? = null,
+    var time : String? = null,
+    var date : String? = null,
+    var categoryID : String? = null,
+    var description : String? = null,
+    var amount : Double? = null,
+    var photoID : String? = null,
+    var transactionType: String? = null,
+    var userID : String? = null
 ){
 
     //---------------------------------------------------------------------------------------------------------------------------------------//

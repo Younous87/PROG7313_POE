@@ -1,6 +1,7 @@
 package com.example.prog7313_poe.ui.reports
 
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prog7313_poe.R
 import com.example.prog7313_poe.classes.ExpenseWithPhoto
+import com.example.prog7313_poe.classes.Expense
+import com.bumptech.glide.Glide
 
 
 class TransactionReportAdapter: RecyclerView.Adapter<TransactionReportAdapter.MyViewHolder>() {
@@ -38,12 +41,12 @@ class TransactionReportAdapter: RecyclerView.Adapter<TransactionReportAdapter.My
         holder.itemView.findViewById<TextView>(R.id.cr_transaction_amount).text = currentTransaction.amount.toString()
 
         val imageView = holder.itemView.findViewById<ImageView>(R.id.cr_transaction_photo)
+        Log.d("TransactionAdapter","Photo URI: ${currentTransaction.fileUri}")
 
-        val photoUriString = currentTransaction.fileUri
-        if (!photoUriString.isNullOrEmpty()) {
-            val uri = Uri.parse(photoUriString)
-            imageView.setImageURI(uri)
-        }
+        val photoUri = currentTransaction.fileUri
+        Glide.with(holder.itemView.context)
+            .load(photoUri)
+            .into(imageView)
     }
 
     // Updates the data list and notifies the RecyclerView to refresh the UI

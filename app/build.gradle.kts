@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.navigation.safe.args)
+    alias(libs.plugins.google.gms.google.services)
     // Needed for FireBase
     //alias(libs.plugins.google.services)
 }
@@ -41,9 +42,9 @@ android {
         viewBinding = true
     }
 }
-ksp{
-    arg("room.schemaLocation", "$projectDir/schemas")
-}
+//ksp{
+//    arg("room.schemaLocation", "$projectDir/schemas")
+//}
 
 dependencies {
 
@@ -60,14 +61,19 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.support.annotations)
     implementation(libs.androidx.room.common.jvm)
+    implementation(libs.firebase.database)
+    implementation(libs.firebase.firestore.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
+    implementation("com.github.PhilJay:MPAndroidChart:3.1.0")
     // Room DataBase Dependencies and Imports
-    implementation("androidx.room:room-runtime:2.7.1")
-    annotationProcessor("androidx.room:room-compiler:2.7.1")
-    implementation("androidx.room:room-ktx:2.7.1")
-    ksp("androidx.room:room-compiler:2.7.1")
+    //implementation("androidx.room:room-runtime:2.7.1")
+    //annotationProcessor("androidx.room:room-compiler:2.7.1")
+    //implementation("androidx.room:room-ktx:2.7.1")
+    //ksp("androidx.room:room-compiler:2.7.1")
 
 }
 

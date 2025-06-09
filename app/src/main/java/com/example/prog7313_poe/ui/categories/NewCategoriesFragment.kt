@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.prog7313_poe.R
@@ -18,6 +19,7 @@ class NewCategoriesFragment : Fragment() {
     private lateinit var categorySaveButton : Button
     private lateinit var categoryNameInput : EditText
     private lateinit var categoryBudgetInput : EditText
+    private lateinit var backButton: ImageButton
 
     companion object {
         fun newInstance() = NewCategoriesFragment()
@@ -46,9 +48,11 @@ class NewCategoriesFragment : Fragment() {
         //---------------------------------------------------------------------------------------------------------------------------------------//
         categorySaveButton = view.findViewById(R.id.newCategorySaveButton)
         categoryNameInput  = view.findViewById(R.id.categoriesNameInput)
+        backButton = view.findViewById(R.id.imageButton5)
+        setupClickListeners()
 
         val sharedPreferences = requireContext().getSharedPreferences("user_prefs", MODE_PRIVATE)
-        val userID = sharedPreferences.getInt("user_id",-1)
+        val userID = sharedPreferences.getString("user_id","") ?: ""
 
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Category button click Listener
@@ -56,17 +60,42 @@ class NewCategoriesFragment : Fragment() {
         categorySaveButton.setOnClickListener {
             val name = categoryNameInput.text.toString().trim()
 
+            // Validate if fields are empty
             if(validateInput(name)){
-                val category = Category(
-                    categoryName = name,
-                    description = "",
-                    userID = userID
-                )
-                viewModel.insertCategory(category)
-                Toast.makeText(context, "Category was created", Toast.LENGTH_SHORT).show()
+                // Validate if category name exists
+                viewModel.validateCategoryInput(name,userID)
+
+                // Observing validation result
+                viewModel.categoryNotFound.observe(viewLifecycleOwner){notFound ->
+                    if(notFound){
+                        // Create new category
+                        val category = Category(
+                            categoryName = name,
+                            userID = userID
+                        )
+                        // Insert category into Firestore
+                        viewModel.insertCategory(category).observe(viewLifecycleOwner){success ->
+                            if(success){
+                                Toast.makeText(context, "Category was created", Toast.LENGTH_SHORT).show()
+                            }else{
+                                Toast.makeText(context, "Failed to create category", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }else{
+                        categoryNameInput.error ="Category already exists"
+
+                    }
+                }
+
             }
         }
+    }
 
+    private fun setupClickListeners() {
+        backButton.setOnClickListener {
+            // Handle back navigation - adjust based on your navigation setup
+            requireActivity().onBackPressed()
+        }
     }
 
     //---------------------------------------------------------------------------------------------------------------------------------------//

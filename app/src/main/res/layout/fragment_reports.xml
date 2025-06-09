@@ -32,7 +32,8 @@
                     android:layout_height="50dp"
                     android:background="@drawable/roundstyle_black"
                     android:scaleType="fitStart"
-                    android:src="@drawable/arrow_left" />
+                    android:src="@drawable/arrow_left"
+                    android:visibility="invisible" />
 
                 <TextView
                     android:id="@+id/textView2"
@@ -94,7 +95,7 @@
                                     android:layout_weight="1" />
 
                                 <ImageButton
-                                    android:id="@+id/reportsPreviousCategoryMonth"
+                                    android:id="@+id/reportsPreviousCategorySelect"
                                     android:layout_width="50dp"
                                     android:layout_height="50dp"
                                     android:layout_weight="1"
@@ -102,16 +103,17 @@
                                     android:src="@drawable/chevron_left" />
 
                                 <TextView
-                                    android:id="@+id/textView11"
+                                    android:id="@+id/reportsCategorySelect"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
+                                    android:layout_marginLeft="8dp"
+                                    android:layout_marginRight="8dp"
                                     android:text="TextView"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/white" />
+                                    android:textColor="@color/white"
+                                    android:textSize="16sp" />
 
                                 <ImageButton
-                                    android:id="@+id/imageButton4"
+                                    android:id="@+id/reportsNextCategorySelect"
                                     android:layout_width="50dp"
                                     android:layout_height="50dp"
                                     android:layout_weight="1"
@@ -142,7 +144,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:gravity="center|top"
-                                        android:text="Over Budget"
+                                        android:text="Total Expense"
                                         android:textColor="@color/ez_grey" />
 
                                     <TextView
@@ -158,7 +160,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"
-                                    android:orientation="vertical">
+                                    android:orientation="vertical"
+                                    android:visibility="invisible">
 
                                     <TextView
                                         android:id="@+id/LowBudgetTitle"
@@ -233,7 +236,7 @@
                                     android:layout_weight="1" />
 
                                 <ImageButton
-                                    android:id="@+id/reportsTransactionsPreviousMonthBttn"
+                                    android:id="@+id/reportsTransactionsPreviousMonth"
                                     android:layout_width="50dp"
                                     android:layout_height="50dp"
                                     android:layout_weight="1"
@@ -244,13 +247,14 @@
                                     android:id="@+id/TransactionsMonth"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
+                                    android:layout_marginLeft="8dp"
+                                    android:layout_marginRight="8dp"
                                     android:text="TextView"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/white" />
+                                    android:textColor="@color/white"
+                                    android:textSize="16sp" />
 
                                 <ImageButton
-                                    android:id="@+id/reportsTransactionsNextMonthBttn"
+                                    android:id="@+id/reportsTransactionsNextMonth"
                                     android:layout_width="50dp"
                                     android:layout_height="50dp"
                                     android:layout_weight="1"
@@ -322,7 +326,7 @@
                             <Button
                                 android:id="@+id/AllTransactionsBttn"
                                 android:layout_width="match_parent"
-                                android:layout_height="50dp"
+                                android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
                                 android:background="@color/ez_black"
                                 android:text="View all transactions"
@@ -331,6 +335,81 @@
 
                         </LinearLayout>
 
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/border">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:padding="12dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Trends"
+                                    android:textColor="@color/ez_yellow"
+                                    android:textSize="20sp" />
+
+                                <Space
+                                    android:layout_width="0dp"
+                                    android:layout_height="1dp"
+                                    android:layout_weight="1" />
+
+                                <ImageButton
+                                    android:id="@+id/reportsTrendsPrevMonthBttn"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:background="@android:color/transparent"
+                                    android:src="@drawable/chevron_left" />
+
+                                <TextView
+                                    android:id="@+id/reportsTrendsMonth"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="8dp"
+                                    android:layout_marginRight="8dp"
+                                    android:text="TextView"
+                                    android:textColor="@color/white"
+                                    android:textSize="16sp" />
+
+                                <ImageButton
+                                    android:id="@+id/reportsTrendsNextMonthBttn"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:background="@android:color/transparent"
+                                    android:src="@drawable/chevron_right" />
+                            </LinearLayout>
+
+                            <com.github.mikephil.charting.charts.LineChart
+                                android:id="@+id/reportsLineChart"
+                                android:layout_width="339dp"
+                                android:layout_height="105dp"
+                                android:layout_marginTop="12dp" />
+
+                            <Button
+                                android:id="@+id/AllTrendsBttn"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:layout_marginTop="5dp"
+                                android:background="@color/ez_black"
+                                android:text="View all transactions"
+                                android:textAllCaps="false"
+                                android:textColor="@color/ez_yellow" />
+                        </LinearLayout>
                     </FrameLayout>
 
                 </LinearLayout>

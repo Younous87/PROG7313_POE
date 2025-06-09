@@ -83,7 +83,7 @@
                     android:layout_marginTop="20dp"
                     android:background="@drawable/roundstyle_grey"
                     android:drawablePadding="10dp"
-                    android:hint="Name"
+                    android:hint="Surname"
                     android:inputType="textEmailAddress"
                     android:padding="15dp" />
 

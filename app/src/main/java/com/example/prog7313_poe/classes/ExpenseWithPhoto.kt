@@ -1,17 +1,16 @@
 package com.example.prog7313_poe.classes
 
-import androidx.room.PrimaryKey
+import android.net.Uri
 
-data class ExpenseWithPhoto(
-    val expenseID : Int,
-    val time : String?,
-    val date : String?,
-    val categoryID : String?,
-    val description : String?,
-    val amount : Double? ,
-    val photoID : String?,
-    val transactionType: String?,
-    val userID : String?,
-    val fileUri : String?
-
+class ExpenseWithPhoto (
+    var expenseID : String? = null,
+    var time : String?= null,
+    var date : String?= null,
+    var categoryID : String?= null,
+    var description : String?= null,
+    var amount : Double? = null,
+    var photoID : String?= null,
+    var transactionType: String?= null,
+    var userID : String?= null,
+    var fileUri : Uri?= null
 )

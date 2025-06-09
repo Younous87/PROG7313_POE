@@ -25,31 +25,29 @@ class LoginActivity : AppCompatActivity(){
     private lateinit var registerButton : Button
     private lateinit var loginViewModel: LoginViewModel
 
-    override fun onCreate (savedInstanceState: Bundle?){
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_activity)
 
         val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+        sharedPreferences.edit().remove("user_id").apply()
         val isLoggedIn = sharedPreferences.getBoolean("is_logged_in", false)
 
         // Checks if user is already logged in
-        if(isLoggedIn){
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            return
-        }
-
-
+//        if(isLoggedIn){
+//            val intent = Intent(this, MainActivity::class.java)
+//            startActivity(intent)
+//            return
+//        }
 
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Initialize Views
         //---------------------------------------------------------------------------------------------------------------------------------------//
         inputEmail = findViewById<EditText>(R.id.edit_email)
         inputPassword = findViewById<EditText>(R.id.edit_password)
-        loginButton =  findViewById<Button>(R.id.btn_login)
+        loginButton = findViewById<Button>(R.id.btn_login)
         registerButton = findViewById<Button>(R.id.btn_register)
         loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
-
 
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Login button click Listener
@@ -62,15 +60,15 @@ class LoginActivity : AppCompatActivity(){
             if (validateInput(email, password)) {
 
                 // Validate Login
-                loginViewModel.validateLogin(email, password).observe(this){ user ->
-                    if(user != null){
-                        Toast.makeText(this, "Login successful! Welcome  ${user.name}", Toast.LENGTH_SHORT).show()
+                loginViewModel.validateLogin(email, password).observe(this) { user ->
+                    if (user != null) {
+                        Toast.makeText(this, "Login successful! Welcome ${user.name}", Toast.LENGTH_SHORT).show()
 
                         // Ensure user ID is saved
                         val sharedPref = getSharedPreferences("user_prefs", MODE_PRIVATE)
-                        with(sharedPref.edit()){
-                            putBoolean("is_logged_in",true)
-                            putInt("user_id",user.userID)
+                        with(sharedPref.edit()) {
+                            putBoolean("is_logged_in", true)
+                            putString("user_id", user.userID.toString())
                             apply()
                         }
 
@@ -79,7 +77,7 @@ class LoginActivity : AppCompatActivity(){
                         startActivity(intent)
                         // Close login activity
                         finish()
-                    }else{
+                    } else {
                         Toast.makeText(this, "Invalid username or password", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -88,12 +86,10 @@ class LoginActivity : AppCompatActivity(){
         //---------------------------------------------------------------------------------------------------------------------------------------//
         // Register button click Listener
         //---------------------------------------------------------------------------------------------------------------------------------------//
-        registerButton.setOnClickListener{
+        registerButton.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
-
-
     }
     // Validate Login input
     private fun validateInput(email: String, password: String): Boolean {

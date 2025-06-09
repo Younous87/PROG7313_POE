@@ -1,119 +1,136 @@
 package com.example.prog7313_poe.ui.reports
 
-import android.annotation.SuppressLint
-import androidx.fragment.app.viewModels
+import android.widget.ArrayAdapter
+import android.app.DatePickerDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.prog7313_poe.R
-import com.example.prog7313_poe.classes.Goal
+import com.example.prog7313_poe.classes.ExpenseWithPhoto
+import com.example.prog7313_poe.ui.categories.CategoriesViewModel
+import com.example.prog7313_poe.classes.Category
+import java.text.SimpleDateFormat
+import java.util.*
+// push
+class TransactionsReportsFragment : Fragment(R.layout.fragment_transactions_reports) {
 
-class TransactionsReportsFragment : Fragment() {
+    private lateinit var backButton: ImageButton
+    private lateinit var startDatePicker: TextView
+    private lateinit var endDatePicker: TextView
+    private lateinit var spinnerCategory: Spinner
+    private lateinit var searchButton: Button
+    private lateinit var recyclerView: RecyclerView
 
-    private lateinit var mTransactionsReportsViewModel: TransactionsReportsViewModel
-    private lateinit var startDate : EditText
-    private lateinit var endDate : EditText
-    private  lateinit var searchButton : Button
+    private val startDate = Calendar.getInstance()
+    private val endDate   = Calendar.getInstance()
+    private val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
 
-    companion object {
-        fun newInstance() = TransactionsReportsFragment()
-    }
+    private lateinit var adapter: TransactionReportAdapter
 
     private val viewModel: TransactionsReportsViewModel by viewModels()
+    private val categoriesViewModel: CategoriesViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        // TODO: Use the ViewModel
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-
-        val view = inflater.inflate(R.layout.fragment_transactions_reports, container, false)
-
-        return view
-    }
-
-    @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        // Set up the RecyclerView with its adapter
-        val adapter = TransactionReportAdapter()
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerTransactionReport)
+        backButton        = view.findViewById(R.id.imageButton5)
+        startDatePicker   = view.findViewById(R.id.startDatePicker)
+        endDatePicker     = view.findViewById(R.id.endDatePicker)
+        spinnerCategory   = view.findViewById(R.id.spinnerCategory)
+        searchButton      = view.findViewById(R.id.searchTransactionButton)
+        recyclerView      = view.findViewById(R.id.recyclerTransactionReport)
 
-        // Attach the adapter to the RecyclerView
+        adapter = TransactionReportAdapter()
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
 
-        // Set a layout manager to determine how items are arranged (in this case, vertical list)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-        // Initialize the ViewModel to manage UI-related data
-        mTransactionsReportsViewModel = ViewModelProvider(this).get(TransactionsReportsViewModel::class.java)
-
-        //---------------------------------------------------------------------------------------------------------------------------------------//
-        // Initialize Views
-        //---------------------------------------------------------------------------------------------------------------------------------------//
-        startDate = view.findViewById(R.id.startDateTransaction)
-        endDate = view.findViewById(R.id.endDateTransaction)
-        searchButton = view.findViewById(R.id.searchTransactionButton)
-
-        // Initialize shared preferences to get user ID
-        val sharedPreferences = requireContext().getSharedPreferences("user_prefs", MODE_PRIVATE)
-        val userID = sharedPreferences.getInt("user_id",-1)
-
-        // Observe the transaction report data
-        mTransactionsReportsViewModel.transactionReportData.observe(viewLifecycleOwner) { transactions ->
-            // Update the adapter with the new data
-            adapter.setData(transactions)
+        startDatePicker.setOnClickListener { showDatePicker(startDate, startDatePicker) }
+        endDatePicker.setOnClickListener {
+            showDatePicker(endDate, endDatePicker, minDate = startDate.timeInMillis)
         }
 
-        //---------------------------------------------------------------------------------------------------------------------------------------//
-        // Search Transaction button click Listener
-        //---------------------------------------------------------------------------------------------------------------------------------------//
-        searchButton.setOnClickListener{
-            val start = startDate.text.toString()
-            val end = endDate.text.toString()
-            val stringUserID = userID.toString()
+        categoriesViewModel.allCategories.observe(viewLifecycleOwner) { cats: List<Category> ->
 
+            val ids   = mutableListOf("")
+            val names = mutableListOf("All Categories")
+            for (cat in cats) {
+                ids.add(cat.categoryID)
+                names.add(cat.categoryName)
+            }
 
-                // Call the ViewModel method to fetch data
-                mTransactionsReportsViewModel.getExpensesPerPeriodWithPhoto(stringUserID, start, end)
+            spinnerCategory.adapter = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                names
+            ).also { it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item) }
 
-                mTransactionsReportsViewModel.transactionReportData.observe(viewLifecycleOwner) { transactions ->
-                    // Update the adapter with the new data
-                    adapter.setData(transactions)}
-
+            spinnerCategory.tag = ids
         }
 
+        viewModel.transactionReportData.observe(viewLifecycleOwner) { list: List<ExpenseWithPhoto> ->
+            adapter.setData(list)
+        }
 
+        backButton.setOnClickListener { requireActivity().onBackPressed() }
+
+        searchButton.setOnClickListener {
+            if (!validateDates()) return@setOnClickListener
+
+            val userId = requireContext()
+                .getSharedPreferences("user_prefs", MODE_PRIVATE)
+                .getString("user_id", "")!!
+
+            val start = dateFormat.format(startDate.time)
+            val end   = dateFormat.format(endDate.time)
+
+            val ids = spinnerCategory.tag as List<String>
+            val catId = ids[ spinnerCategory.selectedItemPosition ]
+
+            viewModel.getExpensesPerPeriodWithCategory(userId, start, end, catId)
+        }
     }
 
-    //---------------------------------------------------------------------------------------------------------------------------------------//
-    // Validate Goal Input
-    //---------------------------------------------------------------------------------------------------------------------------------------//
-    private fun validateInput( start: String, end: String): Boolean {
+    private fun showDatePicker(
+        cal: Calendar,
+        display: TextView,
+        minDate: Long? = null
+    ) {
+        val dlg = DatePickerDialog(
+            requireContext(),
+            { _, y, m, d ->
+                cal.set(y, m, d)
+                display.text = dateFormat.format(cal.time)
+            },
+            cal.get(Calendar.YEAR),
+            cal.get(Calendar.MONTH),
+            cal.get(Calendar.DAY_OF_MONTH)
+        )
+        minDate?.let { dlg.datePicker.minDate = it }
+        dlg.show()
+    }
 
-        if (start.isEmpty()) {
-            startDate.error = "Start date cannot be empty"
+    private fun validateDates(): Boolean {
+        if (startDatePicker.text.isBlank()) {
+            Toast.makeText(requireContext(), "Select a start date", Toast.LENGTH_SHORT).show()
             return false
         }
-        if(end.isEmpty()){
-            endDate.error = "End date cannot be empty"
+        if (endDatePicker.text.isBlank()) {
+            Toast.makeText(requireContext(), "Select an end date", Toast.LENGTH_SHORT).show()
+            return false
         }
-
+        if (endDate.before(startDate)) {
+            Toast.makeText(
+                requireContext(),
+                "End date cannot be before start date",
+                Toast.LENGTH_SHORT
+            ).show()
+            return false
+        }
         return true
     }
 }

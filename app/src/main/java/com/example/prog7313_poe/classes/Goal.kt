@@ -6,21 +6,13 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import java.util.Date
 
-@Entity(
-    foreignKeys = [ForeignKey(
-          entity = User::class,
-          parentColumns = ["userID"],
-          childColumns = ["userID"],
-          onDelete = ForeignKey.CASCADE
-    )]
-)
+
 data class Goal(
-    @PrimaryKey(autoGenerate = true)
-    val goal_ID : Int,
-    val userID : String? = null,
-    val month : String? = null,
-    val minimum : String? = null,
-    val maximum : String? = null,
+    var goal_ID : String? = null,
+    var userID : String? = null,
+    var month : String? = null,
+    var minimum : Double? = null,
+    var maximum : Double? = null,
 ){
 
 //    fun createGoal(id: String,mon: String, id2: String, max: String, min: String) : Boolean {

@@ -18,90 +18,98 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/roundstyle_black"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/roundstyle_black"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+                <!-- Left Section - Menu/Navigation Button -->
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="112dp"
+                    android:layout_weight="1">
 
-                    <FrameLayout
+                    <ImageButton
+                        android:id="@+id/imageButton"
+                        android:layout_width="89dp"
+                        android:layout_height="135dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/roundstyle_black"
+                        android:contentDescription="Menu"
+                        android:cropToPadding="true"
+                        android:scaleX="0.6"
+                        android:scaleY="0.6"
+                        android:src="@drawable/silver_rank" />
+                </FrameLayout>
+
+                <!-- Center Section - Day Streak Counter -->
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="vertical"
+                        android:gravity="center">
 
-                        <ImageButton
-                            android:id="@+id/imageButton"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:background="@drawable/roundstyle_black"
-                            android:src="@drawable/clip_path_group" />
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_weight="1">
-
-                        <FrameLayout
+                        <!-- Streak Number -->
+                        <TextView
+                            android:id="@+id/textView9"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center">
+                            android:text="0"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/ez_yellow"
+                            android:fontFamily="sans-serif-medium" />
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:id="@+id/textView9"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:text="TextView"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/ez_yellow" />
-
-                                <TextView
-                                    android:id="@+id/textView10"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="  Days"
-                                    android:textColor="@color/ez_yellow" />
-                            </LinearLayout>
-
-                        </FrameLayout>
-
-                    </FrameLayout>
-
-                    <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
-
-                        <ImageButton
-                            android:id="@+id/imageButton2"
+                        <!-- Days Label -->
+                        <TextView
+                            android:id="@+id/textView10"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="20dp"
-                            android:layout_marginBottom="20dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/roundstyle_black"
-                            android:scaleType="center"
-                            android:src="@drawable/award" />
-                    </FrameLayout>
+                            android:text="Days"
+                            android:textSize="12sp"
+                            android:textColor="@color/ez_yellow"
+                            android:alpha="0.8" />
 
-                </LinearLayout>
+                        <!-- Optional: Streak Title -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Streak"
+                            android:textSize="10sp"
+                            android:textColor="@color/ez_yellow"
+                            android:alpha="0.6"
+                            android:layout_marginTop="2dp" />
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
+                <!-- Right Section - Ranking Button -->
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <ImageButton
+                        android:id="@+id/rankingButton"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/roundstyle_black"
+                        android:src="@drawable/award"
+                        android:scaleType="centerInside"
+                        android:contentDescription="Rankings" />
+                </FrameLayout>
 
             </LinearLayout>
+
 
         </FrameLayout>
 
@@ -173,20 +181,22 @@
                                 android:orientation="vertical">
 
                                 <TextView
-                                    android:id="@+id/HighCayegoryTitle"
+                                    android:id="@+id/HighCategoryTitle"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:gravity="center|top"
-                                    android:text="Almost there"
+                                    android:text="Maximum Goal"
                                     android:textColor="@color/ez_grey" />
 
-                                <TextView
-                                    android:id="@+id/HighCategory"
-                                    android:layout_width="match_parent"
+                                <ProgressBar
+                                    android:id="@+id/MaxGoalProgressbar"
+                                    style="@android:style/Widget.ProgressBar.Horizontal"
+                                    android:layout_width="158dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="TextView"
+                                    android:progress="0"
+                                    android:max="100"
                                     android:textColor="@color/white" />
                             </LinearLayout>
 
@@ -202,15 +212,17 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:gravity="center|top"
-                                    android:text="Long way to go"
+                                    android:text="Minimum Goal"
                                     android:textColor="@color/ez_grey" />
 
-                                <TextView
-                                    android:id="@+id/LowCategory"
-                                    android:layout_width="match_parent"
+                                <ProgressBar
+                                    android:id="@+id/MinGoalProgressbar"
+                                    style="@android:style/Widget.ProgressBar.Horizontal"
+                                    android:layout_width="158dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="TextView"
+                                    android:max="100"
+                                    android:progress="0"
                                     android:textColor="@color/white" />
                             </LinearLayout>
 
@@ -269,7 +281,7 @@
                                 android:layout_weight="1" />
 
                             <ImageButton
-                                android:id="@+id/reportsPreviousCategoryMonth"
+                                android:id="@+id/previousCategoryMonth"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -277,7 +289,7 @@
                                 android:src="@drawable/chevron_left" />
 
                             <TextView
-                                android:id="@+id/textView11"
+                                android:id="@+id/categoryMonthDash"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -286,7 +298,7 @@
                                 android:textColor="@color/white" />
 
                             <ImageButton
-                                android:id="@+id/imageButton4"
+                                android:id="@+id/nextCategoryMonth"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -317,11 +329,11 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:gravity="center|top"
-                                    android:text="Over Budget"
+                                    android:text="Total Expense"
                                     android:textColor="@color/ez_grey" />
 
                                 <TextView
-                                    android:id="@+id/HighBudget"
+                                    android:id="@+id/totalExpenseCategories"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -333,7 +345,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:orientation="vertical">
+                                android:orientation="vertical"
+                                android:visibility="invisible">
 
                                 <TextView
                                     android:id="@+id/LowBudgetTitle"
@@ -416,7 +429,7 @@
                                 android:src="@drawable/chevron_left" />
 
                             <TextView
-                                android:id="@+id/TransactionsMonth"
+                                android:id="@+id/TransactionsMonthDash"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -460,7 +473,7 @@
                                     android:textColor="@color/ez_grey" />
 
                                 <TextView
-                                    android:id="@+id/IcomeView"
+                                    android:id="@+id/IncomeViewTransactions"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -484,7 +497,7 @@
                                     android:textColor="@color/ez_grey" />
 
                                 <TextView
-                                    android:id="@+id/ExpenseView"
+                                    android:id="@+id/ExpenseViewTransactions"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"

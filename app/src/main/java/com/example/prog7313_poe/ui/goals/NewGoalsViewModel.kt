@@ -6,36 +6,47 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.room.Room
-import com.example.prog7313_poe.DataBase
 import com.example.prog7313_poe.classes.Goal
 import com.example.prog7313_poe.classes.User
-import com.example.prog7313_poe.data_access_object.GoalDAO
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
+import java.util.Date
 
 class NewGoalsViewModel (application: Application): AndroidViewModel(application) {
-    private var goalDao: GoalDAO
+    private val db = FirebaseFirestore.getInstance()
+    private val goalsCollection = db.collection("goals")
 
 
-    init {
-        val db = Room.databaseBuilder(
-            application,
-            DataBase::class.java,
-            "DataBase"
-        ).build()
-        goalDao = db.gDao
+    fun insertBudgetGoal(goal: Goal): LiveData<Boolean> {
+        val result = MutableLiveData<Boolean>()
 
+        goalsCollection
+            .whereEqualTo("userID", goal.userID)
+            .whereEqualTo("month", goal.month)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    // Goal for this month already exists, update it
+                    val existingDocId = documents.documents[0].id
+                    goalsCollection.document(existingDocId).set(goal.copy(goal_ID = existingDocId))
+                        .addOnSuccessListener { result.postValue(true) }
+                        .addOnFailureListener { result.postValue(false) }
+                } else {
+                    // No goal exists for this month, insert a new one
+                    val newDocRef = goalsCollection.document()
+                    val goalWithID = goal.copy(goal_ID = newDocRef.id)
+                    newDocRef.set(goalWithID)
+                        .addOnSuccessListener { result.postValue(true) }
+                        .addOnFailureListener { result.postValue(false) }
+
+                }
+
+            }
+            .addOnFailureListener {
+                result.postValue(false)
+            }
+        return  result
     }
-    fun insertBudgetGoal(goal: Goal) = viewModelScope.launch {
-        goalDao.insertBudgetGoal(goal)
-    }
 
-    fun validateGoal(userId: String, month: String, maximum: String): LiveData<Goal?> {
-        val result = MutableLiveData<Goal?>()
-        viewModelScope.launch {
-            result.postValue(goalDao.validateGoal(userId,month,maximum))
-        }
-        return result
-    }
 
 }

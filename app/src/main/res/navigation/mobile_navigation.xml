@@ -57,6 +57,7 @@
         <action
             android:id="@+id/action_navigation_reports_to_categoriesReportsFragment2"
             app:destination="@id/categoriesReportsFragment" />
+        <!-- app:destination="@id/navigation_categories"/> -->
     </fragment>
     <fragment
         android:id="@+id/navigation_new_category"
@@ -82,4 +83,9 @@
         android:name="com.example.prog7313_poe.ui.goals.NewGoalsFragment"
         android:label="fragment_new_goals"
         tools:layout="@layout/fragment_new_goals" />
+    <fragment
+        android:id="@+id/rankingFragment2"
+        android:name="com.example.prog7313_poe.ui.ranking.RankingFragment"
+        android:label="fragment_ranking"
+        tools:layout="@layout/fragment_ranking" />
 </navigation>
