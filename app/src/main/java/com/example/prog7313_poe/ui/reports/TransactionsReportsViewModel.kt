@@ -4,135 +4,92 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.firebase.firestore.Query
+import androidx.core.net.toUri
 import com.example.prog7313_poe.classes.ExpenseWithPhoto
 import com.google.firebase.firestore.FirebaseFirestore
-import androidx.core.net.toUri
+import com.google.firebase.firestore.Query
 
-class TransactionsReportsViewModel(application: Application): AndroidViewModel(application) {
+class TransactionsReportsViewModel(app: Application) : AndroidViewModel(app) {
     private val db = FirebaseFirestore.getInstance()
 
     private val _transactionReportData = MutableLiveData<List<ExpenseWithPhoto>>()
-    val transactionReportData: LiveData<List<ExpenseWithPhoto>> get() = _transactionReportData
+    val transactionReportData: LiveData<List<ExpenseWithPhoto>> = _transactionReportData
 
-    fun getExpensesPerPeriodWithCategory(
+    fun getExpensesWithPhotoAndCategory(
         userID: String,
         startDate: String,
         endDate: String,
         categoryID: String
     ) {
-        val query = db.collection("expenses")
+        db.collection("expenses")
             .whereEqualTo("userID", userID)
             .whereGreaterThanOrEqualTo("date", startDate)
             .whereLessThanOrEqualTo("date", endDate)
-
-        // only filter by category if one is selected
-        if (categoryID.isNotBlank()) {
-            query.whereEqualTo("categoryID", categoryID)
-        }
-
-        query.orderBy("date", Query.Direction.ASCENDING)
+            .orderBy("date", Query.Direction.ASCENDING)
             .get()
-            .addOnSuccessListener { expenseResult ->
+            .addOnSuccessListener { snap ->
+                val docs = if (categoryID.isNotBlank()) {
+                    snap.documents.filter { it.getString("categoryID") == categoryID }
+                } else {
+                    snap.documents
+                }
+
+                val photoIDs    = docs.mapNotNull { it.getString("photoID") }.distinct()
+                val categoryIDs = docs.mapNotNull { it.getString("categoryID") }.distinct()
+
+                val photoTask    = photoIDs   .takeIf { it.isNotEmpty() }?.let { ids ->
+                    db.collection("photos").whereIn("photoID", ids).get()
+                }
+                val categoryTask = categoryIDs.takeIf { it.isNotEmpty() }?.let { ids ->
+                    db.collection("categories").whereIn("categoryID", ids).get()
+                }
+
+                val photoMap    = mutableMapOf<String, String?>()
+                val categoryMap = mutableMapOf<String, String>()
+
+                if (photoTask == null && categoryTask == null) {
+                    _transactionReportData.value = docs.map {
+                        ExpenseWithPhoto(
+                            description = it.getString("description") ?: "",
+                            categoryID  = "",  // no name lookup
+                            date        = it.getString("date") ?: "",
+                            amount      = it.getDouble("amount") ?: 0.0,
+                            fileUri     = null
+                        )
+                    }
+                    return@addOnSuccessListener
+                }
+
+                listOfNotNull(photoTask, categoryTask)
+                    .let { com.google.android.gms.tasks.Tasks.whenAllSuccess<Any>(it) }
+                    .addOnSuccessListener { results ->
+                        // build lookup maps
+                        results.filterIsInstance<com.google.firebase.firestore.QuerySnapshot>()
+                            .forEach { ss ->
+                                ss.documents.forEach { d ->
+                                    d.getString("photoID")   ?.let { id -> photoMap[id] = d.getString("fileUri") }
+                                    d.getString("categoryID")?.let { id -> categoryMap[id] = d.getString("categoryName") ?: "Unknown" }
+                                }
+                            }
+
+                        _transactionReportData.value = docs.map { d ->
+                            val cid = d.getString("categoryID") ?: ""
+                            val pid = d.getString("photoID")
+                            ExpenseWithPhoto(
+                                description = d.getString("description") ?: "",
+                                categoryID  = categoryMap[cid] ?: "Unknown",
+                                date        = d.getString("date") ?: "",
+                                amount      = d.getDouble("amount") ?: 0.0,
+                                fileUri     = pid?.let { photoMap[it]?.toUri() }
+                            )
+                        }
+                    }
+                    .addOnFailureListener {
+                        _transactionReportData.value = emptyList()
+                    }
             }
             .addOnFailureListener {
                 _transactionReportData.value = emptyList()
             }
-    }
-
-    fun getExpensesPerPeriodWithPhoto(userID: String, startDate: String, endDate: String) {
-        val context = getApplication<Application>().applicationContext
-        db.collection("expenses")
-            .whereEqualTo("userID",userID)
-            .whereGreaterThanOrEqualTo("date",startDate)
-            .whereLessThanOrEqualTo("date",endDate)
-            .orderBy("date",com.google.firebase.firestore.Query.Direction.ASCENDING )
-            .get()
-            .addOnSuccessListener { expenseResult ->
-                val expenses = expenseResult.documents
-                if(expenses.isEmpty()){
-                    _transactionReportData.value = emptyList()
-                    return@addOnSuccessListener
-                }
-
-                val photoIDs = expenses.mapNotNull { it.getString("photoID") }.distinct()
-                val categoryIDs = expenses.mapNotNull { it.getString("categoryID") }.distinct()
-
-                val photoTask = if(photoIDs.isNotEmpty()){
-                    db.collection("photos").whereIn("photoID",photoIDs).get()
-                }else null
-
-                val categoryTask = if(categoryIDs.isNotEmpty()){
-                    db.collection("categories").whereIn("categoryID",categoryIDs).get()
-                }else null
-
-                val photoLookups = mutableMapOf<String, String?>()
-                val categoryLookups = mutableMapOf<String, String>()
-
-                val tasks = mutableListOf<com.google.android.gms.tasks.Task<*>>()
-                photoTask?.let {tasks.add(it)}
-                categoryTask?.let { tasks.add(it) }
-
-                if((tasks.isEmpty())){
-                    val expenseList = expenses.map {
-                        ExpenseWithPhoto(
-                            description = it.getString("description")?: "",
-                            categoryID = it.getString("categoryID")?: "",
-                            date = it.getString("date")?: "",
-                            amount = it.getDouble("amount")?: 0.0,
-                            fileUri = null
-                        )
-                    }
-                    _transactionReportData.value = expenseList
-                }else{
-                    com.google.android.gms.tasks.Tasks.whenAllSuccess<Any>(tasks)
-                        .addOnSuccessListener { results ->
-                            results.forEach{ result ->
-                                when(result){
-                                    is com.google.firebase.firestore.QuerySnapshot -> {
-                                        for(doc in result.documents){
-                                            when{
-                                                // Photo result
-                                                doc.contains("photoID") ->{
-                                                    val id = doc.getString("photoID")?: continue
-                                                    val uri = doc.getString("fileUri")
-                                                    photoLookups[id] = uri
-                                                }
-                                                // Category result
-                                                doc.contains("categoryID") ->{
-                                                    val id = doc.getString("categoryID")?: continue
-                                                    categoryLookups[id] = doc.getString("categoryName")?: "Unknown"
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-
-                            }
-                            val expenseList = expenses.map {
-                                val categoryID = it.getString("categoryID")?: ""
-                                val photoID = it.getString("photoID")
-                                ExpenseWithPhoto(
-                                    description = it.getString("description")?: "",
-                                    categoryID = categoryLookups[categoryID]?: "Unknown",
-                                    date = it.getString("date")?: "",
-                                    amount = it.getDouble("amount")?: 0.0,
-                                    fileUri = photoID?.let { id ->
-                                        photoLookups[id]?.toUri()
-                                    }
-                                )
-                            }
-                            _transactionReportData.value = expenseList
-                        }
-                        .addOnFailureListener{
-                            _transactionReportData.value = emptyList()
-                        }
-                }
-
-            }
-            .addOnFailureListener {e->
-                _transactionReportData.value = emptyList()
-            }
-
     }
 }
