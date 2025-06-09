@@ -23,16 +23,17 @@ class CategoriesViewModel(app: Application) : AndroidViewModel(app) {
     private val _allCategories = MutableLiveData<List<Category>>()
     val allCategories: LiveData<List<Category>> = _allCategories
 
-    init {
-        loadAllCategories()
-    }
 
-    private fun loadAllCategories() {
+
+    fun loadCategoriesForUser(userId: String) {
         categoryCollection
+            .whereEqualTo("userID", userId)
             .get()
-            .addOnSuccessListener { snap ->
-                val list = snap.documents.mapNotNull { doc ->
-                    val id   = doc.id
+            .addOnSuccessListener {
+                snap ->
+                val list = snap.documents.mapNotNull{
+                    doc ->
+                    val id = doc.id
                     val name = doc.getString("categoryName") ?: return@mapNotNull null
                     Category(id, name)
                 }

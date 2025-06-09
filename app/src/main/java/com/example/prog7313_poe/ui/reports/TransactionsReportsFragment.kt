@@ -53,6 +53,11 @@ class TransactionsReportsFragment : Fragment(R.layout.fragment_transactions_repo
         endDatePicker.setOnClickListener {
             showDatePicker(endDate, endDatePicker, minDate = startDate.timeInMillis)
         }
+        val userId = requireContext()
+            .getSharedPreferences("user_prefs", MODE_PRIVATE)
+            .getString("user_id", "")!!
+
+        categoriesViewModel.loadCategoriesForUser(userId)
 
         categoriesViewModel.allCategories.observe(viewLifecycleOwner) { cats: List<Category> ->
 
