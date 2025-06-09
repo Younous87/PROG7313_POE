@@ -15,6 +15,12 @@ import java.util.*
 class ReportsViewModel(application: Application) : AndroidViewModel(application) {
     private val db = FirebaseFirestore.getInstance()
 
+    private val _monthlyIncome = MutableLiveData<Double>(0.0)
+    val monthlyIncome: LiveData<Double> = _monthlyIncome
+
+    private val _monthlyExpense = MutableLiveData<Double>(0.0)
+    val monthlyExpense: LiveData<Double> = _monthlyExpense
+
     private val _dailyTotals = MutableLiveData<List<DailyTotal>>()
     val dailyTotals: LiveData<List<DailyTotal>> = _dailyTotals
 
@@ -31,7 +37,7 @@ class ReportsViewModel(application: Application) : AndroidViewModel(application)
         val cal = Calendar.getInstance().apply {
             set(year, month, 1)
         }
-        val sdf = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault())
+        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val start = sdf.format(cal.time)
 
         cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH))
@@ -170,4 +176,81 @@ class ReportsViewModel(application: Application) : AndroidViewModel(application)
     fun getTotalExpenseForAllCategories(): Double {
         return _categorySpending.value?.sumOf { it.totalAmount } ?: 0.0
     }
+
+    fun loadMonthlyTotals(userId: String, year: Int, month: Int) {
+        val cal = Calendar.getInstance().apply {
+            set(year, month, 1)
+        }
+        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val startDate = sdf.format(cal.time)
+
+        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH))
+        val endDate = sdf.format(cal.time)
+
+        // Load expenses for the month
+        loadMonthlyExpenses(userId, startDate, endDate)
+
+        // Load income for the month
+        loadMonthlyIncome(userId, startDate, endDate)
+    }
+
+    private fun loadMonthlyExpenses(userId: String, startDate: String, endDate: String) {
+
+        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val startDateObj = sdf.parse(startDate)
+        val endDateObj = sdf.parse(endDate)
+
+        db.collection("expenses")
+            .whereEqualTo("userID", userId)
+            .whereEqualTo("transactionType", "Expense")
+            .get()
+            .addOnSuccessListener { snapshot ->
+                val totalExpense = snapshot.documents.sumOf { doc ->
+                    val dateStr = doc.getString("date") ?: return@sumOf 0.0
+                    val docDate = sdf.parse(dateStr)
+
+                    // Check if date falls within the month range
+                    if (docDate != null && startDateObj != null && endDateObj != null &&
+                        !docDate.before(startDateObj) && !docDate.after(endDateObj)) {
+                        doc.getDouble("amount") ?: 0.0
+                    } else {
+                        0.0
+                    }
+                }
+                _monthlyExpense.value = totalExpense
+            }
+            .addOnFailureListener {
+                _monthlyExpense.value = 0.0
+            }
+    }
+
+    private fun loadMonthlyIncome(userId: String, startDate: String, endDate: String) {
+        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val startDateObj = sdf.parse(startDate)
+        val endDateObj = sdf.parse(endDate)
+
+        db.collection("expenses") // Assuming you store both income and expenses in the same collection
+            .whereEqualTo("userID", userId)
+            .whereEqualTo("transactionType", "Income")
+            .get()
+            .addOnSuccessListener { snapshot ->
+                val totalIncome = snapshot.documents.sumOf { doc ->
+                    val dateStr = doc.getString("date") ?: return@sumOf 0.0
+                    val docDate = sdf.parse(dateStr)
+
+                    // Check if date falls within the month range
+                    if (docDate != null && startDateObj != null && endDateObj != null &&
+                        !docDate.before(startDateObj) && !docDate.after(endDateObj)) {
+                        doc.getDouble("amount") ?: 0.0
+                    } else {
+                        0.0
+                    }
+                }
+                _monthlyIncome.value = totalIncome
+            }
+            .addOnFailureListener {
+                _monthlyIncome.value = 0.0
+            }
+    }
+
 }

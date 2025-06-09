@@ -37,6 +37,10 @@ class ReportsFragment : Fragment(R.layout.fragment_reports) {
     private lateinit var categorySelectLabel: TextView
     private lateinit var highBudgetView: TextView
 
+    private lateinit var transactionsPrevBtn: ImageButton
+    private lateinit var transactionsNextBtn: ImageButton
+    private lateinit var transactionsMonthLabel: TextView
+
     private lateinit var trendsPrevBtn: ImageButton
     private lateinit var trendsNextBtn: ImageButton
     private lateinit var trendsMonthLabel: TextView
@@ -44,6 +48,8 @@ class ReportsFragment : Fragment(R.layout.fragment_reports) {
     private lateinit var trendsChart: LineChart
 
     private val trendsCalendar = Calendar.getInstance()
+
+    private val transactionsCalendar = Calendar.getInstance()
 
     private val transactionViewModel: TransactionsViewModel by viewModels()
     private val categoriesViewModel: CategoriesViewModel by viewModels()
@@ -68,6 +74,12 @@ class ReportsFragment : Fragment(R.layout.fragment_reports) {
         categorySelectLabel = view.findViewById(R.id.reportsCategorySelect)
         highBudgetView = view.findViewById(R.id.HighBudget)
 
+        // Transactions views
+        transactionsPrevBtn = view.findViewById(R.id.reportsTransactionsPreviousMonth)
+        transactionsNextBtn = view.findViewById(R.id.reportsTransactionsNextMonth)
+        transactionsMonthLabel = view.findViewById(R.id.TransactionsMonth)
+
+
         // Trends views
         trendsPrevBtn = view.findViewById(R.id.reportsTrendsPrevMonthBttn)
         trendsNextBtn = view.findViewById(R.id.reportsTrendsNextMonthBttn)
@@ -89,6 +101,9 @@ class ReportsFragment : Fragment(R.layout.fragment_reports) {
         configureTrendChart()
         updateTrendMonthLabel()
         loadTrendData(userID)
+
+        updateTransactionMonthLabel()
+        loadMonthlyTransactions(userID)
     }
 
     private fun setupClickListeners(userID: String) {
@@ -125,6 +140,20 @@ class ReportsFragment : Fragment(R.layout.fragment_reports) {
         viewAllTrendsLink.setOnClickListener {
             // TODO: Navigate to detailed trends screen
         }
+
+        transactionsPrevBtn.setOnClickListener {
+            transactionsCalendar.add(Calendar.MONTH, -1)
+            updateTransactionMonthLabel()
+            loadMonthlyTransactions(userID)
+        }
+
+        transactionsNextBtn.setOnClickListener {
+            transactionsCalendar.add(Calendar.MONTH, 1)
+            updateTransactionMonthLabel()
+            loadMonthlyTransactions(userID)
+        }
+
+
     }
 
     private fun setupObservers() {
@@ -159,6 +188,25 @@ class ReportsFragment : Fragment(R.layout.fragment_reports) {
                 highBudgetView.text = "0.00"
             }
         }
+
+        reportsViewModel.monthlyIncome.observe(viewLifecycleOwner) { income ->
+            incomeView.text = String.format("%.2f", income)
+        }
+
+        reportsViewModel.monthlyExpense.observe(viewLifecycleOwner) { expense ->
+            expenseView.text = String.format("%.2f", expense)
+        }
+    }
+
+    private fun updateTransactionMonthLabel() {
+        val fmt = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
+        transactionsMonthLabel.text = fmt.format(transactionsCalendar.time)
+    }
+
+    private fun loadMonthlyTransactions(userId: String) {
+        val year = transactionsCalendar.get(Calendar.YEAR)
+        val month = transactionsCalendar.get(Calendar.MONTH)
+        reportsViewModel.loadMonthlyTotals(userId, year, month)
     }
 
     private fun configureTrendChart() {
@@ -203,4 +251,6 @@ class ReportsFragment : Fragment(R.layout.fragment_reports) {
         trendsChart.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
         trendsChart.invalidate()
     }
+
+
 }
