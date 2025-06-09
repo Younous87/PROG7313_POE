@@ -9,46 +9,51 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ReportsViewModel(application: Application) : AndroidViewModel(application) {
+    class ReportsViewModel(application: Application) : AndroidViewModel(application) {
     private val db = FirebaseFirestore.getInstance()
 
     private val _dailyTotals = MutableLiveData<List<DailyTotal>>()
     val dailyTotals: LiveData<List<DailyTotal>> = _dailyTotals
 
-    fun loadDailyTotalsForMonth(userId: String, year: Int, month: Int) {
-        val cal = Calendar.getInstance().apply {
-            set(year, month, 1)
+        fun loadDailyTotalsForMonth(userId: String, year: Int, month: Int) {
+            val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            val calStart = Calendar.getInstance().apply {
+                set(Calendar.YEAR, year)
+                set(Calendar.MONTH, month)
+                set(Calendar.DAY_OF_MONTH, 1)
+            }
+            val calEnd = Calendar.getInstance().apply {
+                set(Calendar.YEAR, year)
+                set(Calendar.MONTH, month)
+                set(Calendar.DAY_OF_MONTH, calStart.getActualMaximum(Calendar.DAY_OF_MONTH))
+            }
+            val startStr = sdf.format(calStart.time)
+            val endStr   = sdf.format(calEnd.time)
+
+            db.collection("expenses")
+                .whereEqualTo("userID", userId)
+                .whereGreaterThanOrEqualTo("date", startStr)
+                .whereLessThanOrEqualTo("date", endStr)
+                .get()
+                .addOnSuccessListener { snap ->
+                    val grouped = snap.documents
+                        .mapNotNull { doc ->
+                            val ds  = doc.getString("date") ?: return@mapNotNull null
+                            val amt = doc.getDouble("amount")  ?: 0.0
+                            ds to amt
+                        }
+                        .groupBy({ it.first }, { it.second })
+
+                    val list = grouped.mapNotNull { (ds, amounts) ->
+                        sdf.parse(ds)?.let { dateObj ->
+                            DailyTotal(dateObj, amounts.sum())
+                        }
+                    }.sortedBy { it.date }
+
+                    _dailyTotals.value = list
+                }
+                .addOnFailureListener {
+                    _dailyTotals.value = emptyList()
+                }
         }
-        val sdf = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault())
-        val start = sdf.format(cal.time)
-
-        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH))
-        val end = sdf.format(cal.time)
-
-        db.collection("expenses")
-            .whereEqualTo("userID", userId)
-            .whereGreaterThanOrEqualTo("date", start)
-            .whereLessThanOrEqualTo("date", end)
-            .get()
-            .addOnSuccessListener { snap ->
-                val byDate = snap.documents
-                    .mapNotNull { doc ->
-                        val ds = doc.getString("date") ?: return@mapNotNull null
-                        val amt = doc.getDouble("amount") ?: 0.0
-                        ds to amt
-                    }
-                    .groupBy({ it.first }, { it.second })
-
-                val daily = byDate.mapNotNull { (dateStr, sums) ->
-                    sdf.parse(dateStr)?.let { Date ->
-                        DailyTotal(Date, sums.sum())
-                    }
-                }.sortedBy { it.date }
-
-                _dailyTotals.value = daily
-            }
-            .addOnFailureListener {
-                _dailyTotals.value = emptyList()
-            }
-    }
 }

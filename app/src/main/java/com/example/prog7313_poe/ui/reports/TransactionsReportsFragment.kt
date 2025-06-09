@@ -16,7 +16,7 @@ import com.example.prog7313_poe.ui.categories.CategoriesViewModel
 import com.example.prog7313_poe.classes.Category
 import java.text.SimpleDateFormat
 import java.util.*
-// push
+
 class TransactionsReportsFragment : Fragment(R.layout.fragment_transactions_reports) {
 
     private lateinit var backButton: ImageButton
