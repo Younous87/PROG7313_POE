@@ -22,6 +22,9 @@ class CategoriesViewModel(app: Application) : AndroidViewModel(app) {
     private val _allCategories = MutableLiveData<List<Category>>()
     val allCategories: LiveData<List<Category>> = _allCategories
 
+    init {
+        loadAllCategories()
+    }
 
     fun loadCategoriesForUser(userId: String) {
         categoryCollection
@@ -40,18 +43,12 @@ class CategoriesViewModel(app: Application) : AndroidViewModel(app) {
             }
     }
 
-    private fun loadAllCategories() 
-   }
-
-    fun loadCategoriesForUser(userId: String) {
+    private fun loadAllCategories() {
         categoryCollection
-            .whereEqualTo("userID", userId)
             .get()
-            .addOnSuccessListener {
-                snap ->
-                val list = snap.documents.mapNotNull{
-                    doc ->
-                    val id = doc.id
+            .addOnSuccessListener { snap ->
+                val list = snap.documents.mapNotNull { doc ->
+                    val id   = doc.id
                     val name = doc.getString("categoryName") ?: return@mapNotNull null
                     Category(id, name)
                 }
@@ -64,7 +61,7 @@ class CategoriesViewModel(app: Application) : AndroidViewModel(app) {
 
     fun loadTotals(userId: String, start: String, end: String){
         transactionCollection
-            .whereEqualTo("userID",userId)
+            .whereEqualTo("userId",userId)
             .whereEqualTo("transactionType","expense")
             .whereGreaterThanOrEqualTo("date", start)
             .whereLessThanOrEqualTo("date",end)
